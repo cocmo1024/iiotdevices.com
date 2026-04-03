@@ -1,0 +1,90 @@
+---
+title: Retrofit Gateway Shortlist Criteria
+description: A comparison framework for teams shortlisting industrial gateways for retrofit, data collection, and mixed-protocol integration projects.
+referenceType: comparison
+adProfile: comparison
+commercialIntent: high
+reviewCadence: Quarterly review
+primaryKeyword: industrial gateway shortlist criteria
+searchIntent: select
+decisionStage: shortlist
+targetRoles:
+  - Technical buyers
+  - OT architects
+  - Plant engineers
+  - System integrators
+contentStatus: seed
+---
+
+import { LinkCard } from '@astrojs/starlight/components';
+
+# Retrofit Gateway Shortlist Criteria
+
+Gateway buying goes wrong when teams shop by maximum feature set. Retrofit projects rarely reward the richest box. They reward the boundary device that fits the actual translation burden, service model, and upstream destination with the least long-term friction.
+
+## Comparison scope
+
+This shortlist framework is for projects where the plant already knows it needs a gateway-class device or is deciding whether a gateway is better than a smaller bridge device. The comparison should focus on:
+
+- protocol access and translation fit;
+- local buffering or store-and-forward needs;
+- segmentation and security role;
+- supportability after install.
+
+## Decision criteria
+
+The most useful shortlist questions are usually:
+
+- does the device solve the real machine-boundary problem or just add features;
+- how much local logic is truly necessary;
+- how many asset types and protocols must the device absorb;
+- can the plant support the configuration, monitoring, and replacement model.
+
+Those questions usually remove weak candidates faster than a large spec spreadsheet does.
+
+## Where simpler options fit
+
+A smaller bridge or converter may be enough when:
+
+- the main task is exposing serial or one-off legacy devices;
+- local compute or orchestration needs are limited;
+- support simplicity matters more than future flexibility;
+- the rollout scope is intentionally narrow.
+
+A fuller gateway becomes more valuable when the project needs translation, buffering, segmentation, or multi-protocol ownership in one place.
+
+## Failure cases
+
+Shortlists often fail when:
+
+- the team mixes pilot and future-state requirements into one buying decision;
+- the chosen device is too complex for the actual maintenance model;
+- protocol debates happen without a clear upstream consumer requirement;
+- the project buys for theoretical scale before proving the first pattern.
+
+The best shortlist is usually the one that can survive the first rollout and still be supportable a year later.
+
+## Next-step references
+
+<div class="portal-links">
+	<LinkCard
+		title="Industrial gateways"
+		href="/product-families/industrial-gateways/"
+		description="Use the category page to decide when a gateway is truly the right device class."
+	/>
+	<LinkCard
+		title="Protocol converters and serial device servers"
+		href="/product-families/protocol-converters-and-serial-device-servers/"
+		description="Pressure-test whether a smaller device category already solves the core retrofit problem."
+	/>
+	<LinkCard
+		title="Machine connectivity retrofits"
+		href="/applications/machine-connectivity-retrofits/"
+		description="Keep the shortlist tied to the deployment environment instead of buying in the abstract."
+	/>
+	<LinkCard
+		title="OPC UA vs MQTT for machine data aggregation"
+		href="/protocols/opc-ua-vs-mqtt-for-machine-data-aggregation/"
+		description="Match gateway capabilities to the transport role the architecture actually needs."
+	/>
+</div>

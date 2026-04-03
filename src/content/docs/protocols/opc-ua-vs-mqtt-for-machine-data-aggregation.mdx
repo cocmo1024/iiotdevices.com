@@ -1,0 +1,97 @@
+---
+title: OPC UA vs MQTT for Machine Data Aggregation
+description: A protocol comparison for teams deciding how machine data should move upstream after field access and retrofit boundaries are already understood.
+referenceType: protocol
+adProfile: protocol
+commercialIntent: high
+reviewCadence: Quarterly review
+primaryKeyword: opc ua vs mqtt machine data aggregation
+searchIntent: compare
+decisionStage: shortlist
+targetRoles:
+  - OT architects
+  - Data infrastructure leads
+  - System integrators
+  - Technical buyers
+contentStatus: seed
+---
+
+import { LinkCard } from '@astrojs/starlight/components';
+
+# OPC UA vs MQTT for Machine Data Aggregation
+
+This comparison is most useful after the plant already knows how it will access the machine data. OPC UA and MQTT solve different parts of the problem. That is why many debates around them become noisy. Teams compare them as if they are interchangeable, then discover later that the real issue was translation at the machine boundary rather than transport upstream.
+
+## Which layer this decision belongs to
+
+In many retrofit projects:
+
+- serial or field protocols determine how data is accessed from the asset;
+- gateways or converters normalize that access;
+- OPC UA or MQTT shape how data is exposed upstream to software, historians, or cloud systems.
+
+That means OPC UA versus MQTT is usually not the first decision. It is a later architecture decision that depends on the consumers, security model, and operational style around the data.
+
+## Typical fit for OPC UA
+
+OPC UA is often a good fit when teams need:
+
+- richer industrial semantics;
+- structured interoperability with plant or MES software;
+- a more traditional industrial software integration path;
+- tighter expectations around browsing and data modeling.
+
+Plants that already live in OPC-oriented ecosystems often get value from staying close to those patterns.
+
+## Typical fit for MQTT
+
+MQTT often becomes attractive when teams need:
+
+- lightweight publish-subscribe behavior;
+- efficient movement of selected data to cloud or edge analytics stacks;
+- simple decoupling between producers and downstream consumers;
+- deployment patterns that reward flexible topic-based distribution.
+
+MQTT can be especially compelling when the upstream environment is already event-driven or cloud-connected.
+
+## Common architecture mistake
+
+The most common mistake is asking OPC UA or MQTT to solve a field-access problem they do not own. If the machine-side protocol mix is messy, or if data extraction depends on serial bridging and awkward controller boundaries, the transport choice will not rescue the architecture.
+
+The project usually needs a clean device and translation layer first.
+
+## Device implications
+
+This protocol choice often affects:
+
+- whether the gateway needs stronger modeling or translation features;
+- how much local normalization should happen before publish;
+- whether operators need plant-centric interoperability or analytics-centric transport;
+- what the support team can realistically maintain after commissioning.
+
+That is why protocol choice should be attached to the operating model, not only to standards preference.
+
+## Compare next
+
+<div class="portal-links">
+	<LinkCard
+		title="Modbus, OPC UA, and MQTT fit"
+		href="/protocols/modbus-opc-ua-and-mqtt-fit/"
+		description="Step back to the larger protocol-role question before forcing a head-to-head comparison."
+	/>
+	<LinkCard
+		title="Protocol converters and serial device servers"
+		href="/product-families/protocol-converters-and-serial-device-servers/"
+		description="Fix the machine boundary before debating the upstream transport."
+	/>
+	<LinkCard
+		title="PLC data collection for mixed-vendor lines"
+		href="/applications/plc-data-collection-for-mixed-vendor-lines/"
+		description="See how the transport decision behaves inside a real retrofit environment."
+	/>
+	<LinkCard
+		title="Retrofit gateway shortlist criteria"
+		href="/comparisons/retrofit-gateway-shortlist-criteria/"
+		description="Choose the device shortlist that matches the protocol role you actually need."
+	/>
+</div>

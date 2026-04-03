@@ -1,0 +1,92 @@
+---
+title: PLC Data Collection for Mixed-Vendor Lines
+description: A practical reference for plants collecting machine data across Siemens, Allen-Bradley, Mitsubishi, and other mixed-vendor lines without redesigning controls.
+referenceType: application
+adProfile: application
+commercialIntent: high
+reviewCadence: Quarterly review
+primaryKeyword: plc data collection mixed vendor lines
+searchIntent: deploy
+decisionStage: implementation
+targetRoles:
+  - Plant engineers
+  - OT architects
+  - System integrators
+  - Technical buyers
+contentStatus: seed
+---
+
+import { LinkCard } from '@astrojs/starlight/components';
+
+# PLC Data Collection for Mixed-Vendor Lines
+
+Mixed-vendor lines are where IIoT architecture stops being theoretical. Plants often need production data, alarms, counters, or machine states from assets that were never designed to share a common upstream path. The commercial value is high because these readers are usually trying to connect a real installed base, not sketch an abstract future architecture.
+
+## Why mixed-vendor collection is difficult
+
+The difficulty usually comes from the combination of:
+
+- different controller brands and generations;
+- a blend of serial and Ethernet-era protocols;
+- uneven documentation and unknown past modifications;
+- limited outage windows for testing and commissioning.
+
+That combination means the project is rarely won by the most feature-rich platform. It is usually won by the device and protocol path that creates the least integration risk.
+
+## What the architecture needs to decide
+
+The project usually depends on four decisions:
+
+1. which data points are truly worth collecting first;
+2. where protocol translation should happen;
+3. whether buffering or edge logic is needed locally;
+4. which upstream transport fits the historian, MES, or cloud destination.
+
+These choices should be made before debating brands. Otherwise the hardware shortlist gets distorted by catalog features instead of actual retrofit fit.
+
+## Device and protocol implications
+
+Mixed-vendor data projects often favor:
+
+- protocol converters or serial device servers when legacy access is the bottleneck;
+- industrial gateways when local translation, buffering, or segmentation are needed;
+- MQTT or OPC UA upstream only after the field-side access path is proven;
+- conservative rollout scope that proves one repeatable pattern before scaling line-wide.
+
+The strongest early wins usually come from reading useful production signals reliably, not from trying to normalize every machine on day one.
+
+## Common mistakes
+
+Plants often lose time by:
+
+- trying to standardize every machine before collecting any useful data;
+- assuming Ethernet presence means easy interoperability;
+- buying an edge computer where a simpler gateway or converter would be easier to support;
+- underestimating long-term maintenance ownership after the pilot succeeds.
+
+The more mixed the line is, the more valuable disciplined scope becomes.
+
+## Related paths
+
+<div class="portal-links">
+	<LinkCard
+		title="Machine connectivity retrofits"
+		href="/applications/machine-connectivity-retrofits/"
+		description="Frame mixed-vendor data collection inside the larger retrofit decision process."
+	/>
+	<LinkCard
+		title="Protocol converters and serial device servers"
+		href="/product-families/protocol-converters-and-serial-device-servers/"
+		description="Start with the device class that often unlocks legacy controller access."
+	/>
+	<LinkCard
+		title="OPC UA vs MQTT for machine data aggregation"
+		href="/protocols/opc-ua-vs-mqtt-for-machine-data-aggregation/"
+		description="Choose the upstream data path after the field-side access problem is understood."
+	/>
+	<LinkCard
+		title="Retrofit gateway shortlist criteria"
+		href="/comparisons/retrofit-gateway-shortlist-criteria/"
+		description="Pressure-test the hardware shortlist before buying the most ambitious box in the catalog."
+	/>
+</div>

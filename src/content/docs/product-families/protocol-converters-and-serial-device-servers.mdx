@@ -1,0 +1,92 @@
+---
+title: Protocol Converters and Serial Device Servers
+description: A product-family reference for retrofit projects that need to expose serial assets, bridge protocol boundaries, or extend the useful life of legacy machine connectivity.
+referenceType: product-family
+adProfile: product-family
+commercialIntent: high
+reviewCadence: Quarterly review
+primaryKeyword: protocol converters and serial device servers
+searchIntent: select
+decisionStage: shortlist
+targetRoles:
+  - OT architects
+  - Plant engineers
+  - Integrators
+  - Technical buyers
+contentStatus: seed
+---
+
+import { LinkCard } from '@astrojs/starlight/components';
+
+# Protocol Converters and Serial Device Servers
+
+Protocol converters and serial device servers are not glamorous categories, but they often unlock the highest-value retrofit work in an installed plant. When a data project is blocked by serial-only assets, limited controller access, or awkward protocol boundaries, this category often determines whether the project becomes manageable or stalls completely.
+
+## What this category is for
+
+This category usually matters when teams need to:
+
+- expose serial devices to newer networked systems;
+- bridge incompatible protocol boundaries;
+- reduce rewiring or replacement pressure on still-useful equipment;
+- create a stable handoff point between legacy controls and newer monitoring layers.
+
+In many plants, these devices are less about digital transformation branding and more about practical interoperability.
+
+## Where it fits in the architecture
+
+These devices usually sit close to the legacy asset boundary. They are a good fit when:
+
+- the installed device speaks serial protocols reliably;
+- the plant wants monitoring before larger control modernization;
+- local logic needs are limited compared with translation needs;
+- maintenance teams benefit from a simple, bounded hardware role.
+
+If the main challenge is translation and access, this category is often a better fit than a more general edge platform.
+
+## When it is the wrong choice
+
+Teams should be cautious when:
+
+- they really need buffering, application logic, or broader local orchestration;
+- the project will soon require many more assets and protocol domains at the same location;
+- the site support model cannot handle a large number of tiny point solutions;
+- the issue is not protocol access but overall network architecture.
+
+In those cases, an industrial gateway or RTU-like device may provide a cleaner ownership boundary.
+
+## Practical buying signals
+
+This category becomes attractive when the project priority is:
+
+- getting data out of legacy assets quickly;
+- preserving uptime by avoiding invasive controller changes;
+- containing scope during the first rollout;
+- keeping the support model simple enough for plant personnel.
+
+The best purchase decisions here are usually about operational fit, not spec-sheet density.
+
+## Related paths
+
+<div class="portal-links">
+	<LinkCard
+		title="Serial to Ethernet bridging"
+		href="/protocols/serial-to-ethernet-bridging/"
+		description="Use the protocol layer to decide when a bridge is enough and when the architecture needs more."
+	/>
+	<LinkCard
+		title="PLC data collection for mixed-vendor lines"
+		href="/applications/plc-data-collection-for-mixed-vendor-lines/"
+		description="See how this category helps unlock mixed-controller retrofit projects."
+	/>
+	<LinkCard
+		title="Industrial gateways"
+		href="/product-families/industrial-gateways/"
+		description="Compare a narrowly scoped bridge device with a broader boundary device."
+	/>
+	<LinkCard
+		title="Retrofit gateway shortlist criteria"
+		href="/comparisons/retrofit-gateway-shortlist-criteria/"
+		description="Shortlist the right box only after the translation burden is defined."
+	/>
+</div>
