@@ -1,0 +1,39 @@
+---
+title: Protocols
+description: Protocol-fit reference pages for industrial connectivity hardware, telemetry paths, and interoperability planning.
+---
+
+import { LinkCard, Steps } from '@astrojs/starlight/components';
+
+# Protocols
+
+Protocol choices often reshape the hardware shortlist more than teams expect. This section explains how protocol fit affects interoperability, data handling, engineering effort, and long-term architecture boundaries.
+
+## Core paths
+
+<div class="portal-links">
+	<LinkCard
+		title="Modbus, OPC UA, and MQTT fit"
+		href="/protocols/modbus-opc-ua-and-mqtt-fit/"
+		description="A practical comparison of common industrial data paths and where each one tends to belong."
+	/>
+	<LinkCard
+		title="Applications"
+		href="/applications/"
+		description="Return to the environment and business objective if protocol debate gets detached from the real site."
+	/>
+	<LinkCard
+		title="Device types"
+		href="/device-types/"
+		description="See which hardware classes handle the protocol mix with the least avoidable complexity."
+	/>
+</div>
+
+## Protocol review flow
+
+<Steps>
+	1. Confirm which systems must talk to each other and who owns each endpoint.
+	2. Separate field protocol needs from upstream data delivery needs.
+	3. Decide where translation should happen and which device class should own it.
+	4. Compare the operational consequences before locking into vendor-specific hardware.
+</Steps>

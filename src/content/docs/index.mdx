@@ -1,43 +1,102 @@
 ---
 title: IIoT Devices
-description: Structured reference material for industrial connectivity hardware, protocol choices, and device selection by application.
+description: Structured reference system for industrial connectivity hardware, protocol fit, device categories, and comparison workflows.
 template: splash
 hero:
   title: |
     IIoT Devices
-  tagline: Structured reference material for industrial connectivity hardware, protocol choices, and device selection by application.
+  tagline: Structured reference system for industrial connectivity hardware, protocol fit, device categories, and comparison workflows.
   actions:
     - text: Browse applications
       link: /applications/
       icon: right-arrow
-    - text: About this site
-      link: /about/
+    - text: Compare device classes
+      link: /comparisons/
       variant: minimal
 ---
 
-import { Card, CardGrid } from '@astrojs/starlight/components';
+import { Card, CardGrid, LinkCard, Steps } from '@astrojs/starlight/components';
 
 <CardGrid stagger>
 	<Card title="Applications" icon="open-book">
-		Organize device research around real deployment environments and operating constraints.
+		Research device decisions from the deployment environment outward, not from a vendor catalog inward.
 	</Card>
 	<Card title="Device types" icon="document">
-		Gateways, remote I/O, HMIs, edge computers, switches, and related hardware families.
+		Gateways, edge computers, RTUs, remote I/O, switches, and related hardware families in practical context.
+	</Card>
+	<Card title="Vendors" icon="star">
+		Portfolio mapping, positioning, and vendor fit by environment, architecture, and service expectations.
 	</Card>
 	<Card title="Protocols" icon="list-format">
-		Industrial communication layers, interoperability choices, and protocol fit.
+		Protocol fit, interoperability boundaries, and data transport choices tied to real equipment decisions.
 	</Card>
 	<Card title="Comparisons" icon="approve-check-circle">
-		Selection logic for competing vendors, architectures, and hardware categories.
+		Comparison workflows for shortlisting hardware, vendors, and architectures without skipping lifecycle tradeoffs.
 	</Card>
 </CardGrid>
 
-<p class="mt-8 text-sm text-[var(--sl-color-gray-3)]">
+## Navigate by research path
+
+<div class="portal-links">
+	<LinkCard
+		title="Start with applications"
+		href="/applications/"
+		description="Anchor research to the deployment environment, asset type, and operating conditions before choosing hardware."
+	/>
+	<LinkCard
+		title="Browse device categories"
+		href="/device-types/"
+		description="Understand the job boundaries between gateways, RTUs, edge computers, remote I/O, and adjacent classes."
+	/>
+	<LinkCard
+		title="Review vendors"
+		href="/vendors/"
+		description="Map vendor portfolios to plant realities, support expectations, and rollout scale."
+	/>
+	<LinkCard
+		title="Check protocol fit"
+		href="/protocols/"
+		description="Compare data transport, interoperability, and control boundaries before narrowing products."
+	/>
+	<LinkCard
+		title="Run comparisons"
+		href="/comparisons/"
+		description="Use a structured buying workflow to compare options without collapsing important lifecycle differences."
+	/>
+</div>
+
+## What this site optimizes
+
+<div class="signal-strip">
+	<div>
+		<strong>Research model</strong>
+		<p>Application first, device class second, vendor and protocol after that. This prevents catalog-first selection mistakes.</p>
+	</div>
+	<div>
+		<strong>High-value traffic</strong>
+		<p>Device selection, protocol tradeoffs, vendor shortlists, and architecture comparisons tend to attract real project intent.</p>
+	</div>
+	<div>
+		<strong>Long-term edge</strong>
+		<p>Reference pages stay useful because device classes and buying questions change more slowly than news cycles or product launches.</p>
+	</div>
+</div>
+
+## How to use this reference
+
+<Steps>
+	1. Begin with the application or site profile that matches the deployment environment.
+	2. Narrow the likely device classes before looking at vendors or model names.
+	3. Use protocol pages to pressure-test interoperability and data path assumptions.
+	4. Finish with comparison workflows that account for support, lifecycle, and rollout realities.
+</Steps>
+
+<p class="footnote-links">
 	<a href="/about/">About</a>
-	<span aria-hidden="true"> · </span>
+	<span aria-hidden="true"> / </span>
 	<a href="/contact/">Contact</a>
-	<span aria-hidden="true"> · </span>
+	<span aria-hidden="true"> / </span>
 	<a href="/privacy/">Privacy</a>
-	<span aria-hidden="true"> · </span>
+	<span aria-hidden="true"> / </span>
 	<a href="/disclaimer/">Disclaimer</a>
 </p>

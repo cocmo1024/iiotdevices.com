@@ -1,0 +1,37 @@
+---
+title: Remote Sites and Telemetry
+description: A reference path for distributed assets, low-touch maintenance environments, and telemetry-driven IIoT hardware decisions.
+---
+
+import { LinkCard } from '@astrojs/starlight/components';
+
+# Remote Sites and Telemetry
+
+Remote telemetry projects often expose the difference between a lab-friendly design and a field-ready design. Maintenance windows are limited, power can be inconsistent, and communications are shaped by terrain, carriers, or local infrastructure.
+
+## Typical requirements
+
+- Reliable data capture from distributed assets with minimal site visits.
+- Local buffering when backhaul is unstable.
+- Hardware that survives temperature swings, vibration, enclosure constraints, and power interruptions.
+
+## Common device classes
+
+- Gateways when protocol translation and cloud or SCADA uplink are primary.
+- RTUs when remote monitoring and light control need deterministic field behavior.
+- Edge computers when local analytics, storage, or application logic justify added complexity.
+
+## Compare next
+
+<div class="portal-links">
+	<LinkCard
+		title="Gateways, edge computers, and RTUs"
+		href="/device-types/gateways-edge-computers-and-rtus/"
+		description="Clarify which hardware class actually fits the site and operations model."
+	/>
+	<LinkCard
+		title="Protocol fit"
+		href="/protocols/modbus-opc-ua-and-mqtt-fit/"
+		description="See how field protocols and upstream messaging choices reshape the hardware shortlist."
+	/>
+</div>

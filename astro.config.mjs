@@ -11,8 +11,8 @@ export default defineConfig({
 		starlight({
 			title: 'IIoT Devices',
 			description:
-				'Structured reference material for industrial connectivity hardware, protocol choices, and device selection by application.',
-			tagline: 'Industrial connectivity hardware organized around application fit, protocol choices, and buying decisions.',
+				'Structured reference system for industrial connectivity hardware, protocol fit, device categories, and comparison workflows.',
+			tagline: 'Industrial connectivity hardware organized around application fit, device classes, protocol choices, and buying decisions.',
 			social: [
 				{
 					icon: 'github',
@@ -23,7 +23,28 @@ export default defineConfig({
 			sidebar: [
 				{
 					label: 'Reference Areas',
-					items: ['applications', 'device-types', 'vendors', 'protocols', 'comparisons'],
+					items: [
+						{
+							label: 'Applications',
+							autogenerate: { directory: 'applications' },
+						},
+						{
+							label: 'Device Types',
+							autogenerate: { directory: 'device-types' },
+						},
+						{
+							label: 'Vendors',
+							autogenerate: { directory: 'vendors' },
+						},
+						{
+							label: 'Protocols',
+							autogenerate: { directory: 'protocols' },
+						},
+						{
+							label: 'Comparisons',
+							autogenerate: { directory: 'comparisons' },
+						},
+					],
 				},
 				{
 					label: 'Site',

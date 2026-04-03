@@ -1,0 +1,39 @@
+---
+title: Device Types
+description: Reference material for the hardware categories that appear most often in industrial connectivity and telemetry projects.
+---
+
+import { LinkCard, Steps } from '@astrojs/starlight/components';
+
+# Device Types
+
+Device categories matter because they define what a system can do reliably, what it costs to operate, and how much integration burden lands on the project team. This section clarifies job boundaries between hardware classes.
+
+## Core paths
+
+<div class="portal-links">
+	<LinkCard
+		title="Gateways, edge computers, and RTUs"
+		href="/device-types/gateways-edge-computers-and-rtus/"
+		description="A practical comparison of the most frequently confused hardware classes in IIoT projects."
+	/>
+	<LinkCard
+		title="Applications"
+		href="/applications/"
+		description="Return to the deployment environment if the device shortlist starts expanding without discipline."
+	/>
+	<LinkCard
+		title="Comparisons"
+		href="/comparisons/"
+		description="Use comparison workflows after the hardware class is narrowed."
+	/>
+</div>
+
+## Key questions
+
+<Steps>
+	1. Does the site need translation, control, local logic, or just reliable data transport?
+	2. What uptime, maintenance, and power assumptions does the hardware need to survive?
+	3. How much software ownership is the operating team prepared to absorb?
+	4. Which category minimizes avoidable complexity while still meeting the site objective?
+</Steps>

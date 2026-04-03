@@ -1,0 +1,35 @@
+---
+title: Modbus, OPC UA, and MQTT Fit
+description: A practical comparison of three common industrial data paths and where each one belongs in a modern IIoT stack.
+---
+
+import { LinkCard } from '@astrojs/starlight/components';
+
+# Modbus, OPC UA, and MQTT Fit
+
+These technologies are not direct substitutes in every situation. In practice, the right choice depends on where data originates, how much structure is needed, and what system boundary is being crossed.
+
+## Typical fit
+
+- Modbus remains common at the device and controller layer because of installed base and simple interoperability.
+- OPC UA is strong when structured information exchange and richer industrial context are required.
+- MQTT fits upstream distribution well when lightweight publish-subscribe messaging is the main goal.
+
+## Common mistake
+
+Treating the field layer and the upstream application layer as if they require the same protocol. Many successful stacks use different protocols at different layers, with translation handled by the gateway or edge device.
+
+## Compare next
+
+<div class="portal-links">
+	<LinkCard
+		title="Gateways, edge computers, and RTUs"
+		href="/device-types/gateways-edge-computers-and-rtus/"
+		description="See which device classes are best positioned to own protocol translation and data shaping."
+	/>
+	<LinkCard
+		title="Selection workflow"
+		href="/comparisons/selection-workflow/"
+		description="Bring protocol choice into a structured hardware decision instead of debating it in isolation."
+	/>
+</div>
