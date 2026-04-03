@@ -1,0 +1,105 @@
+---
+import SidebarCard from '../components/SidebarCard.astro';
+import ClassicShell from '../layouts/ClassicShell.astro';
+import { SITE_CONTACT_EMAIL, SITE_DESCRIPTION, SITE_KEYWORDS, SITE_TITLE } from '../consts';
+---
+
+<ClassicShell
+	title={`${SITE_TITLE} | About`}
+	description={SITE_DESCRIPTION}
+	pageTitle="About IIoT Devices"
+	pageIntro="IIoT Devices is being built as an English-language industrial reference publication for engineers, integrators, and technical buyers who need sharper device selection and deployment guidance."
+	introLabel="About"
+	keywords={[...SITE_KEYWORDS, 'about IIoT Devices']}
+	breadcrumbs={[
+		{ name: 'Home', path: '/' },
+		{ name: 'About', path: '/about/' },
+	]}
+>
+	<Fragment slot="left-rail">
+		<SidebarCard title="Audience" eyebrow="Who It Helps">
+			<ul>
+				<li>Plant and field engineers comparing hardware choices</li>
+				<li>Integrators shaping device shortlists for real projects</li>
+				<li>Technical buyers sorting through industrial vendor noise</li>
+			</ul>
+		</SidebarCard>
+
+		<SidebarCard title="Editorial Bias" eyebrow="What We Favor">
+			<p>
+				We favor practical deployment detail, structured comparisons, and content that helps buyers
+				make better decisions with less friction.
+			</p>
+		</SidebarCard>
+	</Fragment>
+
+	<section class="section-block">
+		<div class="section-head">
+			<div>
+				<p class="eyebrow">Editorial Thesis</p>
+				<h2>Industrial device content should reduce specification friction</h2>
+			</div>
+		</div>
+		<p>
+			This brand is not being shaped as a general industrial news site. It is meant to become a cleaner
+			reference desk for deployment planning, device category understanding, and vendor comparison work
+			that naturally maps to higher-value search traffic.
+		</p>
+	</section>
+
+	<div class="detail-grid">
+		<section class="detail-card">
+			<p class="section-kicker">SEO Logic</p>
+			<h3>Questions with long shelf life</h3>
+			<p>
+				Compatibility, retrofit planning, device roles, and environment-specific guides create stronger
+				long-term search value than broad product announcements.
+			</p>
+		</section>
+
+		<section class="detail-card">
+			<p class="section-kicker">Commercial Logic</p>
+			<h3>Better traffic before the purchase</h3>
+			<p>
+				When readers are defining requirements and shortlists, the eventual monetization options are
+				typically higher quality than broad awareness inventory.
+			</p>
+		</section>
+
+		<section class="detail-card">
+			<p class="section-kicker">Brand Goal</p>
+			<h3>Technical, clear, premium</h3>
+			<p>
+				The site should feel organized and confident, with just enough visual polish to stand apart
+				from commodity industrial content while staying easy to scan and trust.
+			</p>
+		</section>
+	</div>
+
+	<section class="section-block">
+		<div class="section-head">
+			<div>
+				<p class="eyebrow">Planning Surface</p>
+				<h2>The long-term framework is visible inside the site</h2>
+			</div>
+		</div>
+		<p>
+			The <a href="/topics/">topic map</a> defines the device clusters worth building, while the
+			<a href="/methodology/"> methodology page</a> explains how selectors, comparisons, and deployment
+			pages should stay useful over time.
+		</p>
+	</section>
+
+	<section class="section-block">
+		<div class="section-head">
+			<div>
+				<p class="eyebrow">Reach Out</p>
+				<h2>Corrections, topic ideas, or future partner fit</h2>
+			</div>
+		</div>
+		<p>
+			For editorial notes or future business conversations, email <a href={`mailto:${SITE_CONTACT_EMAIL}`}>{SITE_CONTACT_EMAIL}</a>.
+			The current stage is about building trust and depth first so future revenue slots have real value behind them.
+		</p>
+	</section>
+</ClassicShell>

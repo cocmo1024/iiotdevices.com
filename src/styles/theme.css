@@ -1,0 +1,130 @@
+:root {
+	--accent: #1f5c8a;
+	--accent-strong: #17476b;
+	--ink: 26, 34, 42;
+	--muted: 87, 104, 120;
+	--muted-soft: 125, 142, 155;
+	--paper: #eef3f7;
+	--paper-strong: #dde6ef;
+	--panel: rgba(251, 253, 255, 0.96);
+	--panel-strong: rgba(244, 248, 251, 0.98);
+	--line: #c3d2de;
+	--line-strong: #a8bdcd;
+	--shadow: 0 18px 56px rgba(22, 56, 88, 0.08);
+	--shadow-soft: 0 10px 26px rgba(22, 56, 88, 0.05);
+	--display-font: "Rockwell", "Bookman Old Style", Georgia, serif;
+	--body-font: "Atkinson", "Trebuchet MS", sans-serif;
+	--mono-font: "Consolas", "Courier New", monospace;
+	--shell-radius: 16px;
+	--card-radius: 14px;
+}
+
+body {
+	background:
+		repeating-linear-gradient(
+			90deg,
+			rgba(31, 92, 138, 0.03),
+			rgba(31, 92, 138, 0.03) 1px,
+			transparent 1px,
+			transparent 32px
+		),
+		repeating-linear-gradient(
+			180deg,
+			rgba(31, 92, 138, 0.025),
+			rgba(31, 92, 138, 0.025) 1px,
+			transparent 1px,
+			transparent 32px
+		),
+		linear-gradient(180deg, #fbfdff 0%, #eaf0f5 100%);
+}
+
+.site-frame {
+	border-radius: 16px;
+	background: rgba(252, 254, 255, 0.92);
+}
+
+.site-header,
+.sidebar-card,
+.section-block,
+.post-card,
+.ad-slot,
+.article-shell,
+.detail-card,
+.policy-card,
+.contact-card,
+.hub-card,
+.callout-card,
+.stat-card {
+	border-radius: 12px;
+}
+
+.eyebrow,
+.meta-pill,
+.section-kicker,
+.site-domain {
+	font-family: var(--mono-font);
+	letter-spacing: 0.14em;
+}
+
+.site-domain,
+.primary-nav a,
+.footer-links a {
+	border-radius: 8px;
+}
+
+.site-domain {
+	border-color: rgba(31, 92, 138, 0.18);
+	background: rgba(255, 255, 255, 0.84);
+}
+
+.primary-nav a {
+	border: 1px solid rgba(31, 92, 138, 0.14);
+	background: rgba(255, 255, 255, 0.72);
+}
+
+.primary-nav a.active {
+	background: rgba(31, 92, 138, 0.12);
+}
+
+.header-note,
+.page-intro,
+.hero-panel {
+	background:
+		linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(244, 248, 251, 0.97)),
+		repeating-linear-gradient(
+			90deg,
+			transparent,
+			transparent 18px,
+			rgba(31, 92, 138, 0.03) 18px,
+			rgba(31, 92, 138, 0.03) 19px
+		);
+}
+
+.page-intro,
+.hero-panel,
+.detail-card,
+.hub-card,
+.callout-card,
+.stat-card {
+	border-left: 4px solid rgba(31, 92, 138, 0.18);
+}
+
+.meta-pill {
+	background: rgba(31, 92, 138, 0.12);
+	color: var(--accent-strong);
+}
+
+.post-card.featured {
+	background: linear-gradient(180deg, rgba(31, 92, 138, 0.05), rgba(255, 255, 255, 0.98));
+}
+
+.stat-card {
+	background: linear-gradient(180deg, rgba(23, 71, 107, 0.96), rgba(18, 51, 78, 0.98));
+	color: rgba(255, 255, 255, 0.95);
+}
+
+.stat-card strong,
+.stat-card h4,
+.stat-card p {
+	color: rgba(255, 255, 255, 0.98);
+}
