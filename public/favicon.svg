@@ -1,4 +1,13 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <rect width="64" height="64" rx="16" fill="#111827" />
-  <text x="50%" y="52%" text-anchor="middle" dominant-baseline="middle" font-size="24" font-family="Arial, sans-serif" font-weight="700" fill="#86efac">II</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title">
+  <title>IIoT Devices</title>
+  <defs>
+    <linearGradient id="iid" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#5de0ff" />
+      <stop offset="100%" stop-color="#56d487" />
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="16" fill="#0b1822" />
+  <rect x="14" y="16" width="36" height="30" rx="8" fill="none" stroke="url(#iid)" stroke-width="4"/>
+  <path d="M22 26h20M22 34h12" stroke="#f3fbff" stroke-linecap="round" stroke-width="4"/>
+  <path d="M18 14v8M26 14v8M38 42v8M46 42v8" stroke="#56d487" stroke-linecap="round" stroke-width="4"/>
 </svg>

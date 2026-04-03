@@ -1,70 +1,113 @@
-@import "tailwindcss";
-@import "./typography.css";
+@layer base, starlight, theme, components, utilities;
 
-@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+@import '@astrojs/starlight-tailwind';
+@import 'tailwindcss/theme.css' layer(theme);
+@import 'tailwindcss/utilities.css' layer(utilities);
+@import '@fontsource/ibm-plex-sans/400.css';
+@import '@fontsource/ibm-plex-sans/500.css';
+@import '@fontsource/ibm-plex-sans/600.css';
+@import '@fontsource/ibm-plex-mono/400.css';
+@import '@fontsource/ibm-plex-mono/500.css';
 
 :root,
-html[data-theme="light"] {
-  --background: #fdfdfd;
-  --foreground: #282728;
-  --accent: #006cac;
-  --muted: #e6e6e6;
-  --border: #ece9e9;
+::backdrop {
+	--sl-font: 'IBM Plex Sans';
+	--sl-font-mono: 'IBM Plex Mono';
+	--sl-color-accent-low: hsl(195, 70%, 14%);
+	--sl-color-accent: hsl(190, 87%, 60%);
+	--sl-color-accent-high: hsl(160, 72%, 82%);
+	--sl-color-gray-1: hsl(200, 22%, 92%);
+	--sl-color-gray-2: hsl(199, 16%, 78%);
+	--sl-color-gray-3: hsl(200, 12%, 58%);
+	--sl-color-gray-4: hsl(203, 13%, 36%);
+	--sl-color-gray-5: hsl(205, 20%, 20%);
+	--sl-color-gray-6: hsl(206, 26%, 12%);
+	--sl-color-black: hsl(208, 38%, 8%);
+	--site-grid: hsla(193, 74%, 72%, 0.08);
+	--site-panel: hsla(205, 28%, 12%, 0.84);
 }
 
-html[data-theme="dark"] {
-  --background: #212737;
-  --foreground: #eaedf3;
-  --accent: #ff6b01;
-  --muted: #343f60;
-  --border: #ab4b08;
+:root[data-theme='light'] {
+	--sl-color-accent-low: hsl(184, 68%, 93%);
+	--sl-color-accent: hsl(193, 79%, 35%);
+	--sl-color-accent-high: hsl(200, 74%, 20%);
+	--sl-color-gray-1: hsl(214, 22%, 18%);
+	--sl-color-gray-2: hsl(211, 14%, 28%);
+	--sl-color-gray-3: hsl(209, 10%, 40%);
+	--sl-color-gray-4: hsl(206, 10%, 59%);
+	--sl-color-gray-5: hsl(196, 20%, 84%);
+	--sl-color-gray-6: hsl(188, 30%, 94%);
+	--sl-color-black: hsl(0, 0%, 100%);
+	--sl-color-white: hsl(210, 34%, 11%);
+	--sl-color-bg-nav: hsla(0, 0%, 100%, 0.88);
+	--sl-color-bg-sidebar: hsl(188, 42%, 97%);
+	--sl-color-bg: linear-gradient(180deg, #eefaf8 0%, #f7fbfd 100%);
+	--site-grid: hsla(196, 74%, 35%, 0.08);
+	--site-panel: hsla(0, 0%, 100%, 0.88);
 }
 
-@theme inline {
-  --font-app: var(--font-google-sans-code);
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-accent: var(--accent);
-  --color-muted: var(--muted);
-  --color-border: var(--border);
+body {
+	background:
+		linear-gradient(var(--site-grid) 1px, transparent 1px),
+		linear-gradient(90deg, var(--site-grid) 1px, transparent 1px),
+		var(--sl-color-bg);
+	background-size: 2rem 2rem, 2rem 2rem, auto;
 }
 
-@layer base {
-  * {
-    @apply border-border outline-accent/75;
-    scrollbar-width: auto;
-    scrollbar-color: var(--color-muted) transparent;
-  }
-  html {
-    @apply overflow-y-scroll scroll-smooth;
-  }
-  body {
-    @apply flex min-h-svh flex-col bg-background font-app text-foreground selection:bg-accent/75 selection:text-background;
-  }
-  a,
-  button {
-    @apply outline-offset-1 outline-accent focus-visible:no-underline focus-visible:outline-2 focus-visible:outline-dashed;
-  }
-  button:not(:disabled),
-  [role="button"]:not(:disabled) {
-    cursor: pointer;
-  }
+.site-title {
+	font-size: 0.9rem;
+	font-weight: 600;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
 }
 
-@utility max-w-app {
-  @apply max-w-3xl;
+.hero {
+	padding: clamp(2rem, 4vw, 3rem);
+	border-radius: 1.5rem;
+	border: 1px solid color-mix(in srgb, var(--sl-color-accent) 18%, transparent);
+	background:
+		linear-gradient(135deg, color-mix(in srgb, var(--sl-color-accent-low) 55%, transparent), transparent 65%),
+		var(--site-panel);
+	box-shadow: 0 20px 50px rgba(0, 0, 0, 0.16);
 }
 
-@utility app-layout {
-  @apply mx-auto w-full max-w-app px-4;
+.hero h1 {
+	font-weight: 650;
+	letter-spacing: -0.05em;
+	max-width: 12ch;
 }
 
-.active-nav {
-  @apply underline decoration-wavy decoration-2 underline-offset-8;
+.hero .tagline {
+	max-width: 42rem;
 }
 
-/* Source: https://piccalil.li/blog/a-more-modern-css-reset/ */
-/* Anything that has been anchored to should have extra scroll margin */
-:target {
-  scroll-margin-block: 1rem;
+.hero .actions a:first-child,
+.sl-link-button.primary {
+	border-radius: 999px;
+}
+
+.card {
+	border-radius: 1rem;
+	border-color: color-mix(in srgb, var(--sl-color-accent) 18%, var(--sl-color-hairline));
+	background:
+		linear-gradient(180deg, color-mix(in srgb, var(--sl-color-accent-low) 24%, transparent), transparent 70%),
+		var(--site-panel);
+}
+
+.card .icon {
+	border-radius: 999px;
+}
+
+.sl-markdown-content :is(h1, h2, h3) {
+	letter-spacing: -0.03em;
+}
+
+.sl-markdown-content h2 {
+	padding-bottom: 0.4rem;
+	border-bottom: 1px solid color-mix(in srgb, var(--sl-color-accent) 16%, var(--sl-color-hairline));
+}
+
+.sidebar-pane,
+.main-pane {
+	backdrop-filter: blur(12px);
 }

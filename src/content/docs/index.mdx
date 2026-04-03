@@ -1,0 +1,43 @@
+---
+title: IIoT Devices
+description: Structured reference material for industrial connectivity hardware, protocol choices, and device selection by application.
+template: splash
+hero:
+  title: |
+    IIoT Devices
+  tagline: Structured reference material for industrial connectivity hardware, protocol choices, and device selection by application.
+  actions:
+    - text: Browse applications
+      link: /applications/
+      icon: right-arrow
+    - text: About this site
+      link: /about/
+      variant: minimal
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+<CardGrid stagger>
+	<Card title="Applications" icon="open-book">
+		Organize device research around real deployment environments and operating constraints.
+	</Card>
+	<Card title="Device types" icon="document">
+		Gateways, remote I/O, HMIs, edge computers, switches, and related hardware families.
+	</Card>
+	<Card title="Protocols" icon="list-format">
+		Industrial communication layers, interoperability choices, and protocol fit.
+	</Card>
+	<Card title="Comparisons" icon="approve-check-circle">
+		Selection logic for competing vendors, architectures, and hardware categories.
+	</Card>
+</CardGrid>
+
+<p class="mt-8 text-sm text-[var(--sl-color-gray-3)]">
+	<a href="/about/">About</a>
+	<span aria-hidden="true"> · </span>
+	<a href="/contact/">Contact</a>
+	<span aria-hidden="true"> · </span>
+	<a href="/privacy/">Privacy</a>
+	<span aria-hidden="true"> · </span>
+	<a href="/disclaimer/">Disclaimer</a>
+</p>

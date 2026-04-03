@@ -1,6 +1,12 @@
 # IIoT Devices
 
-Static Astro site for [iiotdevices.com](https://iiotdevices.com/).
+Starlight-based documentation site for `iiotdevices.com`.
+
+## Focus
+
+- Device selection by industrial application
+- Product type and protocol reference
+- Vendor landscapes and comparison pages
 
 ## Local Development
 
@@ -15,11 +21,11 @@ npm run dev
 npm run build
 ```
 
-## Foundation
+## Deployment
 
-- Homepage
-- About page
-- Contact page
-- Privacy policy
-- Disclaimer
-- Sitemap, robots, RSS, and base SEO metadata
+Use Cloudflare Pages with:
+
+- Build command: `npm run build`
+- Output directory: `dist`
+
+Do not use `wrangler deploy` for this repository.
