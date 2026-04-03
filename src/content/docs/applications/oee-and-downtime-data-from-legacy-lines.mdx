@@ -1,0 +1,81 @@
+---
+title: OEE and Downtime Data from Legacy Lines
+description: A retrofit application guide for plants extracting OEE and downtime signals from older production lines without rebuilding controls.
+referenceType: application
+adProfile: application
+commercialIntent: high
+reviewCadence: Quarterly review
+primaryKeyword: oee downtime data legacy production lines
+searchIntent: deploy
+decisionStage: implementation
+targetRoles:
+  - Plant engineers
+  - OT architects
+  - Manufacturing leaders
+  - System integrators
+contentStatus: seed
+---
+
+import { LinkCard } from '@astrojs/starlight/components';
+
+# OEE and Downtime Data from Legacy Lines
+
+OEE and downtime projects are often the business case that finally pushes legacy-line connectivity into action. The challenge is that older lines rarely expose every signal cleanly, and the plant still needs useful operational visibility long before a broader controls modernization is approved.
+
+## Why this application matters commercially
+
+Plants usually pursue this work because they want:
+
+- clearer downtime attribution;
+- higher confidence in production-loss discussions;
+- faster visibility into chronic line interruptions;
+- a first data layer that justifies broader digital projects later.
+
+That makes the traffic valuable because the reader is often connecting a live operational problem to a hardware shortlist.
+
+## Site constraints and pressures
+
+Legacy lines often bring:
+
+- mixed controller generations and inconsistent documentation;
+- serial interfaces or vendor-specific protocols;
+- narrow maintenance windows;
+- a need to prove value before expanding scope.
+
+This is why useful OEE data projects often begin with a few trusted signals rather than a full instrumentation fantasy.
+
+## Architecture implications
+
+Strong projects usually define:
+
+- which states and events matter most for downtime visibility;
+- where collection should happen without disturbing the machine;
+- whether local buffering is needed;
+- which upstream path fits the reporting or analytics stack.
+
+The better architecture usually starts with operationally meaningful signals, not maximum data volume.
+
+## Related paths
+
+<div class="portal-links">
+	<LinkCard
+		title="Machine connectivity retrofits"
+		href="/applications/machine-connectivity-retrofits/"
+		description="Place OEE projects inside the broader retrofit sequence."
+	/>
+	<LinkCard
+		title="PLC data collection for mixed-vendor lines"
+		href="/applications/plc-data-collection-for-mixed-vendor-lines/"
+		description="See how the data-access problem behaves when controllers vary across the line."
+	/>
+	<LinkCard
+		title="Gateway vs edge computer for retrofit data projects"
+		href="/comparisons/gateway-vs-edge-computer-for-retrofit-data-projects/"
+		description="Choose the smallest useful boundary device for line-level data collection."
+	/>
+	<LinkCard
+		title="Polling vs publish for legacy machine data"
+		href="/protocols/polling-vs-publish-for-legacy-machine-data/"
+		description="Decide how aggressively the line should be queried after access is established."
+	/>
+</div>

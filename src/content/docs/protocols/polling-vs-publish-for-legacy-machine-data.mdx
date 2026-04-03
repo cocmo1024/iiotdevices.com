@@ -1,0 +1,80 @@
+---
+title: Polling vs Publish for Legacy Machine Data
+description: A protocol-behavior comparison for retrofit teams deciding how often older machines should be queried and when event- or publish-style patterns are more practical upstream.
+referenceType: protocol
+adProfile: protocol
+commercialIntent: high
+reviewCadence: Quarterly review
+primaryKeyword: polling vs publish legacy machine data
+searchIntent: compare
+decisionStage: implementation
+targetRoles:
+  - OT architects
+  - System integrators
+  - Plant engineers
+  - Data infrastructure leads
+contentStatus: seed
+---
+
+import { LinkCard } from '@astrojs/starlight/components';
+
+# Polling vs Publish for Legacy Machine Data
+
+Legacy lines often force teams to think carefully about how data should be collected after access is established. Polling is familiar and sometimes unavoidable. Publish-style patterns can reduce friction upstream. The mistake is treating this like a pure software preference when the real constraints live at the machine boundary.
+
+## Which layer this decision belongs to
+
+This decision usually sits between:
+
+- field-side access to controllers or devices;
+- local translation or buffering in a gateway;
+- upstream delivery to historians, MES, or cloud systems.
+
+That means the right behavior depends on both the machine's tolerance for being queried and the destination's expectations.
+
+## When polling fits
+
+Polling is often the right fit when:
+
+- the source device only exposes simple request-response access;
+- the required update rate is modest and well understood;
+- the project prioritizes predictable collection behavior;
+- the plant wants a conservative first rollout.
+
+Polling can be a perfectly good brownfield answer when used with discipline.
+
+## When publish-style behavior helps
+
+Publish or event-driven patterns become more useful when:
+
+- the upstream systems benefit from decoupled event delivery;
+- gateways can normalize and forward changes cleanly;
+- the architecture is expanding beyond simple point collection;
+- the team wants to reduce the burden of constant line-side queries.
+
+The important point is that publish usually becomes useful after a reliable boundary device is already in place.
+
+## Compare next
+
+<div class="portal-links">
+	<LinkCard
+		title="OPC UA vs MQTT for machine data aggregation"
+		href="/protocols/opc-ua-vs-mqtt-for-machine-data-aggregation/"
+		description="Take the transport decision upstream after the collection behavior is clear."
+	/>
+	<LinkCard
+		title="Edge data logging gateways for retrofits"
+		href="/product-families/edge-data-logging-gateways-for-retrofits/"
+		description="Use a gateway layer when local buffering and protocol shaping matter."
+	/>
+	<LinkCard
+		title="OEE and downtime data from legacy lines"
+		href="/applications/oee-and-downtime-data-from-legacy-lines/"
+		description="Keep the protocol behavior tied to a concrete production-data objective."
+	/>
+	<LinkCard
+		title="PLC data collection for mixed-vendor lines"
+		href="/applications/plc-data-collection-for-mixed-vendor-lines/"
+		description="Apply the same behavior choice to mixed-controller collection programs."
+	/>
+</div>

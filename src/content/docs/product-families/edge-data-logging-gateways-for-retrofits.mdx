@@ -1,0 +1,79 @@
+---
+title: Edge Data Logging Gateways for Retrofits
+description: A product-family reference for retrofit teams that need local buffering, lightweight logging, and practical machine-data extraction without a full edge software stack.
+referenceType: product-family
+adProfile: product-family
+commercialIntent: high
+reviewCadence: Quarterly review
+primaryKeyword: edge data logging gateways retrofits
+searchIntent: select
+decisionStage: shortlist
+targetRoles:
+  - Plant engineers
+  - OT architects
+  - Integrators
+  - Technical buyers
+contentStatus: seed
+---
+
+import { LinkCard } from '@astrojs/starlight/components';
+
+# Edge Data Logging Gateways for Retrofits
+
+Some brownfield projects need more than a simple bridge device but still do not justify a full edge-compute platform. That is where data-logging gateways become useful. They sit in the middle: enough local resilience and buffering to support retrofit data work, without dragging the project into a heavier application-management problem.
+
+## What this category is for
+
+This category is often used when a project needs to:
+
+- collect machine signals locally and forward them upstream;
+- survive intermittent network conditions with store-and-forward behavior;
+- keep historical context on-site for a bounded period;
+- minimize changes to legacy machines while still extracting useful operational data.
+
+## Where it fits in the architecture
+
+These devices usually fit when:
+
+- the site needs practical logging and buffering near the asset;
+- the plant wants a compact ownership boundary;
+- the destination systems are not always available;
+- the rollout favors stable device behavior over compute flexibility.
+
+This is common in retrofit programs that want value quickly without overplatforming.
+
+## When it is the wrong choice
+
+This category may be weak when:
+
+- the site needs rich local applications, containers, or broader orchestration;
+- the plant wants to host multiple software workloads;
+- the real problem is simple serial exposure rather than logging and buffering;
+- the team does not actually need local data retention.
+
+In those cases, either a smaller bridge or a fuller edge platform is often cleaner.
+
+## Related paths
+
+<div class="portal-links">
+	<LinkCard
+		title="Gateway vs edge computer for retrofit data projects"
+		href="/comparisons/gateway-vs-edge-computer-for-retrofit-data-projects/"
+		description="Place this category between simple gateways and fuller edge platforms."
+	/>
+	<LinkCard
+		title="OEE and downtime data from legacy lines"
+		href="/applications/oee-and-downtime-data-from-legacy-lines/"
+		description="Use a concrete line-visibility project to decide whether local logging is worth it."
+	/>
+	<LinkCard
+		title="Industrial gateways"
+		href="/product-families/industrial-gateways/"
+		description="Compare lightweight data logging with broader connectivity ownership."
+	/>
+	<LinkCard
+		title="OPC UA vs MQTT for machine data aggregation"
+		href="/protocols/opc-ua-vs-mqtt-for-machine-data-aggregation/"
+		description="Choose how logged data should move upstream after the field-side pattern is defined."
+	/>
+</div>

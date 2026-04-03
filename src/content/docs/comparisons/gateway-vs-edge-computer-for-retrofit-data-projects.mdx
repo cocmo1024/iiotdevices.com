@@ -1,0 +1,88 @@
+---
+title: Gateway vs Edge Computer for Retrofit Data Projects
+description: A shortlist-stage comparison for plants deciding whether retrofit machine data work needs a gateway-class device or a fuller edge-compute footprint.
+referenceType: comparison
+adProfile: comparison
+commercialIntent: high
+reviewCadence: Quarterly review
+primaryKeyword: gateway vs edge computer retrofit data projects
+searchIntent: compare
+decisionStage: shortlist
+targetRoles:
+  - OT architects
+  - Plant engineers
+  - Technical buyers
+  - Integrators
+contentStatus: seed
+---
+
+import { LinkCard } from '@astrojs/starlight/components';
+
+# Gateway vs Edge Computer for Retrofit Data Projects
+
+Retrofit buyers often overbuy because “edge computer” sounds future-proof. In many brownfield projects, the plant does not need a broad edge platform yet. It needs reliable access, translation, buffering, and an ownership boundary the maintenance team can support.
+
+## Comparison scope
+
+This comparison is useful when the plant has already decided to add a boundary device for machine data and is choosing between:
+
+- a gateway centered on connectivity and translation;
+- a broader edge computer centered on local applications and compute flexibility.
+
+The right choice usually depends on the project burden, not on abstract digital ambition.
+
+## Where gateways fit
+
+Gateways are often the better fit when:
+
+- protocol translation is the main problem;
+- local buffering or segmentation is enough;
+- the rollout scope is narrow and operational support must stay simple;
+- the plant wants the least invasive first step.
+
+In many retrofit environments, that is exactly the right answer.
+
+## Where edge computers fit
+
+Edge computers become more attractive when:
+
+- the site needs local applications beyond connectivity;
+- the team expects richer analytics, orchestration, or software logic locally;
+- multiple data flows and integration roles will converge on one node;
+- there is realistic ownership for patching, software maintenance, and troubleshooting.
+
+Without that operational model, the added flexibility can turn into support debt.
+
+## Failure cases
+
+Plants lose time when they:
+
+- choose compute before defining the collection job;
+- confuse future possibilities with current rollout needs;
+- ignore who will own software maintenance after commissioning;
+- buy complexity to compensate for uncertain requirements.
+
+## Compare next
+
+<div class="portal-links">
+	<LinkCard
+		title="Industrial gateways"
+		href="/product-families/industrial-gateways/"
+		description="Use the category page to decide whether translation and buffering are the real core needs."
+	/>
+	<LinkCard
+		title="OEE and downtime data from legacy lines"
+		href="/applications/oee-and-downtime-data-from-legacy-lines/"
+		description="Keep the device choice anchored to a real brownfield business case."
+	/>
+	<LinkCard
+		title="Retrofit gateway shortlist criteria"
+		href="/comparisons/retrofit-gateway-shortlist-criteria/"
+		description="Pressure-test whether the gateway lane is already sufficient."
+	/>
+	<LinkCard
+		title="Polling vs publish for legacy machine data"
+		href="/protocols/polling-vs-publish-for-legacy-machine-data/"
+		description="Match the device class to the way data will actually move once collected."
+	/>
+</div>
