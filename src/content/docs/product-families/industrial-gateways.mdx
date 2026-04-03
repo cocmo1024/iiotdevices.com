@@ -1,0 +1,40 @@
+---
+title: Industrial Gateways
+description: A category-level reference for industrial gateways, protocol translation, and edge-to-upstream connectivity design.
+referenceType: product-family
+adProfile: product-family
+commercialIntent: high
+reviewCadence: Quarterly review
+---
+
+import { LinkCard } from '@astrojs/starlight/components';
+
+# Industrial Gateways
+
+Industrial gateways are one of the most durable product families in IIoT research because they often sit at the boundary between field devices, controllers, and upstream monitoring or cloud systems.
+
+## Gateways are strongest when
+
+- Protocol translation is central to the design.
+- The site needs local buffering without the full software burden of an edge computer.
+- Upstream systems need a cleaner or different data path than the field layer provides directly.
+
+## Watch for
+
+- Buying an overpowered edge box when a simpler gateway would reduce operational burden.
+- Underestimating protocol shaping, security posture, or lifecycle support needs.
+
+## Compare next
+
+<div class="portal-links">
+	<LinkCard
+		title="Siemens industrial connectivity"
+		href="/vendors/siemens-industrial-connectivity/"
+		description="Vendor context for industrial ecosystems where Siemens is already part of the wider stack."
+	/>
+	<LinkCard
+		title="Serial to Ethernet bridging"
+		href="/protocols/serial-to-ethernet-bridging/"
+		description="Many gateway decisions are really protocol-translation and integration-boundary decisions."
+	/>
+</div>

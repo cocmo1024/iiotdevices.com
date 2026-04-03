@@ -13,6 +13,7 @@ export default defineConfig({
 			description:
 				'Structured reference system for industrial connectivity hardware, protocol fit, device categories, and comparison workflows.',
 			tagline: 'Industrial connectivity hardware organized around application fit, device classes, protocol choices, and buying decisions.',
+			lastUpdated: true,
 			social: [
 				{
 					icon: 'github',
@@ -33,6 +34,10 @@ export default defineConfig({
 							autogenerate: { directory: 'device-types' },
 						},
 						{
+							label: 'Product Families',
+							autogenerate: { directory: 'product-families' },
+						},
+						{
 							label: 'Vendors',
 							autogenerate: { directory: 'vendors' },
 						},
@@ -49,13 +54,26 @@ export default defineConfig({
 				{
 					label: 'Site',
 					collapsed: true,
-					items: ['about', 'contact', 'privacy', 'disclaimer'],
+					items: [
+						'about',
+						'contact',
+						'privacy',
+						'terms-of-use',
+						'disclaimer',
+						'editorial-policy',
+						'advertising',
+						'affiliate-disclosure',
+					],
 				},
 			],
 			customCss: ['./src/styles/global.css'],
 			pagefind: true,
 			favicon: '/favicon.svg',
 			credits: false,
+			components: {
+				PageSidebar: './src/components/PageSidebar.astro',
+				Footer: './src/components/Footer.astro',
+			},
 		}),
 		sitemap(),
 	],

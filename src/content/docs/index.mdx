@@ -2,6 +2,10 @@
 title: IIoT Devices
 description: Structured reference system for industrial connectivity hardware, protocol fit, device categories, and comparison workflows.
 template: splash
+referenceType: home
+adProfile: foundation
+commercialIntent: medium
+reviewCadence: Monthly review
 hero:
   title: |
     IIoT Devices
@@ -23,6 +27,9 @@ import { Card, CardGrid, LinkCard, Steps } from '@astrojs/starlight/components';
 	</Card>
 	<Card title="Device types" icon="document">
 		Gateways, edge computers, RTUs, remote I/O, switches, and related hardware families in practical context.
+	</Card>
+	<Card title="Product families" icon="add-document">
+		Category pages for industrial gateways, remote I/O, and adjacent product groups that attract durable research traffic.
 	</Card>
 	<Card title="Vendors" icon="star">
 		Portfolio mapping, positioning, and vendor fit by environment, architecture, and service expectations.
@@ -47,6 +54,11 @@ import { Card, CardGrid, LinkCard, Steps } from '@astrojs/starlight/components';
 		title="Browse device categories"
 		href="/device-types/"
 		description="Understand the job boundaries between gateways, RTUs, edge computers, remote I/O, and adjacent classes."
+	/>
+	<LinkCard
+		title="Review product families"
+		href="/product-families/"
+		description="Move from broad categories into durable product-family pages built for recurring industrial hardware research."
 	/>
 	<LinkCard
 		title="Review vendors"
@@ -97,6 +109,8 @@ import { Card, CardGrid, LinkCard, Steps } from '@astrojs/starlight/components';
 	<a href="/contact/">Contact</a>
 	<span aria-hidden="true"> / </span>
 	<a href="/privacy/">Privacy</a>
+	<span aria-hidden="true"> / </span>
+	<a href="/terms-of-use/">Terms</a>
 	<span aria-hidden="true"> / </span>
 	<a href="/disclaimer/">Disclaimer</a>
 </p>
