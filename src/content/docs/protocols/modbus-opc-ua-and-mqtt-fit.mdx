@@ -1,35 +1,92 @@
 ---
 title: Modbus, OPC UA, and MQTT Fit
-description: A practical comparison of three common industrial data paths and where each one belongs in a modern IIoT stack.
+description: A practical comparison of Modbus, OPC UA, and MQTT, including where each protocol belongs and how they often coexist in modern IIoT architectures.
+referenceType: protocol
+adProfile: protocol
+commercialIntent: high
+reviewCadence: Quarterly review
+primaryKeyword: modbus vs opc ua vs mqtt
+searchIntent: compare
+decisionStage: shortlist
+targetRoles:
+  - OT architects
+  - Controls engineers
+  - IIoT buyers
+  - System integrators
+contentStatus: cornerstone
 ---
 
 import { LinkCard } from '@astrojs/starlight/components';
 
 # Modbus, OPC UA, and MQTT Fit
 
-These technologies are not direct substitutes in every situation. In practice, the right choice depends on where data originates, how much structure is needed, and what system boundary is being crossed.
+These technologies are often compared as if one should replace the others everywhere. In practice, they usually serve different roles. The right architecture often uses different protocols at different layers, with translation handled by a gateway, edge device, or platform boundary. That is why this comparison is commercially important: buyers are rarely choosing a protocol in isolation, they are choosing the shape of the whole data path.
 
-## Typical fit
+## A simple way to think about each one
 
-- Modbus remains common at the device and controller layer because of installed base and simple interoperability.
-- OPC UA is strong when structured information exchange and richer industrial context are required.
-- MQTT fits upstream distribution well when lightweight publish-subscribe messaging is the main goal.
+- `Modbus` remains common close to devices and controllers because the installed base is large and integration is simple.
+- `OPC UA` becomes more useful when richer data structure, industrial context, or interoperability expectations are stronger.
+- `MQTT` is often most useful upstream, where lightweight publish-subscribe transport and broad integration flexibility matter.
 
-## Common mistake
+The mistake is assuming that whichever protocol is best at one layer should govern the whole stack.
 
-Treating the field layer and the upstream application layer as if they require the same protocol. Many successful stacks use different protocols at different layers, with translation handled by the gateway or edge device.
+## Where Modbus is still strong
+
+Modbus continues to matter when:
+
+- the field layer is already built around it;
+- device access matters more than richer information models;
+- simplicity and installed-base compatibility are the real priorities.
+
+That does not make it the best upstream protocol. It simply means it still belongs in many field-level designs.
+
+## Where OPC UA earns its complexity
+
+OPC UA tends to matter when:
+
+- the architecture benefits from richer industrial context;
+- interoperability across systems is important;
+- long-term system integration is more important than minimal protocol simplicity.
+
+It becomes especially relevant when the organization wants a cleaner information model instead of only raw transport.
+
+## Where MQTT fits best
+
+MQTT is usually strongest when:
+
+- upstream distribution and event-driven transport matter most;
+- the monitoring or cloud layer benefits from lightweight publish-subscribe behavior;
+- the protocol should stay more focused on transport than on detailed field semantics.
+
+MQTT is powerful, but it is often misapplied when teams expect it to solve field-layer constraints by itself.
+
+## The most useful buying question
+
+Instead of asking "which protocol wins," ask:
+
+- which protocol belongs at the device boundary;
+- which layer should own translation or context shaping;
+- what the destination system actually expects;
+- which protocol choice will be easiest to support in production.
+
+That is the question that changes hardware selection, gateway role, and long-term operating burden.
 
 ## Compare next
 
 <div class="portal-links">
 	<LinkCard
-		title="Gateways, edge computers, and RTUs"
-		href="/device-types/gateways-edge-computers-and-rtus/"
-		description="See which device classes are best positioned to own protocol translation and data shaping."
+		title="Industrial gateways"
+		href="/product-families/industrial-gateways/"
+		description="Most protocol debates become easier when the gateway role is defined first."
 	/>
 	<LinkCard
-		title="Selection workflow"
-		href="/comparisons/selection-workflow/"
-		description="Bring protocol choice into a structured hardware decision instead of debating it in isolation."
+		title="Gateways, edge computers, and RTUs"
+		href="/device-types/gateways-edge-computers-and-rtus/"
+		description="Choose the device class that should own translation, buffering, and protocol responsibility."
+	/>
+	<LinkCard
+		title="Machine connectivity retrofits"
+		href="/applications/machine-connectivity-retrofits/"
+		description="Retrofit work reveals quickly why protocol choice is really an architecture choice."
 	/>
 </div>

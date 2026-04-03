@@ -1,23 +1,81 @@
 ---
 title: Machine Connectivity Retrofits
-description: A reference path for retrofit projects bringing existing machines into newer connectivity and monitoring architectures.
+description: A practical reference for retrofit projects that connect existing machines to newer monitoring, analytics, and data systems without disrupting operations.
 referenceType: application
 adProfile: application
 commercialIntent: high
 reviewCadence: Quarterly review
+primaryKeyword: machine connectivity retrofits
+searchIntent: deploy
+decisionStage: implementation
+targetRoles:
+  - Plant engineers
+  - OT architects
+  - System integrators
+  - Technical buyers
+contentStatus: cornerstone
 ---
 
 import { LinkCard } from '@astrojs/starlight/components';
 
 # Machine Connectivity Retrofits
 
-Retrofit work is where many industrial connectivity decisions become most commercially meaningful. The constraints are real, the installed base matters, and the project often depends on bridging old and new systems without breaking operations.
+Retrofit work is where industrial connectivity decisions become highly commercial. The installed base is real, shutdown windows are limited, and the project often depends on bridging old and new systems without disturbing production. That makes retrofits one of the highest-intent IIoT traffic categories: readers are usually not browsing casually, they are trying to solve a live plant problem.
 
-## Common retrofit pressures
+## Why retrofit projects are difficult
 
-- Legacy protocols and mixed device generations.
-- Limited appetite for long shutdowns or major control redesign.
-- Strong need for practical interoperability and lifecycle discipline.
+Retrofit projects often combine:
+
+- legacy protocols and mixed device generations;
+- sparse documentation or undocumented machine changes;
+- limited appetite for long outages or full control redesign;
+- pressure to show value quickly through monitoring, OEE, alarms, or data extraction.
+
+These constraints change the buying decision. The best solution is usually the one that reduces integration risk and support burden, not the one with the most features.
+
+## A useful retrofit sequence
+
+The cleanest retrofit projects usually follow this order:
+
+1. define the business goal, such as monitoring, alarm visibility, or production analytics;
+2. identify which machine signals and protocols are realistically accessible;
+3. decide where translation, buffering, and segmentation should happen;
+4. choose the smallest device class that can own the boundary reliably.
+
+This is why retrofits often hinge on gateways, bridges, remote I/O, and protocol fit more than on broad software ambitions.
+
+## What to avoid
+
+Common retrofit mistakes include:
+
+- assuming every existing controller can be connected safely with the same method;
+- choosing hardware before understanding protocol boundaries;
+- pushing too much logic into the retrofit layer too early;
+- underestimating maintenance ownership after install.
+
+Retrofit success is often about disciplined scope. The first phase should prove reliable access to useful data, not turn an old machine into a full digital platform overnight.
+
+## Hardware and protocol implications
+
+Retrofits usually reward:
+
+- gateways where translation and segmentation matter;
+- bridge devices when the installed protocol mix is awkward;
+- remote I/O extensions where signals need to be exposed safely;
+- upstream protocols that fit the actual destination platform, not just the field layer.
+
+This is why protocol choice should be treated as part of the architecture, not a separate standards debate.
+
+## What buyers should pressure-test
+
+Before committing, teams should ask:
+
+- which signals matter enough to justify the integration work;
+- whether the retrofit can survive maintenance turnover;
+- how the new connectivity layer will be supported after commissioning;
+- whether the project needs monitoring first, or true control integration.
+
+Those questions are what separate a durable retrofit from a temporary demo.
 
 ## Compare next
 
@@ -25,11 +83,16 @@ Retrofit work is where many industrial connectivity decisions become most commer
 	<LinkCard
 		title="Serial to Ethernet bridging"
 		href="/protocols/serial-to-ethernet-bridging/"
-		description="Retrofit paths often depend on bridge decisions more than greenfield projects do."
+		description="Retrofit paths often depend on bridge decisions more than greenfield architectures do."
 	/>
 	<LinkCard
-		title="Remote I/O systems"
-		href="/product-families/remote-io-systems/"
-		description="Distributed signal extension and retrofit fit frequently intersect."
+		title="Industrial gateways"
+		href="/product-families/industrial-gateways/"
+		description="Choose the boundary device before overcomplicating the rest of the stack."
+	/>
+	<LinkCard
+		title="Selection workflow"
+		href="/comparisons/selection-workflow/"
+		description="Use a disciplined device-selection path instead of debating protocols and hardware in isolation."
 	/>
 </div>

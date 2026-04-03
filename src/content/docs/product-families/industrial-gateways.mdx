@@ -1,40 +1,96 @@
 ---
 title: Industrial Gateways
-description: A category-level reference for industrial gateways, protocol translation, and edge-to-upstream connectivity design.
+description: A category-level guide to industrial gateways, including where they fit, how they differ from edge computers and RTUs, and what buyers should evaluate before choosing one.
 referenceType: product-family
 adProfile: product-family
 commercialIntent: high
 reviewCadence: Quarterly review
+primaryKeyword: industrial gateways
+searchIntent: select
+decisionStage: shortlist
+targetRoles:
+  - Controls engineers
+  - IIoT architects
+  - Technical buyers
+  - System integrators
+contentStatus: cornerstone
 ---
 
 import { LinkCard } from '@astrojs/starlight/components';
 
 # Industrial Gateways
 
-Industrial gateways are one of the most durable product families in IIoT research because they often sit at the boundary between field devices, controllers, and upstream monitoring or cloud systems.
+Industrial gateways are one of the most commercially important product families in IIoT research because they often sit at the architectural boundary between existing plant assets and newer data, monitoring, or cloud systems. Buyers rarely need "more compute" in the abstract. They usually need a reliable translation and transport layer that can bridge protocols, buffer data, simplify integration, and stay supportable in production.
 
-## Gateways are strongest when
+## What an industrial gateway is actually for
 
-- Protocol translation is central to the design.
-- The site needs local buffering without the full software burden of an edge computer.
-- Upstream systems need a cleaner or different data path than the field layer provides directly.
+A gateway is usually the right category when the system needs to:
 
-## Watch for
+- translate between field protocols and upstream platforms;
+- normalize or buffer data before transport;
+- isolate legacy devices from newer network layers;
+- create a cleaner integration boundary without deploying a full edge stack.
 
-- Buying an overpowered edge box when a simpler gateway would reduce operational burden.
-- Underestimating protocol shaping, security posture, or lifecycle support needs.
+That makes gateways especially relevant in brownfield environments, mixed-protocol plants, and facilities where lifecycle discipline matters more than raw software flexibility.
+
+## When gateways are the best fit
+
+Gateways are typically strongest when:
+
+- protocol translation is central to the project;
+- local buffering is needed but full application hosting is not;
+- the plant wants a simpler operational footprint than an edge computer introduces;
+- cybersecurity or network segmentation benefits from a narrower device role.
+
+For many buyers, the gateway is not the "cheap compromise." It is the operationally correct middle layer.
+
+## When buyers choose the wrong category
+
+Teams often mis-buy in two directions:
+
+- They buy an overpowered edge computer when a gateway would be easier to secure, support, and maintain.
+- They buy a too-simple bridge when the project really needs stronger local logic, buffering, diagnostics, or lifecycle tooling.
+
+The correct question is not "which device is more advanced?" The correct question is "which device owns the architectural boundary with the least operational burden?"
+
+## What to evaluate before buying
+
+The most important evaluation criteria usually include:
+
+- supported field and upstream protocols;
+- how data translation, shaping, or store-and-forward behavior is handled;
+- remote management and diagnostics;
+- cybersecurity posture and update model;
+- vendor lifecycle confidence and ecosystem fit.
+
+In real IIoT programs, those questions matter more than generic processing specs.
+
+## Gateway vs edge computer vs RTU
+
+A simple working model is:
+
+- choose a `gateway` when translation and transport are the core job;
+- choose an `edge computer` when the site needs heavier local software or analytics responsibility;
+- choose an `RTU` when remote-site autonomy, sparse communications, or control-oriented field behavior dominates.
+
+That framing is more useful than shopping from spec sheets alone.
 
 ## Compare next
 
 <div class="portal-links">
 	<LinkCard
-		title="Siemens industrial connectivity"
-		href="/vendors/siemens-industrial-connectivity/"
-		description="Vendor context for industrial ecosystems where Siemens is already part of the wider stack."
+		title="Gateways, edge computers, and RTUs"
+		href="/device-types/gateways-edge-computers-and-rtus/"
+		description="Put the category decision into a broader device-role framework before narrowing vendors."
 	/>
 	<LinkCard
-		title="Serial to Ethernet bridging"
-		href="/protocols/serial-to-ethernet-bridging/"
-		description="Many gateway decisions are really protocol-translation and integration-boundary decisions."
+		title="Modbus, OPC UA, and MQTT fit"
+		href="/protocols/modbus-opc-ua-and-mqtt-fit/"
+		description="Most gateway decisions get clearer when protocol ownership and translation boundaries are explicit."
+	/>
+	<LinkCard
+		title="Machine connectivity retrofits"
+		href="/applications/machine-connectivity-retrofits/"
+		description="Retrofit projects are where gateway decisions become operationally and commercially important fastest."
 	/>
 </div>
