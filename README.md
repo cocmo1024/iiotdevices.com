@@ -1,22 +1,25 @@
-# iiotdevices.com
+# IIoT Devices
 
-Independent Astro site for `iiotdevices.com`.
+Static Astro site for [iiotdevices.com](https://iiotdevices.com/).
 
-## Positioning
-
-- Topic: IIoT gateways, sensors, edge controllers, protocol converters, and device selection guides
-- Layout: classic three-column industrial editorial site
-- Monetization: vendor sponsorships, distributor affiliates, industrial webinar leads, and direct category sponsorships
-
-## Quick Start
+## Local Development
 
 ```bash
 npm install
 npm run dev
 ```
 
-## Content Direction
+## Build
 
-- Build evergreen buyer guides around device categories and industrial protocols
-- Publish brownfield deployment advice for engineers and system integrators
-- Use side rails for manufacturer showcases, spec sheet CTAs, and distributor promotions
+```bash
+npm run build
+```
+
+## Foundation
+
+- Homepage
+- About page
+- Contact page
+- Privacy policy
+- Disclaimer
+- Sitemap, robots, RSS, and base SEO metadata
