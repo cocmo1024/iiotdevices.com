@@ -13,7 +13,21 @@ targetRoles:
   - Data infrastructure leads
   - System integrators
   - Technical buyers
-contentStatus: seed
+contentStatus: cornerstone
+problemSolved: How to decide whether machine data aggregation should stay closer to plant-centric OPC UA patterns or shift toward MQTT publish-subscribe patterns without confusing field access with upstream transport.
+readerTakeaway: You should leave with a clearer protocol-role boundary, a realistic sense of where MQTT introduces explicit platform cost, and a decision framework for matching transport style to the software stack that actually consumes the data.
+keyQuestions:
+  - When is OPC UA the cleaner fit for machine data aggregation?
+  - When is MQTT worth the extra broker or platform layer?
+  - How should buyers think about protocol cost when field hardware, broker pricing, and plant software all shape the architecture differently?
+notFor:
+  - Teams still struggling to access machine data at the field boundary
+  - Greenfield projects where the vendor ecosystem already dictates the integration model
+  - Organizations trying to choose a protocol before naming the upstream consumers
+updateTriggers:
+  - Public pricing changes in MQTT broker platforms
+  - New gateway or edge products that materially change protocol translation patterns
+  - Major plant software changes that alter OPC UA or MQTT adoption economics
 ---
 
 import { LinkCard } from '@astrojs/starlight/components';
@@ -22,54 +36,97 @@ import { LinkCard } from '@astrojs/starlight/components';
 
 This comparison is most useful after the plant already knows how it will access the machine data. OPC UA and MQTT solve different parts of the problem. That is why many debates around them become noisy. Teams compare them as if they are interchangeable, then discover later that the real issue was translation at the machine boundary rather than transport upstream.
 
-## Which layer this decision belongs to
+## Quick answer
+
+Choose OPC UA when the project needs structured industrial interoperability, plant-software friendliness, and a model that fits existing OT systems. Choose MQTT when the project benefits from lightweight publish-subscribe behavior, decoupled downstream consumers, and cloud- or analytics-oriented distribution. The wrong move is treating either protocol as the fix for messy machine-side access. If the field boundary is weak, the transport choice will not rescue the architecture.
+
+## The cost difference teams usually miss
+
+Public pricing makes one thing clear: MQTT often introduces a visible platform cost, while OPC UA is frequently bundled into existing plant software, devices, or gateways.
+
+| Public component | Published price snapshot | Why it matters |
+| --- | --- | --- |
+| [HiveMQ Cloud Starter](https://www.hivemq.com/pricing/) | starting from $0.34 per hour plus $0.80 per million messages | MQTT often introduces an explicit broker-service line item |
+| [EMQX Dedicated Flex](https://www.emqx.com/en/pricing) | starts at $234 per month | A more serious managed MQTT footprint carries obvious recurring cost |
+| [Advantech UNO-220-P4N1AE on DigiKey](https://www.digikey.com/en/products/detail/advantech-corporation/UNO-220-P4N1AE/12710097) | $137.70 | A very small boundary device can already expose useful data without turning transport into the main cost driver |
+| [Moxa MGate MB3170 listing on DigiKey Marketplace](https://www.digikey.com/en/products/detail/icomtech-inc/MGATE-MB3170/14671422) | public listings around $586 to $615, with related models from $356 upward | Field translation often costs more than the protocol debate admits |
+
+This matters because buyers often compare protocols as if transport is free. It is not. MQTT frequently adds a broker or platform line item that the team should budget explicitly. OPC UA often looks cheaper only because parts of its cost are already hiding inside the existing OT stack.
+
+## Which layer this decision really belongs to
 
 In many retrofit projects:
 
 - serial or field protocols determine how data is accessed from the asset;
 - gateways or converters normalize that access;
-- OPC UA or MQTT shape how data is exposed upstream to software, historians, or cloud systems.
+- OPC UA or MQTT shape how data is exposed upstream to software, historians, MES layers, or cloud systems.
 
-That means OPC UA versus MQTT is usually not the first decision. It is a later architecture decision that depends on the consumers, security model, and operational style around the data.
+That means OPC UA versus MQTT is usually not the first decision. It is a later architecture choice that depends on the consumers, support model, and how many downstream systems should see the data.
 
-## Typical fit for OPC UA
+## When OPC UA is usually the cleaner answer
 
-OPC UA is often a good fit when teams need:
+OPC UA is often the better fit when:
 
-- richer industrial semantics;
-- structured interoperability with plant or MES software;
-- a more traditional industrial software integration path;
-- tighter expectations around browsing and data modeling.
+- the destination systems are plant-centric and already understand OPC-oriented workflows;
+- the team values browseable industrial semantics and structured tags;
+- the architecture is more internal-to-plant than cloud-distribution oriented;
+- OT maintainability matters more than lightweight event distribution.
 
-Plants that already live in OPC-oriented ecosystems often get value from staying close to those patterns.
+That is why many plants with historians, SCADA, MES, or vendor ecosystems already built around industrial software patterns remain very comfortable with OPC UA.
 
-## Typical fit for MQTT
+## When MQTT earns the extra layer
 
-MQTT often becomes attractive when teams need:
+MQTT becomes attractive when:
 
-- lightweight publish-subscribe behavior;
-- efficient movement of selected data to cloud or edge analytics stacks;
-- simple decoupling between producers and downstream consumers;
-- deployment patterns that reward flexible topic-based distribution.
+- the project needs publish-subscribe behavior instead of tightly coupled polling;
+- multiple downstream consumers should receive selected machine data;
+- cloud, analytics, or event-driven systems are already part of the plan;
+- the team wants more decoupling between producers and consumers.
 
-MQTT can be especially compelling when the upstream environment is already event-driven or cloud-connected.
+This is where the broker cost can be worth it. The question is whether your architecture really benefits from that distribution model.
 
-## Common architecture mistake
+## The hidden trap in the comparison
 
-The most common mistake is asking OPC UA or MQTT to solve a field-access problem they do not own. If the machine-side protocol mix is messy, or if data extraction depends on serial bridging and awkward controller boundaries, the transport choice will not rescue the architecture.
+The most common trap is calling MQTT modern and OPC UA old-fashioned, or calling OPC UA industrial and MQTT too cloud-oriented. Those labels are not useful. The better question is:
 
-The project usually needs a clean device and translation layer first.
+Which transport model best matches the software systems that will consume this data, and who will support that model after commissioning?
 
-## Device implications
+That answer is what should drive the choice.
 
-This protocol choice often affects:
+## A practical budget view
 
-- whether the gateway needs stronger modeling or translation features;
-- how much local normalization should happen before publish;
-- whether operators need plant-centric interoperability or analytics-centric transport;
-- what the support team can realistically maintain after commissioning.
+If the project is small, a public MQTT broker cost can quickly dominate the visible software line item while the hardware remains modest. For example:
 
-That is why protocol choice should be attached to the operating model, not only to standards preference.
+- HiveMQ Cloud Starter at $0.34 per hour is roughly $245 per month before message usage;
+- EMQX Dedicated Flex starts at $234 per month.
+
+That may be acceptable if the architecture truly needs MQTT. It is much harder to justify if the plant only needs one or two upstream consumers and no meaningful decoupling.
+
+On the other hand, if the plant is already carrying licensing or infrastructure around OPC UA-enabled software, the incremental cost of staying with OPC UA can be lower even if the total platform cost is not obvious.
+
+## The better decision sequence
+
+Use this order:
+
+1. confirm how the machine data will be extracted at the field boundary;
+2. name the actual upstream consumers;
+3. decide whether consumers need browseable industrial semantics or distributed publish behavior;
+4. budget the explicit broker or platform cost if MQTT is chosen;
+5. verify who will own monitoring and troubleshooting after go-live.
+
+This keeps transport from becoming a standards argument detached from the real system.
+
+## Implementation checklist
+
+The project is ready when:
+
+- the field-access problem is already understood;
+- the team has named the real upstream consumers;
+- public pricing for MQTT broker options has been considered where relevant;
+- hardware and protocol translation costs are not being confused with transport cost;
+- the support team knows which model it can actually maintain.
+
+If several of those are still vague, the transport decision is premature.
 
 ## Compare next
 
@@ -80,14 +137,14 @@ That is why protocol choice should be attached to the operating model, not only 
 		description="Step back to the larger protocol-role question before forcing a head-to-head comparison."
 	/>
 	<LinkCard
-		title="Protocol converters and serial device servers"
-		href="/product-families/protocol-converters-and-serial-device-servers/"
-		description="Fix the machine boundary before debating the upstream transport."
+		title="Edge data logging gateways for retrofits"
+		href="/product-families/edge-data-logging-gateways-for-retrofits/"
+		description="See how hardware choice changes what transport decisions matter upstream."
 	/>
 	<LinkCard
 		title="PLC data collection for mixed-vendor lines"
 		href="/applications/plc-data-collection-for-mixed-vendor-lines/"
-		description="See how the transport decision behaves inside a real retrofit environment."
+		description="Watch the transport decision behave inside a real mixed-controller retrofit."
 	/>
 	<LinkCard
 		title="Retrofit gateway shortlist criteria"

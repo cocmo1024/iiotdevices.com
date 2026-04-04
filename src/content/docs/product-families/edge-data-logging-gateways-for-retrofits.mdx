@@ -13,7 +13,21 @@ targetRoles:
   - OT architects
   - Integrators
   - Technical buyers
-contentStatus: seed
+contentStatus: cornerstone
+problemSolved: How to choose a middle-ground device for retrofit data collection when a simple bridge is too small, but a full edge-compute platform would add unnecessary cost and support burden.
+readerTakeaway: You should leave with a price-aware view of the gateway class that sits between converters and full edge systems, plus a clearer sense of when local logging and buffering are worth paying for.
+keyQuestions:
+  - When is a data-logging gateway the right retrofit device class?
+  - How do current public prices separate simple gateways, protocol converters, and edge computers?
+  - Which projects benefit from local buffering and bounded logging without needing a full software stack?
+notFor:
+  - Projects that only need one narrow protocol bridge
+  - Deployments that need heavy local apps, containers, or advanced compute
+  - Teams that have not yet defined the actual data-retention and outage requirements
+updateTriggers:
+  - Public price changes in common gateway, controller, and edge-device families
+  - New retrofit gateway launches that change the mid-tier device economics
+  - New plant-side lessons about buffering, local logging, or outage handling
 ---
 
 import { LinkCard } from '@astrojs/starlight/components';
@@ -22,36 +36,101 @@ import { LinkCard } from '@astrojs/starlight/components';
 
 Some brownfield projects need more than a simple bridge device but still do not justify a full edge-compute platform. That is where data-logging gateways become useful. They sit in the middle: enough local resilience and buffering to support retrofit data work, without dragging the project into a heavier application-management problem.
 
-## What this category is for
+## Quick answer
 
-This category is often used when a project needs to:
+Choose this device class when the project needs local buffering, practical outage tolerance, and modest on-site logging, but does not need a general-purpose compute node. If the job is only serial translation, this class may be too large. If the job needs custom applications, analytics, or broader orchestration, this class may be too small. The value is in owning the machine-data boundary cleanly without creating an edge platform you then have to operate.
+
+## Public price snapshot checked April 4, 2026
+
+These public prices are useful because they show where the middle of the market really sits:
+
+| Public listing | Published price snapshot | What it suggests |
+| --- | --- | --- |
+| [Advantech UNO-220-P4N1AE on DigiKey](https://www.digikey.com/en/products/detail/advantech-corporation/UNO-220-P4N1AE/12710097) | $137.70 | The lower end of lightweight gateway hardware can be surprisingly affordable |
+| [Moxa MGate MB3170 listing on DigiKey Marketplace](https://www.digikey.com/en/products/detail/icomtech-inc/MGATE-MB3170/14671422) | public listings around $586 to $615, with related models from $356 upward | Protocol translation and stronger gateway ownership quickly move you into a higher price band |
+| [Banner DXM1200-X2 on DigiKey](https://www.digikey.com/en/products/detail/banner-engineering-corporation/DXM1200-X2/24397556) | $637.00 | A richer telemetry and logging boundary is still far below full edge-compute pricing |
+| [AAEON BOXER-6646-ADP eShop listing](https://www.aaeon.com/en/p/industrial-fanless-box-pcs-boxer-6646-adp) | starting at $1,719 | Full industrial edge computers live in a different budget class and should be justified explicitly |
+
+These prices matter because teams often talk about gateway as if it is one class. It is not. There is a wide gap between a modest boundary device and a true edge platform.
+
+## What this category is really for
+
+This category is usually right when a project needs to:
 
 - collect machine signals locally and forward them upstream;
 - survive intermittent network conditions with store-and-forward behavior;
 - keep historical context on-site for a bounded period;
 - minimize changes to legacy machines while still extracting useful operational data.
 
-## Where it fits in the architecture
+This is common in retrofit programs that want real value quickly without overplatforming the first rollout.
 
-These devices usually fit when:
+## When the cheap end is enough
 
-- the site needs practical logging and buffering near the asset;
-- the plant wants a compact ownership boundary;
-- the destination systems are not always available;
-- the rollout favors stable device behavior over compute flexibility.
+The lower end of this category can work when:
 
-This is common in retrofit programs that want value quickly without overplatforming.
+- signal count is modest;
+- the plant only needs bounded local logging;
+- protocol burden is limited;
+- support simplicity is important.
 
-## When it is the wrong choice
+This is where compact gateways earn their keep. A low-hundreds device class can already be enough for a real pilot if the architecture is disciplined.
 
-This category may be weak when:
+## When the mid-tier price is justified
 
-- the site needs rich local applications, containers, or broader orchestration;
-- the plant wants to host multiple software workloads;
-- the real problem is simple serial exposure rather than logging and buffering;
-- the team does not actually need local data retention.
+A higher-cost data-logging gateway becomes worthwhile when:
 
-In those cases, either a smaller bridge or a fuller edge platform is often cleaner.
+- the machine boundary includes more translation burden;
+- the team needs stronger local buffering and message discipline;
+- multiple field assets or I/O points roll into one boundary device;
+- the support model benefits from a more complete industrial package.
+
+This is why the jump from roughly $100-class hardware to the $500-$700 range can still be economically healthy. The plant is paying for resilience and clearer ownership, not just for a longer feature list.
+
+## When you should skip this category
+
+This device class is often the wrong answer when:
+
+- the project needs rich local applications, containers, or broader orchestration;
+- the real requirement is just a simple protocol bridge;
+- the team does not actually need local retention or outage survival;
+- the integrator is trying to future-proof the design without a real phase-two use case.
+
+In those cases, either a smaller bridge or a fuller edge system is usually cleaner.
+
+## The hidden cost to watch
+
+The hidden cost is not only the device price. It is what the plant will inherit:
+
+- local configuration that no one documents;
+- logging and buffer retention that no one revisits;
+- firmware and replacement practice that is more complex than the plant can support;
+- scope creep where the gateway slowly becomes an unmanaged edge node.
+
+That is why this category should be selected for a clear reason, not because it feels like a safe middle ground.
+
+## A better buying sequence
+
+Use this order:
+
+1. define whether local buffering is operationally required;
+2. estimate how much history must survive an outage;
+3. determine whether protocol translation is simple or messy;
+4. compare price bands by device class, not by vendor marketing;
+5. choose the smallest class that can support the real outage and logging burden.
+
+That sequence usually protects the rollout from both underspec and overspec mistakes.
+
+## Implementation checklist
+
+The shortlist is ready when:
+
+- the team can explain why local logging exists and how long it must persist;
+- the outage and buffering requirement is concrete, not vague;
+- device prices have been compared by class;
+- no one is smuggling in a full edge-compute requirement without saying so;
+- the maintenance owner after commissioning is already known.
+
+If those points are missing, the shortlist is still too abstract.
 
 ## Related paths
 
@@ -64,16 +143,16 @@ In those cases, either a smaller bridge or a fuller edge platform is often clean
 	<LinkCard
 		title="OEE and downtime data from legacy lines"
 		href="/applications/oee-and-downtime-data-from-legacy-lines/"
-		description="Use a concrete line-visibility project to decide whether local logging is worth it."
-	/>
-	<LinkCard
-		title="Industrial gateways"
-		href="/product-families/industrial-gateways/"
-		description="Compare lightweight data logging with broader connectivity ownership."
+		description="Use a concrete line-visibility project to decide whether local logging is worth paying for."
 	/>
 	<LinkCard
 		title="OPC UA vs MQTT for machine data aggregation"
 		href="/protocols/opc-ua-vs-mqtt-for-machine-data-aggregation/"
 		description="Choose how logged data should move upstream after the field-side pattern is defined."
+	/>
+	<LinkCard
+		title="Industrial gateways"
+		href="/product-families/industrial-gateways/"
+		description="Compare lightweight logging gateways with broader connectivity ownership."
 	/>
 </div>
