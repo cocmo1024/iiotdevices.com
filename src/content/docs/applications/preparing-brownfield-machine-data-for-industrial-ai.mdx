@@ -1,0 +1,210 @@
+---
+title: Preparing Brownfield Machine Data for Industrial AI
+description: A practical guide for plants that want AI and analytics from legacy equipment without pretending poor machine data foundations will somehow fix themselves later.
+referenceType: application
+adProfile: application
+commercialIntent: high
+reviewCadence: Quarterly review
+primaryKeyword: preparing brownfield machine data for industrial ai
+searchIntent: design
+decisionStage: solution-aware
+targetRoles:
+  - OT architects
+  - Plant engineers
+  - Industrial data leads
+  - System integrators
+contentStatus: cornerstone
+problemSolved: What a brownfield plant actually has to fix before machine data is ready for industrial AI, edge analytics, or plant-level optimization work.
+readerTakeaway: You should leave with a realistic readiness checklist tied to machine boundaries, event quality, device class, and public device-price anchors instead of vague AI ambition.
+keyQuestions:
+  - What has to be true before brownfield machine data is useful for AI or analytics?
+  - When is a gateway enough, and when does local edge compute become justified?
+  - Which data defects make an "AI-ready" retrofit mostly marketing language?
+notFor:
+  - Greenfield systems where the data architecture is being defined from scratch
+  - Teams trying to buy analytics outcomes before fixing machine state quality
+  - Projects with no owner for tag governance, buffering, or support after commissioning
+updateTriggers:
+  - Material changes in public gateway and edge-compute price classes
+  - New vendor platform releases that alter the gateway-versus-edge boundary
+  - Shifts in common manufacturing AI and historian integration patterns
+---
+
+import { LinkCard } from '@astrojs/starlight/components';
+
+# Preparing Brownfield Machine Data for Industrial AI
+
+Industrial AI is one of the most active themes in manufacturing right now, but brownfield plants usually fail on the same old problems: missing state context, weak timestamps, inconsistent tag definitions, and no clear boundary between machine data collection and local compute. The AI part may be current. The foundation is not new at all. Plants that want durable results should treat "AI-ready" as a data-boundary discipline, not a branding exercise.
+
+## Quick answer
+
+Brownfield machine data is not ready for industrial AI until the plant can reliably answer five basic questions:
+
+1. What machine states are being collected and how are they defined?
+2. Which device owns buffering, protocol translation, and time alignment?
+3. Can the system distinguish meaningful events from noise and polling artifacts?
+4. Is there enough context to explain why the machine changed state?
+5. Who will maintain this data boundary six months after commissioning?
+
+If those answers are weak, AI will only amplify confusion faster.
+
+## Why this matters now
+
+Vendors are correctly pushing harder into industrial AI at the edge. Siemens, for example, positions Industrial Edge as a stack that spans devices, connectivity, and AI-powered analytics for both Siemens and non-Siemens environments. That is a real market signal. It does not change the first principle: the plant still has to build a trustworthy machine-data boundary before analytics or AI can produce something worth operationalizing.
+
+## The minimum brownfield foundation
+
+Plants do not need perfect data before they begin. They do need disciplined data.
+
+### 1. A stable machine-side boundary
+
+The team needs to know where the brownfield boundary sits:
+
+- direct PLC Ethernet access;
+- serial devices through protocol conversion;
+- discrete states through remote I/O;
+- higher-level machine summary data from an existing supervisory layer.
+
+This is the first point where many projects drift. If the plant cannot state what the boundary device is supposed to do, it is not ready to talk about AI readiness.
+
+### 2. A usable state model
+
+Industrial AI does not become useful just because values are collected. The system needs enough state logic to distinguish:
+
+- running from idle;
+- planned stoppage from fault;
+- setup from production;
+- starved or blocked conditions from internal machine issues.
+
+Without this, the model may detect patterns, but the plant still cannot act on them confidently.
+
+### 3. Time alignment and buffering
+
+Brownfield data often looks worse than it is because timestamps are inconsistent and short outages create silent gaps. The site needs:
+
+- clock consistency across sources;
+- buffering at the field boundary;
+- clear behavior during network interruptions;
+- a visible rule for late, missing, or duplicated records.
+
+If the time layer is weak, event correlation and root-cause analysis will stay weak.
+
+### 4. Data quality metadata
+
+The system should track whether a value was:
+
+- directly read;
+- inferred from other signals;
+- missing and backfilled;
+- delayed because of buffering;
+- unavailable because of comms or device failure.
+
+That context matters because downstream analytics should not treat low-confidence and high-confidence data as equally trustworthy.
+
+### 5. An owner after commissioning
+
+AI-ready retrofits fail when everyone assumes someone else will maintain the boundary. The plant must name who owns:
+
+- tag changes;
+- device health;
+- protocol configuration;
+- historian or broker mapping;
+- alarm and data quality investigation.
+
+Without that owner, "AI-ready" becomes a commissioning slide instead of an operating model.
+
+## Public device-class price snapshot checked April 4, 2026
+
+These are public device-class anchors, not full project prices:
+
+| Public listing | Published price snapshot | Why it matters |
+| --- | --- | --- |
+| [Advantech UNO-220-P4N1AE on DigiKey](https://www.digikey.com/en/products/detail/advantech-corporation/UNO-220-P4N1AE/12710097) | $137.70 | Useful reminder that some jobs only need a small field boundary device, not a full edge stack |
+| [AAEON BOXER-6646-ADP](https://www.aaeon.com/en/p/industrial-fanless-box-pcs-boxer-6646-adp) | Public listing starts at $1,719 | A realistic edge-compute anchor when local applications or analytics are truly needed |
+| [Siemens Industrial Edge](https://www.siemens.com/en-us/products/industrial-digitalization-services/bfc-gateway/) | Platform direction is public, but pricing is typically quote based | Helps frame the architectural shift from pure connectivity toward governed local compute and analytics |
+
+The point of this table is not to compare brands directly. It is to show that the boundary between "collect the data" and "run local software on the data" has a real cost step.
+
+## When a gateway is enough
+
+A gateway is usually enough when the plant still needs to:
+
+- collect from legacy PLCs and field devices;
+- normalize machine events;
+- buffer and forward data upstream;
+- prove that the data model is stable before adding software complexity.
+
+This is the healthier first step for many retrofits. It keeps the project focused on boundary quality instead of expanding prematurely into local applications.
+
+## When edge compute becomes justified
+
+Edge compute becomes more defensible when the site has a real local software role, such as:
+
+- local analytics that must continue during WAN interruptions;
+- multiple data consumers that need local orchestration;
+- machine-side logic or transformation beyond simple translation;
+- plant-level requirements that cannot be satisfied by forwarding raw or lightly processed data upstream.
+
+If those needs are not concrete yet, the edge computer often becomes expensive optionality.
+
+## What makes "AI-ready" mostly false
+
+The phrase becomes misleading when the project still has these defects:
+
+- no agreed machine-state definitions;
+- no reason codes tied to downtime or fault events;
+- timestamps that are inconsistent across data sources;
+- no buffering or replay behavior during network loss;
+- no clean handoff from field data to historian, MES, or broker;
+- no support owner after the integrator leaves.
+
+In that state, the plant is not AI-ready. It is only data-aware.
+
+## A better brownfield sequence
+
+Use this order instead:
+
+1. stabilize the machine boundary;
+2. define the event and state model;
+3. prove buffering, timestamps, and data quality behavior;
+4. connect the cleaned boundary to one upstream consumer;
+5. only then add local analytics or AI use cases that depend on the data.
+
+This sequence makes AI a consumer of a stable boundary instead of a substitute for data engineering.
+
+## Implementation checklist
+
+The site is ready for the next layer when:
+
+- the machine boundary and device class are explicitly defined;
+- state changes can be interpreted without tribal knowledge;
+- the site can explain how it handles missing, delayed, or buffered data;
+- the first upstream consumer is known and mapped;
+- ownership after go-live is assigned to a real team.
+
+If those points are still unresolved, do not broaden the architecture yet.
+
+## Compare next
+
+<div class="portal-links">
+	<LinkCard
+		title="Machine connectivity retrofits"
+		href="/applications/machine-connectivity-retrofits/"
+		description="Ground AI ambition in the actual retrofit boundary before choosing hardware or platforms."
+	/>
+	<LinkCard
+		title="PLC data collection for mixed-vendor lines"
+		href="/applications/plc-data-collection-for-mixed-vendor-lines/"
+		description="Use a real collection problem to test whether the foundation is clean enough."
+	/>
+	<LinkCard
+		title="Gateway vs edge computer for retrofit data projects"
+		href="/comparisons/gateway-vs-edge-computer-for-retrofit-data-projects/"
+		description="Pressure-test whether the site truly needs local compute or still needs cleaner connectivity."
+	/>
+	<LinkCard
+		title="Siemens industrial connectivity"
+		href="/vendors/siemens-industrial-connectivity/"
+		description="Use the vendor page only after the data-boundary and support model are clearly defined."
+	/>
+</div>
