@@ -13,23 +13,52 @@ targetRoles:
   - Plant engineers
   - Technical buyers
   - Integrators
-contentStatus: seed
+contentStatus: cornerstone
+problemSolved: How to decide whether a brownfield machine-data project needs a gateway-class boundary device or a broader edge computer with local software responsibilities.
+readerTakeaway: You should leave with a shortlist framework tied to project scope, support ownership, and future software burden instead of buying for abstract flexibility.
+keyQuestions:
+  - When is a gateway enough for retrofit machine data work?
+  - When does an edge computer become justified instead of becoming support debt?
+  - What operational signals should drive this device decision?
+notFor:
+  - Greenfield architectures where local compute strategy is already defined
+  - Projects selecting hardware before data scope and ownership are clear
+  - Teams with no ability to maintain local software stacks
+updateTriggers:
+  - New edge software requirements in the plant
+  - Changes in vendor gateway and edge portfolios
+  - New operating requirements around local analytics or orchestration
 ---
 
 import { LinkCard } from '@astrojs/starlight/components';
 
 # Gateway vs Edge Computer for Retrofit Data Projects
 
-Retrofit buyers often overbuy because “edge computer” sounds future-proof. In many brownfield projects, the plant does not need a broad edge platform yet. It needs reliable access, translation, buffering, and an ownership boundary the maintenance team can support.
+Retrofit buyers often overbuy because “edge computer” sounds future-proof. In many brownfield projects, the plant does not need a broad edge platform yet. It needs reliable access, translation, buffering, and an ownership boundary the maintenance team can support. The wrong device class can make a modest visibility project feel like an IT-OT software platform rollout.
 
-## Comparison scope
+## Quick verdict
 
-This comparison is useful when the plant has already decided to add a boundary device for machine data and is choosing between:
+If the main job is to collect, translate, buffer, and forward machine data reliably, a gateway is usually the better fit. If the project genuinely requires local applications, richer processing, multi-role data orchestration, or software workloads that will be actively maintained, an edge computer becomes more defensible.
+
+The deciding factor is not ambition. It is **operational burden**.
+
+## When this comparison matters
+
+Use this page when the plant has already decided to add a boundary device for machine data and is choosing between:
 
 - a gateway centered on connectivity and translation;
 - a broader edge computer centered on local applications and compute flexibility.
 
-The right choice usually depends on the project burden, not on abstract digital ambition.
+This comparison is especially relevant when a brownfield project starts small but stakeholders are tempted to “buy ahead” for future possibilities.
+
+## What each device class is really for
+
+| Device class | Best job | What it should not be forced to do |
+| --- | --- | --- |
+| Gateway | Protocol translation, segmentation, local buffering, secure forwarding | Broad application hosting and local orchestration sprawl |
+| Edge computer | Local apps, analytics, orchestration, richer compute workloads | Being justified only by vague future plans |
+
+This distinction matters because plants often buy compute capability they never operationalize.
 
 ## Where gateways fit
 
@@ -38,9 +67,10 @@ Gateways are often the better fit when:
 - protocol translation is the main problem;
 - local buffering or segmentation is enough;
 - the rollout scope is narrow and operational support must stay simple;
-- the plant wants the least invasive first step.
+- the plant wants the least invasive first step;
+- the project success criteria are alarm visibility, OEE feed, downtime capture, or historian connectivity.
 
-In many retrofit environments, that is exactly the right answer.
+In many retrofit environments, that is exactly the right answer. The goal is not to prove the plant can host software locally. It is to create a stable data boundary.
 
 ## Where edge computers fit
 
@@ -49,9 +79,37 @@ Edge computers become more attractive when:
 - the site needs local applications beyond connectivity;
 - the team expects richer analytics, orchestration, or software logic locally;
 - multiple data flows and integration roles will converge on one node;
-- there is realistic ownership for patching, software maintenance, and troubleshooting.
+- there is realistic ownership for patching, software maintenance, backups, and troubleshooting;
+- local processing reduces bandwidth, latency, or architecture risk in a measurable way.
 
 Without that operational model, the added flexibility can turn into support debt.
+
+## The hidden cost question buyers often skip
+
+The real question is not “which box has more headroom?” It is:
+
+**Who will own this device after commissioning, and what skills will that ownership require?**
+
+For a gateway, ownership is often closer to industrial connectivity and device lifecycle support.  
+For an edge computer, ownership often expands into:
+
+- OS patching;
+- application versioning;
+- backup and recovery;
+- local software troubleshooting;
+- security maintenance across a larger surface area.
+
+If the plant does not want to own those jobs, it probably does not want an edge computer yet.
+
+## A quick verdict by project type
+
+| Project type | Better default | Why |
+| --- | --- | --- |
+| Single-line brownfield visibility | Gateway | Lowest support overhead for data access and forwarding |
+| Mixed-vendor machine aggregation | Gateway | Translation and buffering usually matter more than compute |
+| Local preprocessing before cloud or MES | Depends | Edge justified only if local logic is real and sustained |
+| Site-level orchestration with multiple local apps | Edge computer | Compute and software role become first-order needs |
+| Pilot with uncertain requirements | Gateway first | Prove value before buying software burden |
 
 ## Failure cases
 
@@ -60,7 +118,33 @@ Plants lose time when they:
 - choose compute before defining the collection job;
 - confuse future possibilities with current rollout needs;
 - ignore who will own software maintenance after commissioning;
-- buy complexity to compensate for uncertain requirements.
+- buy complexity to compensate for uncertain requirements;
+- use an edge box to mask unclear architecture at the field boundary.
+
+The opposite failure also happens: some projects choose a gateway even when local software responsibility is clearly coming. In that case the device class becomes a bottleneck later. That is why the right choice depends on actual operating requirements, not ideology.
+
+## Questions that make the shortlist clearer
+
+Before deciding, ask:
+
+- Is the main problem access and translation, or local software execution?
+- Will anyone actively maintain applications on the device after go-live?
+- Does local compute reduce real cost or risk, or only create optionality?
+- Can the plant support patching and recovery for a more capable node?
+- Would a gateway-first rollout prove value with less risk?
+
+If those questions still point to uncertainty, the safer answer is often gateway first.
+
+## Implementation recommendation
+
+In many retrofit projects, the healthiest sequence is:
+
+1. start with a gateway-class boundary device;
+2. prove the data collection pattern;
+3. identify which local processing needs are real;
+4. move to edge only when the software role is operationally justified.
+
+That path keeps architecture honest. It reduces the chance that the hardware choice becomes a substitute for project clarity.
 
 ## Compare next
 
