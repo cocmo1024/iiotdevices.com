@@ -2,3 +2,4 @@ User-agent: *
 Allow: /
 
 Sitemap: https://iiotdevices.com/sitemap-index.xml
+Host: iiotdevices.com

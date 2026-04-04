@@ -3,22 +3,22 @@ import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 import starlight from '@astrojs/starlight';
 import tailwindcss from '@tailwindcss/vite';
+import { siteMeta } from './src/utils/site-meta.mjs';
 
 export default defineConfig({
-	site: 'https://iiotdevices.com',
+	site: siteMeta.siteUrl,
 	trailingSlash: 'always',
 	integrations: [
 		starlight({
-			title: 'IIoT Devices',
-			description:
-				'Structured reference system for industrial connectivity hardware, protocol fit, device categories, and comparison workflows.',
-			tagline: 'Industrial connectivity hardware organized around application fit, device classes, protocol choices, and buying decisions.',
+			title: siteMeta.name,
+			description: siteMeta.description,
+			tagline: siteMeta.tagline,
 			lastUpdated: true,
 			social: [
 				{
 					icon: 'github',
 					label: 'GitHub',
-					href: 'https://github.com/cocmo1024/iiotdevices.com',
+					href: siteMeta.repoUrl,
 				},
 			],
 			sidebar: [
@@ -68,9 +68,10 @@ export default defineConfig({
 			],
 			customCss: ['./src/styles/global.css'],
 			pagefind: true,
-			favicon: '/favicon.svg',
+			favicon: siteMeta.faviconPath,
 			credits: false,
 			components: {
+				Head: './src/components/Head.astro',
 				PageSidebar: './src/components/PageSidebar.astro',
 				Footer: './src/components/Footer.astro',
 			},
