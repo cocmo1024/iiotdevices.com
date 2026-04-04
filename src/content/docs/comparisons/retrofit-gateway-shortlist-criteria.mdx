@@ -13,56 +13,149 @@ targetRoles:
   - OT architects
   - Plant engineers
   - System integrators
-contentStatus: seed
+contentStatus: cornerstone
+problemSolved: How to narrow an industrial gateway shortlist to the few devices that match the actual retrofit boundary, instead of buying by feature count or future-state fantasy.
+readerTakeaway: You should leave with a shortlist method tied to protocol burden, support ownership, and current public hardware price classes, plus a clearer idea of when a converter or edge computer is the better answer.
+keyQuestions:
+  - What should remove a gateway from the shortlist quickly?
+  - How should buyers compare gateway, protocol-converter, and edge-computer economics?
+  - Which shortlist criteria matter most after commissioning instead of only during the demo?
+notFor:
+  - Greenfield systems where the control and network architecture can be specified from scratch
+  - Projects already committed to a specific platform ecosystem
+  - Teams that have not yet defined the upstream consumer and protocol boundary
+updateTriggers:
+  - Public price changes across gateway, converter, and edge-device categories
+  - New vendor releases that materially shift brownfield device classes
+  - Changes in common historian, MES, or cloud ingestion patterns
 ---
 
 import { LinkCard } from '@astrojs/starlight/components';
 
 # Retrofit Gateway Shortlist Criteria
 
-Gateway buying goes wrong when teams shop by maximum feature set. Retrofit projects rarely reward the richest box. They reward the boundary device that fits the actual translation burden, service model, and upstream destination with the least long-term friction.
+Gateway buying goes wrong when the team shops for the richest box instead of the cleanest boundary. Brownfield work rewards devices that solve the real retrofit problem with the least long-term friction. That means protocol fit, buffering, commissioning simplicity, and replacement support matter more than the broadest feature list. A shorter, better shortlist is usually the sign of a healthier buying process.
 
-## Comparison scope
+## Quick answer
 
-This shortlist framework is for projects where the plant already knows it needs a gateway-class device or is deciding whether a gateway is better than a smaller bridge device. The comparison should focus on:
+Shortlist by **job definition**, not by feature abundance. Start with the upstream consumer, the machine-side protocol burden, the amount of local buffering required, and who will support the device a year after install. If a device solves problems your plant does not actually have, it does not belong in the first shortlist. The goal is not to buy the most capable gateway. It is to buy the smallest device that can survive the first rollout cleanly.
 
-- protocol access and translation fit;
-- local buffering or store-and-forward needs;
-- segmentation and security role;
-- supportability after install.
+## The four questions that should shape the shortlist
 
-## Decision criteria
+Before comparing brands, answer these:
 
-The most useful shortlist questions are usually:
+1. **What is the machine-side boundary?** Serial device, PLC Ethernet access, mixed-vendor line, or multi-protocol aggregation?
+2. **What is the upstream destination?** Historian, OEE tool, MES, SCADA, cloud broker, or alarm workflow?
+3. **How much local buffering or transformation is actually required?** Minutes of store-and-forward? Data normalization? Lightweight logic?
+4. **Who will own maintenance?** Integrator only, plant OT, controls team, or corporate digital team?
 
-- does the device solve the real machine-boundary problem or just add features;
-- how much local logic is truly necessary;
-- how many asset types and protocols must the device absorb;
-- can the plant support the configuration, monitoring, and replacement model.
+If those are still unresolved, the shortlist is premature.
 
-Those questions usually remove weak candidates faster than a large spec spreadsheet does.
+## Public device-class price snapshot checked April 4, 2026
 
-## Where simpler options fit
+These are public web anchors, not turnkey system prices:
 
-A smaller bridge or converter may be enough when:
+| Public listing | Published price snapshot | Shortlist meaning |
+| --- | --- | --- |
+| [Advantech UNO-220-P4N1AE on DigiKey](https://www.digikey.com/en/products/detail/advantech-corporation/UNO-220-P4N1AE/12710097) | $137.70 | Useful reminder that some jobs only need a small boundary device |
+| [Moxa MGate MB3170-T public listing on DigiKey Marketplace](https://www.digikey.com/en/products/detail/icomtech-inc/MGATE-MB3170/14671422) | public listings around $586 to $615 | Translation and protocol ownership move you into a more serious gateway budget |
+| [AAEON BOXER-6646-ADP eShop listing](https://www.aaeon.com/en/p/industrial-fanless-box-pcs-boxer-6646-adp) | starting at $1,719 | A real edge platform should be bought only when compute and application needs are explicit |
 
-- the main task is exposing serial or one-off legacy devices;
-- local compute or orchestration needs are limited;
-- support simplicity matters more than future flexibility;
-- the rollout scope is intentionally narrow.
+Those numbers matter because they expose a common mistake: teams compare a converter, a gateway, and an edge computer as if they were only brand variations. They are different device classes with different support burdens.
 
-A fuller gateway becomes more valuable when the project needs translation, buffering, segmentation, or multi-protocol ownership in one place.
+## What should eliminate a candidate quickly
 
-## Failure cases
+A device should drop off the shortlist early if:
 
-Shortlists often fail when:
+- it requires more local logic than the plant can realistically support;
+- replacement or reconfiguration would be painful during a night-shift failure;
+- it solves for future application sprawl instead of the first brownfield requirement;
+- the vendor path is weak for the protocols you actually need.
 
-- the team mixes pilot and future-state requirements into one buying decision;
-- the chosen device is too complex for the actual maintenance model;
-- protocol debates happen without a clear upstream consumer requirement;
-- the project buys for theoretical scale before proving the first pattern.
+Removing bad-fit devices quickly matters more than scoring 20 good-enough features.
 
-The best shortlist is usually the one that can survive the first rollout and still be supportable a year later.
+## The shortlist criteria that matter after installation
+
+Strong retrofit shortlists focus on:
+
+| Criterion | Why it matters after go-live |
+| --- | --- |
+| Protocol fit | Determines whether the device will remain stable without custom workarounds |
+| Buffering behavior | Protects data continuity during network interruptions |
+| Configuration clarity | Reduces support burden when tags or routes need updates |
+| Security and segmentation role | Prevents the gateway from becoming an unmanaged weak point |
+| Replaceability | Determines whether maintenance can recover from failure without expert-only knowledge |
+| Vendor and distributor availability | Matters when rollout expands or one unit fails at the wrong time |
+
+This is the part buyers often underestimate. The first demo may work on many devices. The long-term support model will not.
+
+## When a smaller device is the smarter answer
+
+A converter or smaller bridge is often enough when:
+
+- the project only needs serial or narrow protocol exposure;
+- there is little or no need for local compute;
+- the rollout is intentionally narrow;
+- support simplicity matters more than future flexibility.
+
+This is the most common way to avoid paying gateway or edge premiums before the use case is proven.
+
+## When a fuller gateway is worth it
+
+A gateway is usually worth the extra spend when:
+
+- the machine boundary needs translation and buffering in one place;
+- multiple protocols or asset types need to be normalized;
+- the plant needs a more durable boundary device than a simple bridge;
+- upstream systems will benefit from a stable, repeatable integration pattern.
+
+This is where the price jump from roughly $100 class hardware toward several hundred dollars can be justified.
+
+## When edge compute belongs on the table
+
+Bring edge systems into the shortlist only when the project truly needs:
+
+- local applications or heavier preprocessing;
+- containerized workloads or broker services;
+- broader multi-machine orchestration;
+- more complex data conditioning than a gateway should own.
+
+If those needs are not explicit, edge devices usually make the shortlist look more strategic while making the rollout harder to support.
+
+## The hidden cost buyers forget
+
+Hardware price is not the main financial risk. The hidden cost is buying a device class your plant cannot maintain:
+
+- custom logic no one documents;
+- protocol routing no one understands after turnover;
+- firmware and backup practices that only the integrator can recover;
+- device features that invite scope creep without ownership.
+
+That is why a more expensive box can still be a worse economic choice than a simpler gateway if it creates long-term dependency.
+
+## A practical shortlist method
+
+Use this sequence:
+
+1. Group candidates by device class before comparing brands.
+2. Remove anything that exceeds the support model.
+3. Match the remaining devices against the exact protocol boundary.
+4. Pressure-test buffer behavior and replacement procedure.
+5. Compare public hardware prices only after the architectural fit is clear.
+
+That order prevents the shortlist from being hijacked by attractive but unnecessary features.
+
+## Implementation checklist
+
+The shortlist is healthy when:
+
+- the team can explain why each remaining device class is still in scope;
+- hardware prices are being compared within the same class, not across mismatched categories;
+- the maintenance and replacement model is documented;
+- the upstream consumer and machine-side protocol are already known;
+- future expansion is considered, but not allowed to overrule the first rollout.
+
+If those points are fuzzy, the shortlist is still too broad.
 
 ## Next-step references
 
@@ -70,7 +163,7 @@ The best shortlist is usually the one that can survive the first rollout and sti
 	<LinkCard
 		title="Industrial gateways"
 		href="/product-families/industrial-gateways/"
-		description="Use the category page to decide when a gateway is truly the right device class."
+		description="Use the category page to decide whether gateway-class hardware is truly required."
 	/>
 	<LinkCard
 		title="Protocol converters and serial device servers"
@@ -83,8 +176,8 @@ The best shortlist is usually the one that can survive the first rollout and sti
 		description="Keep the shortlist tied to the deployment environment instead of buying in the abstract."
 	/>
 	<LinkCard
-		title="OPC UA vs MQTT for machine data aggregation"
-		href="/protocols/opc-ua-vs-mqtt-for-machine-data-aggregation/"
-		description="Match gateway capabilities to the transport role the architecture actually needs."
+		title="Gateway vs edge computer for retrofit data projects"
+		href="/comparisons/gateway-vs-edge-computer-for-retrofit-data-projects/"
+		description="Use device-class logic before adding compute to a brownfield rollout."
 	/>
 </div>

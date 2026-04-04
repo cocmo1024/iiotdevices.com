@@ -13,47 +13,149 @@ targetRoles:
   - OT architects
   - Manufacturing leaders
   - System integrators
-contentStatus: seed
+contentStatus: cornerstone
+problemSolved: How to get operationally useful OEE and downtime data out of older machines without overspending on hardware, disturbing controls, or creating an unmaintainable signal map.
+readerTakeaway: You should leave with a practical signal plan, a device-class budget anchor based on current public prices, and a clearer sense of what a credible first-phase OEE project should and should not try to do.
+keyQuestions:
+  - Which machine states and counters are enough to make a first OEE or downtime project useful?
+  - When is a lightweight gateway enough and when do you need protocol conversion or edge compute?
+  - Which retrofit habits create reporting noise or support burden instead of plant visibility?
+notFor:
+  - Plants that can redesign the control architecture cleanly instead of retrofitting
+  - Programs trying to solve full MES context before basic machine-state visibility exists
+  - Teams with no shutdown window or no access to trustworthy machine signals
+updateTriggers:
+  - Price changes in common gateway and edge hardware classes
+  - New public product releases that materially change retrofit device economics
+  - New lessons from mixed-vendor OEE or downtime rollouts
 ---
 
 import { LinkCard } from '@astrojs/starlight/components';
 
 # OEE and Downtime Data from Legacy Lines
 
-OEE and downtime projects are often the business case that finally pushes legacy-line connectivity into action. The challenge is that older lines rarely expose every signal cleanly, and the plant still needs useful operational visibility long before a broader controls modernization is approved.
+OEE and downtime projects are often the first brownfield initiative that gets real executive attention. They sound simple: collect run, stop, count, and loss information from older assets so leadership can see where throughput is being lost. In practice, these projects go wrong when teams chase every signal the line can expose instead of the smaller set of signals that operators, supervisors, and maintenance actually need to trust. The first win is not a perfect digital twin. It is reliable production-state visibility that survives commissioning and shift turnover.
 
-## Why this application matters commercially
+## Quick answer
 
-Plants usually pursue this work because they want:
+Most legacy-line OEE projects should start with a narrow signal pack: machine running, machine stopped, fault or alarm present, part count if available, and a small set of downtime reason inputs if the process can support them. The cheapest successful architecture is usually the smallest one that can collect those signals cleanly, buffer them safely, and forward them into the reporting stack. If your first phase needs extensive local logic, custom scripts, or a large edge footprint, you are probably trying to solve phase three in phase one.
 
-- clearer downtime attribution;
-- higher confidence in production-loss discussions;
-- faster visibility into chronic line interruptions;
-- a first data layer that justifies broader digital projects later.
+## What the first deployment actually needs to prove
 
-That makes the traffic valuable because the reader is often connecting a live operational problem to a hardware shortlist.
+The first rollout does not need to solve every metric. It needs to prove:
 
-## Site constraints and pressures
+- the plant can trust the line-state timeline;
+- stop events are captured consistently enough to be actionable;
+- counts or cycle indicators are stable enough to support rough availability analysis;
+- the support team knows who owns tags, mappings, and troubleshooting.
 
-Legacy lines often bring:
+If those four things are not yet true, more data volume will not improve the project.
 
-- mixed controller generations and inconsistent documentation;
-- serial interfaces or vendor-specific protocols;
-- narrow maintenance windows;
-- a need to prove value before expanding scope.
+## The smallest useful signal model
 
-This is why useful OEE data projects often begin with a few trusted signals rather than a full instrumentation fantasy.
+For older lines, the most useful first model is usually:
 
-## Architecture implications
+| Signal type | Why it matters | Common source |
+| --- | --- | --- |
+| Run / idle / stop state | Required for availability and downtime windows | PLC bit, machine relay, or controller register |
+| Fault active | Distinguishes planned waiting from actual abnormal condition | Alarm summary bit or fault relay |
+| Part count or cycle complete | Gives production context without full recipe modeling | Counter register, photoeye, PLC tag |
+| Manual downtime reason | Often more valuable than guessed machine semantics | Operator HMI or separate input workflow |
+| Communication heartbeat | Confirms the data path is healthy | Gateway or application-level health point |
 
-Strong projects usually define:
+That signal pack is not glamorous, but it is often enough to create a trustworthy first dashboard and a usable downtime conversation.
 
-- which states and events matter most for downtime visibility;
-- where collection should happen without disturbing the machine;
-- whether local buffering is needed;
-- which upstream path fits the reporting or analytics stack.
+## Public hardware price snapshot checked April 4, 2026
 
-The better architecture usually starts with operationally meaningful signals, not maximum data volume.
+These public web prices are not complete project cost. They are sanity checks on device class economics:
+
+| Public listing | Published price snapshot | What it tells you |
+| --- | --- | --- |
+| [Advantech UNO-220-P4N1AE on DigiKey](https://www.digikey.com/en/products/detail/advantech-corporation/UNO-220-P4N1AE/12710097) | $137.70 | A very low-cost boundary device can be enough for small, narrow data jobs |
+| [Moxa MGate MB3170-T public listing on DigiKey Marketplace](https://www.digikey.com/en/products/detail/icomtech-inc/MGATE-MB3170/14671422) | public listings around $586 to $615 | Protocol conversion quickly costs more than a simple gateway, even before integration labor |
+| [AAEON BOXER-6646-ADP eShop listing](https://www.aaeon.com/en/p/industrial-fanless-box-pcs-boxer-6646-adp) | starting at $1,719 | Real edge compute is a different budget class and should be justified by local processing needs |
+
+The important lesson is that hardware cost jumps as soon as the architecture shifts from "collect and forward" to "translate, buffer, preprocess, or host applications." In OEE work, that jump is only worth it when the line truly needs it.
+
+## Why labor and support still dominate cost
+
+Even with public hardware anchors, the real project cost usually sits in:
+
+- machine signal discovery;
+- controller documentation cleanup;
+- tag mapping and data-model alignment;
+- commissioning during short outage windows;
+- operator and maintenance trust-building after go-live.
+
+That is why OEE projects often fail by buying too much box and too little clarity. The plant needs fewer ambiguous points, not more features.
+
+## When a cheap gateway is enough
+
+A low-cost boundary device is usually enough when:
+
+- the project only needs a small number of cleanly exposed signals;
+- the machine already has accessible PLC data;
+- there is little need for local logic or local applications;
+- the destination system can handle straightforward ingestion.
+
+This is a common first phase for one machine or one pilot line. It becomes much less attractive when every machine speaks differently or serial conversion is unavoidable.
+
+## When protocol conversion is worth paying for
+
+A protocol-conversion device becomes worthwhile when:
+
+- the line includes serial or vendor-specific communication you cannot avoid;
+- the project needs a clean upstream data interface for historians, dashboards, or OEE tools;
+- the plant wants to avoid writing brittle custom translation code;
+- maintenance needs a stable replacement and support model.
+
+This is usually where price moves from "small pilot accessory" into "real retrofit hardware." That is not a problem if the architecture actually needs the translation burden.
+
+## When edge compute earns its place
+
+Edge compute should be justified, not assumed. It usually makes sense when:
+
+- multiple machines or data sources need local normalization;
+- network interruptions require more serious local buffering or logic;
+- the project needs applications, custom processing, or containerized services;
+- the plant plans to reuse the pattern broadly and needs a stronger local platform.
+
+If the only requirement is to push a few machine-state bits upstream, edge compute is often an expensive distraction.
+
+## The most common failure pattern
+
+The most common failure pattern is trying to produce full OEE precision before proving the data path. Teams attempt:
+
+- deep reason-code taxonomies before basic state capture is stable;
+- too many tags with weak naming discipline;
+- control changes that are harder to support than the reporting gain is worth;
+- edge hardware because it feels future-proof.
+
+Those projects look ambitious in kickoff meetings and fragile on the plant floor.
+
+## A better first-phase budget conversation
+
+Instead of asking "What is the best OEE platform?" ask:
+
+1. Which five to ten signals would make downtime discussion better next month?
+2. What is the smallest hardware class that can expose those signals cleanly?
+3. How much protocol conversion is unavoidable?
+4. Who will maintain mappings after the integrator leaves?
+5. What is the first dashboard or report that operators and supervisors will actually use?
+
+That framing produces a better buying path than platform-first thinking.
+
+## Implementation checklist
+
+The first phase is ready when:
+
+- run, stop, and fault-state definitions are documented;
+- the destination system for counts and downtime events is already chosen;
+- the team has matched the device class to the actual data job;
+- price expectations reflect hardware class and integration reality;
+- the support owner after commissioning is named.
+
+If several of those points are still soft, the project is still in discovery, not deployment.
 
 ## Related paths
 
@@ -61,21 +163,21 @@ The better architecture usually starts with operationally meaningful signals, no
 	<LinkCard
 		title="Machine connectivity retrofits"
 		href="/applications/machine-connectivity-retrofits/"
-		description="Place OEE projects inside the broader retrofit sequence."
+		description="Place OEE work inside the larger brownfield rollout sequence."
 	/>
 	<LinkCard
 		title="PLC data collection for mixed-vendor lines"
 		href="/applications/plc-data-collection-for-mixed-vendor-lines/"
-		description="See how the data-access problem behaves when controllers vary across the line."
+		description="See how OEE projects change when controller families vary across the line."
 	/>
 	<LinkCard
 		title="Gateway vs edge computer for retrofit data projects"
 		href="/comparisons/gateway-vs-edge-computer-for-retrofit-data-projects/"
-		description="Choose the smallest useful boundary device for line-level data collection."
+		description="Use device-class economics to keep a narrow OEE rollout from overbuilding."
 	/>
 	<LinkCard
-		title="Polling vs publish for legacy machine data"
-		href="/protocols/polling-vs-publish-for-legacy-machine-data/"
-		description="Decide how aggressively the line should be queried after access is established."
+		title="Retrofit gateway shortlist criteria"
+		href="/comparisons/retrofit-gateway-shortlist-criteria/"
+		description="Shortlist boundary devices using the real retrofit burden instead of spec-sheet anxiety."
 	/>
 </div>
