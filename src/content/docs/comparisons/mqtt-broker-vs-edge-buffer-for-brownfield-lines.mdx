@@ -1,0 +1,174 @@
+---
+title: MQTT Broker vs Edge Buffer for Brownfield Lines
+description: A practical comparison for industrial teams deciding whether a brownfield line first needs a broker-centric data architecture or a simpler edge buffer at the machine boundary.
+referenceType: comparison
+adProfile: comparison
+commercialIntent: high
+reviewCadence: Quarterly review
+primaryKeyword: mqtt broker vs edge buffer for brownfield lines
+searchIntent: compare
+decisionStage: solution-aware
+targetRoles:
+  - OT architects
+  - Plant digital leads
+  - Industrial data engineers
+  - System integrators
+contentStatus: cornerstone
+problemSolved: How to decide whether brownfield line data should first be stabilized with edge buffering at the machine boundary or organized around a broker-centric publish architecture.
+readerTakeaway: You should leave with a decision model tied to data quality, outage behavior, consumer count, and public infrastructure price anchors instead of treating MQTT as a default modernization checkbox.
+keyQuestions:
+  - When is a broker actually useful for a brownfield line, and when is it too early?
+  - What does an edge buffer solve that a central broker does not?
+  - How should teams compare recurring broker economics with the simplicity of a narrower boundary device?
+notFor:
+  - Greenfield architectures already built around event-native data models
+  - Teams that have not yet defined the first upstream consumer of the data
+  - Projects using MQTT language without any plan for topic governance or event quality
+updateTriggers:
+  - Public pricing changes across managed MQTT platforms
+  - Shifts in industrial data platform adoption that change broker or edge-buffer economics
+  - New vendor products that materially alter the machine-boundary buffering class
+---
+
+import { LinkCard } from '@astrojs/starlight/components';
+
+# MQTT Broker vs Edge Buffer for Brownfield Lines
+
+Brownfield teams often hear "use MQTT" early in modernization discussions, especially when industrial AI, unified namespace thinking, or cross-system data reuse enters the conversation. That advice is not wrong, but it is often early. Many lines do not fail because they lack a broker. They fail because the machine boundary is unstable, buffering behavior is weak, and nobody has decided which consumer the data is supposed to serve first.
+
+## Quick answer
+
+Use an **edge buffer first** when the line still needs a clean machine boundary, resilient store-and-forward behavior, and a narrow first consumer. Use a **broker-first architecture** when the data is already stable enough to support several downstream consumers, event discipline is real, and the organization can own topic governance and platform operations. The healthier first step for many brownfield lines is still a buffer before a broker.
+
+## Why this matters now
+
+MQTT and broker-centric architectures are getting more attention because plants want reusable data for analytics, AI, and broader system integration. At the same time, vendors are pushing more edge and industrial data platforms that make publish architectures more accessible. The trap is assuming the presence of modern tooling means the line is ready for publish discipline. It often is not.
+
+## What an edge buffer is actually solving
+
+An edge buffer at the machine boundary is usually responsible for:
+
+- collecting from the machine-side protocols;
+- stabilizing timestamps and buffering through interruptions;
+- normalizing values into a smaller, more trustworthy set of outputs;
+- feeding one or a few upstream systems without broad event choreography.
+
+It is especially strong when the line still has to prove that its states, tags, and buffering behavior are reliable.
+
+## What a broker is actually solving
+
+A broker is strongest when the architecture already needs:
+
+- several subscribers with different consumption patterns;
+- decoupled data distribution;
+- publish-subscribe semantics across a broader system;
+- topic governance that several teams can operate consistently.
+
+Those are real strengths. They are just not automatically the first thing a brownfield line needs.
+
+## Public infrastructure anchors checked April 9, 2026
+
+These are public infrastructure anchors, not complete platform costs:
+
+| Public pricing source | Published price snapshot | Why it matters |
+| --- | --- | --- |
+| [HiveMQ pricing](https://www.hivemq.com/pricing/) | Serverless from $0.34 per hour and $0.80 per million messages | Broker economics are no longer abstract, but they are still recurring operating costs |
+| [EMQX pricing](https://www.emqx.com/en/pricing) | Dedicated Flex from $234 per month | Managed broker layers are affordable enough to tempt early adoption before the data boundary is ready |
+| [Advantech UNO-220-P4N1AE on DigiKey](https://www.digikey.com/en/products/detail/advantech-corporation/UNO-220-P4N1AE/12710097) | $137.70 | A simple boundary device can be dramatically cheaper than a broker program if the line only needs buffering and forwarding |
+| [AAEON BOXER-6646-ADP](https://eshop.aaeon.com/compact-fanless-box-pc-solutions-12th-intel-processor-boxer-6646-adp.html) | As low as $1,719 | Broader edge infrastructure becomes reasonable only when the line actually needs local software or multi-consumer orchestration |
+
+These prices matter because the platform decision is partly an operating model decision. Broker-first systems add recurring platform responsibility. Edge-buffer systems add boundary-device responsibility.
+
+## When edge buffer should come first
+
+Choose edge buffering first when:
+
+- the line is still cleaning up machine states and events;
+- the first downstream consumer is known and narrow;
+- network interruption behavior still needs proving;
+- topic governance would be premature because the data model is still moving;
+- the team wants the smallest workable architecture for the first rollout.
+
+This is the more honest first step for many retrofits.
+
+## When a broker is worth adding early
+
+Choose broker-first earlier when:
+
+- several consumers already need the same data in different ways;
+- event publishing is materially better than polling for the use case;
+- the organization can enforce topic and payload discipline;
+- the plant is not only collecting data but building a wider event-driven operating model.
+
+In that case, the broker is not extra complexity. It is the architecture.
+
+## The hidden cost of broker-first too early
+
+Teams that go broker-first too early often inherit:
+
+- topic sprawl;
+- inconsistent payload conventions;
+- data consumers built on unstable semantics;
+- recurring platform cost before the data proves its worth;
+- confusion between "we can publish" and "we publish something useful."
+
+That is not a broker problem. It is a readiness problem.
+
+## The hidden cost of staying buffer-only too long
+
+Teams that stay too narrow for too long can end up with:
+
+- several point integrations instead of a reusable event layer;
+- duplicate transformation logic;
+- weak decoupling between producers and consumers;
+- growing pressure to rebuild the architecture later.
+
+The right answer depends on how many consumers and workflow paths are already real, not imagined.
+
+## A practical decision test
+
+Use these questions:
+
+1. Does the line have one primary consumer or several real consumers today?
+2. Are the data model and machine states stable enough to publish broadly?
+3. Is the biggest current problem delivery resilience or subscriber flexibility?
+4. Who will own topic governance and broker operations?
+5. Would the architecture still make sense if only one consumer existed for the next year?
+
+If the fifth answer is "no," broker-first is often premature.
+
+## Implementation checklist
+
+The choice is defensible when:
+
+- the first consumer and future consumers are explicit;
+- outage and buffering behavior are understood;
+- topic governance has a named owner if a broker is introduced;
+- the team can explain why the chosen path is better than the simpler alternative.
+
+That is what turns MQTT from a buzzword into an architectural decision.
+
+## Compare next
+
+<div class="portal-links">
+	<LinkCard
+		title="Preparing brownfield machine data for industrial AI"
+		href="/applications/preparing-brownfield-machine-data-for-industrial-ai/"
+		description="The broker question only makes sense after the machine data boundary is clean enough to trust."
+	/>
+	<LinkCard
+		title="PLC data collection for mixed-vendor lines"
+		href="/applications/plc-data-collection-for-mixed-vendor-lines/"
+		description="Use a real collection problem to test whether the line is ready for broader publish architecture."
+	/>
+	<LinkCard
+		title="Industrial edge AI devices"
+		href="/product-families/industrial-edge-ai-devices-for-brownfield-lines/"
+		description="Local compute and broker decisions often get confused; this page helps separate them."
+	/>
+	<LinkCard
+		title="Gateway vs edge computer"
+		href="/comparisons/gateway-vs-edge-computer-for-retrofit-data-projects/"
+		description="Decide whether the site needs a narrow boundary device or a broader local compute tier."
+	/>
+</div>

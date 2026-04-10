@@ -1,26 +1,271 @@
 ---
 title: Gateways, Edge Computers, and RTUs
 description: A practical comparison of three frequently confused hardware classes in industrial telemetry and connectivity projects.
+referenceType: comparison
+adProfile: comparison
+commercialIntent: high
+reviewCadence: Quarterly review
+primaryKeyword: gateways edge computers and rtus
+searchIntent: compare
+decisionStage: solution-aware
+targetRoles:
+  - OT architects
+  - Controls engineers
+  - Technical buyers
+  - System integrators
+contentStatus: cornerstone
+problemSolved: How to distinguish gateways, edge computers, and RTUs by job boundary so industrial teams stop buying the wrong hardware class for brownfield connectivity and remote operations.
+readerTakeaway: You should leave with a cleaner decision model tied to protocol burden, local software scope, field autonomy, and long-run support ownership instead of comparing these device classes by marketing labels.
+keyQuestions:
+  - When is a gateway the correct answer instead of an edge computer?
+  - What makes an RTU materially different from a general edge device?
+  - Which support and lifecycle burdens usually matter more than compute power or feature count?
+notFor:
+  - Greenfield control systems already standardized on a single platform architecture
+  - Projects where the team already knows the hardware class and only needs model-level comparison
+  - Buyers trying to compare products before defining the field and upstream boundaries
+updateTriggers:
+  - New vendor releases that materially blur device-class boundaries
+  - Changes in public edge-compute or gateway price classes
+  - Shifts in common industrial AI and telemetry workloads that alter local software expectations
 ---
+
+import { LinkCard } from '@astrojs/starlight/components';
 
 # Gateways, Edge Computers, and RTUs
 
-These categories overlap just enough to confuse many buying decisions. The right answer depends less on marketing language and more on how much control logic, compute ownership, and field reliability the site actually requires.
+These categories overlap just enough to confuse many buying decisions. The right answer depends less on marketing language and more on how much control logic, compute ownership, and field autonomy the site actually requires. Plants and utilities lose time and money when they buy a broader class than the job needs, or worse, when they buy an appliance-class device for a workload that clearly needs local software ownership.
+
+## Quick answer
+
+Use a **gateway** when translation, buffering, and upstream transport are the main job. Use an **RTU** when remote-site autonomy, deterministic field behavior, and sparse communications matter more than software flexibility. Use an **edge computer** when the site genuinely needs local applications, analytics, or orchestration and the team is ready to own that software burden over time.
+
+If the team cannot state which of those three jobs it has, the hardware comparison is too early.
+
+## Why these categories get confused
+
+Vendors increasingly blend these classes because buyers want fewer boxes and more flexibility. That is understandable, but the operational consequences are still different:
+
+- a gateway usually reduces complexity by narrowing the device role;
+- an RTU usually reduces risk by favoring autonomy and deterministic field behavior;
+- an edge computer usually expands capability and support burden at the same time.
+
+The mistake is assuming "more capability" automatically means "better choice."
+
+## Public device-class anchors checked April 9, 2026
+
+These are public class anchors, not complete deployment prices:
+
+| Public hardware source | Published price snapshot | What it suggests |
+| --- | --- | --- |
+| [Advantech UNO-220-P4N1AE on DigiKey](https://www.digikey.com/en/products/detail/advantech-corporation/UNO-220-P4N1AE/12710097) | $137.70 | Some boundary jobs are small enough that overbuying compute is a bigger risk than underbuying |
+| [Digi IX10 on DigiKey](https://www.digikey.com/en/products/detail/digi/IX10-00G4/13278039) | $419.00 | A midrange industrial routing and gateway class often covers remote telemetry work without requiring full edge-compute ownership |
+| [AAEON BOXER-6646-ADP](https://eshop.aaeon.com/compact-fanless-box-pc-solutions-12th-intel-processor-boxer-6646-adp.html) | As low as $1,719 | Once a project becomes a real edge-compute problem, the price class usually steps up fast |
+
+The point is not that one class is "cheaper." The point is that every jump in class usually adds a long-run support obligation too.
 
 ## Use a gateway when
 
-- Protocol translation and upstream connectivity are the primary job.
-- The site does not justify a heavy local software footprint.
-- The operating model favors simpler deployment and lower maintenance overhead.
+- protocol translation and upstream connectivity are the primary job;
+- the site needs buffering but not a broad local software footprint;
+- the operating model favors simpler deployment and lower maintenance overhead;
+- the team wants the device to own a narrow, stable boundary.
+
+A gateway is often the healthiest answer for brownfield machine data, protocol conversion, and moderate site integration work.
 
 ## Use an RTU when
 
-- Remote monitoring and deterministic light control are central requirements.
-- Field reliability and low-touch operation matter more than local application flexibility.
-- The team wants a control-oriented remote asset footprint.
+- remote monitoring and deterministic light control are central requirements;
+- the site may have sparse communications, strict power realities, or long maintenance intervals;
+- field reliability and low-touch operation matter more than local application flexibility;
+- the architecture benefits from a control-oriented remote asset footprint.
+
+The RTU remains strong because many remote sites do not need local software freedom. They need predictable field behavior.
 
 ## Use an edge computer when
 
-- Local analytics, storage, custom applications, or complex integrations are required.
-- The team can own patching, software updates, and application lifecycle tasks.
-- The site benefits from compute flexibility more than appliance simplicity.
+- local analytics, storage, custom applications, or complex integrations are required;
+- the team can own patching, software updates, and application lifecycle tasks;
+- the site benefits from compute flexibility more than appliance simplicity;
+- the project has a concrete local software role, not only a vague "AI-ready" ambition.
+
+This is the right class only when the organization is ready to support the software burden that comes with it.
+
+## What matters more than features
+
+The best device-class decision usually turns on:
+
+- who owns maintenance after commissioning;
+- whether the site truly needs local applications or only transport and buffering;
+- how risky outages or missed updates are;
+- whether field autonomy matters more than software extensibility;
+- how much the team values a narrow appliance role over open compute.
+
+Those questions usually matter more than raw processor specs or port count.
+
+## The hidden cost buyers forget
+
+The wrong class often shows up later as:
+
+- unowned software updates on an edge computer;
+- a gateway being stretched into application hosting it was never meant to do;
+- an RTU being forced into enterprise-style integration work that it does not fit well;
+- a support model that assumes plant OT, IT, and integrators all own the same problem.
+
+That is why this comparison is not really about devices. It is about operational boundaries.
+
+## A practical decision test
+
+Use these questions:
+
+1. Is the main job translation and transport, field autonomy, or local software execution?
+2. Can the site tolerate a heavier maintenance footprint?
+3. Does the project need local compute now, or only cleaner data movement?
+4. Is WAN interruption a field-control issue or only a data-delivery issue?
+5. Who will patch and troubleshoot the device class a year from now?
+
+If the answer to the fifth question is fuzzy, the team should bias toward the simpler class.
+
+## When teams should move down a class
+
+Move down from edge computer to gateway when:
+
+- local application requirements are still hypothetical;
+- the site mainly needs buffering and translation;
+- the team has no realistic software owner;
+- the premium hardware budget is easier to justify than the premium support model.
+
+Move down from gateway to RTU when:
+
+- the environment is more remote, sparse, and deterministic than software-centric;
+- field autonomy matters more than integration flexibility.
+
+## Implementation checklist
+
+The class choice is strong when:
+
+- the site job boundary is named clearly;
+- the support owner after commissioning is explicit;
+- the team can defend why the chosen class is better than the next simpler class;
+- the architecture does not assume hidden software ownership it cannot actually fund or staff.
+
+That is when the comparison becomes operationally useful.
+
+## Compare next
+
+<div class="portal-links">
+	<LinkCard
+		title="Industrial gateways"
+		href="/product-families/industrial-gateways/"
+		description="Use the category page when the real job is translation, buffering, and integration boundary control."
+	/>
+	<LinkCard
+		title="Gateway vs edge computer"
+		href="/comparisons/gateway-vs-edge-computer-for-retrofit-data-projects/"
+		description="Go deeper on the boundary between transport devices and software-hosting devices in retrofit programs."
+	/>
+	<LinkCard
+		title="Remote sites and telemetry"
+		href="/applications/remote-sites-and-telemetry/"
+		description="Use a field deployment context to test when RTU logic and autonomy belong in the design."
+	/>
+	<LinkCard
+		title="MQTT broker vs edge buffer"
+		href="/comparisons/mqtt-broker-vs-edge-buffer-for-brownfield-lines/"
+		description="Data infrastructure choices often reveal whether the site really needs a software-hosting edge tier."
+	/>
+</div>
+
+## When edge buffer should come first
+
+Choose edge buffering first when:
+
+- the line is still cleaning up machine states and events;
+- the first downstream consumer is known and narrow;
+- network interruption behavior still needs proving;
+- topic governance would be premature because the data model is still moving;
+- the team wants the smallest workable architecture for the first rollout.
+
+This is the more honest first step for many retrofits.
+
+## When a broker is worth adding early
+
+Choose broker-first earlier when:
+
+- several consumers already need the same data in different ways;
+- event publishing is materially better than polling for the use case;
+- the organization can enforce topic and payload discipline;
+- the plant is not only collecting data but building a wider event-driven operating model.
+
+In that case, the broker is not extra complexity. It is the architecture.
+
+## The hidden cost of broker-first too early
+
+Teams that go broker-first too early often inherit:
+
+- topic sprawl;
+- inconsistent payload conventions;
+- data consumers built on unstable semantics;
+- recurring platform cost before the data proves its worth;
+- confusion between "we can publish" and "we publish something useful."
+
+That is not a broker problem. It is a readiness problem.
+
+## The hidden cost of staying buffer-only too long
+
+Teams that stay too narrow for too long can end up with:
+
+- several point integrations instead of a reusable event layer;
+- duplicate transformation logic;
+- weak decoupling between producers and consumers;
+- growing pressure to rebuild the architecture later.
+
+The right answer depends on how many consumers and workflow paths are already real, not imagined.
+
+## A practical decision test
+
+Use these questions:
+
+1. Does the line have one primary consumer or several real consumers today?
+2. Are the data model and machine states stable enough to publish broadly?
+3. Is the biggest current problem delivery resilience or subscriber flexibility?
+4. Who will own topic governance and broker operations?
+5. Would the architecture still make sense if only one consumer existed for the next year?
+
+If the fifth answer is "no," broker-first is often premature.
+
+## Implementation checklist
+
+The choice is defensible when:
+
+- the first consumer and future consumers are explicit;
+- outage and buffering behavior are understood;
+- topic governance has a named owner if a broker is introduced;
+- the team can explain why the chosen path is better than the simpler alternative.
+
+That is what turns MQTT from a buzzword into an architectural decision.
+
+## Compare next
+
+<div class="portal-links">
+	<LinkCard
+		title="Preparing brownfield machine data for industrial AI"
+		href="/applications/preparing-brownfield-machine-data-for-industrial-ai/"
+		description="The broker question only makes sense after the machine data boundary is clean enough to trust."
+	/>
+	<LinkCard
+		title="PLC data collection for mixed-vendor lines"
+		href="/applications/plc-data-collection-for-mixed-vendor-lines/"
+		description="Use a real collection problem to test whether the line is ready for broader publish architecture."
+	/>
+	<LinkCard
+		title="Industrial edge AI devices"
+		href="/product-families/industrial-edge-ai-devices-for-brownfield-lines/"
+		description="Local compute and broker decisions often get confused; this page helps separate them."
+	/>
+	<LinkCard
+		title="Gateway vs edge computer"
+		href="/comparisons/gateway-vs-edge-computer-for-retrofit-data-projects/"
+		description="Decide whether the site needs a narrow boundary device or a broader local compute tier."
+	/>
+</div>

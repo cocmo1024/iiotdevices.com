@@ -76,10 +76,12 @@ body {
 	font-weight: 650;
 	letter-spacing: -0.05em;
 	max-width: 12ch;
+	text-wrap: balance;
 }
 
 .hero .tagline {
 	max-width: 42rem;
+	text-wrap: pretty;
 }
 
 .hero .actions a:first-child,
@@ -231,6 +233,7 @@ body {
 	margin: 0 0 0.55rem;
 	font-size: 1rem;
 	color: var(--sl-color-white);
+	text-wrap: balance;
 }
 
 .footer-commercial__copy p {
@@ -251,6 +254,7 @@ body {
 
 .sl-markdown-content :is(h1, h2, h3) {
 	letter-spacing: -0.03em;
+	text-wrap: balance;
 }
 
 .sl-markdown-content h2 {
@@ -260,7 +264,7 @@ body {
 
 .sidebar-pane,
 .main-pane {
-	backdrop-filter: blur(12px);
+	backdrop-filter: none;
 }
 
 .reference-signals {
@@ -279,6 +283,17 @@ body {
 	letter-spacing: 0.1em;
 	text-transform: uppercase;
 	color: var(--sl-color-accent-high);
+	text-wrap: balance;
+}
+
+@supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+	@media (min-width: 72rem) {
+		.sidebar-pane,
+		.main-pane {
+			backdrop-filter: blur(12px);
+			-webkit-backdrop-filter: blur(12px);
+		}
+	}
 }
 
 .reference-signals dl {
