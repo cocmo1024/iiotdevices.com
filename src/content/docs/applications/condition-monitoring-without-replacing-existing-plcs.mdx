@@ -1,0 +1,181 @@
+---
+title: Condition Monitoring Without Replacing Existing PLCs
+description: A practical guide for plants that want better condition and maintenance visibility from existing equipment without opening a full PLC replacement project.
+referenceType: application
+adProfile: application
+commercialIntent: high
+reviewCadence: Quarterly review
+primaryKeyword: condition monitoring without replacing existing plcs
+searchIntent: design
+decisionStage: solution-aware
+targetRoles:
+  - Reliability engineers
+  - Plant engineers
+  - OT architects
+  - Maintenance managers
+contentStatus: cornerstone
+problemSolved: How to add useful condition monitoring to brownfield equipment when the plant cannot justify replacing working PLCs just to get more modern data access.
+readerTakeaway: You should leave with a workable brownfield condition-monitoring model tied to sensor scope, PLC boundaries, gateway roles, and maintenance ownership.
+keyQuestions:
+  - What condition signals are worth adding before a PLC replacement?
+  - How should plants separate machine protection, operator control, and maintenance visibility?
+  - When is a gateway or edge layer enough, and when does the controls stack need deeper changes?
+notFor:
+  - Greenfield systems where controls and sensing can be designed together
+  - Sites trying to use vibration or thermal monitoring to compensate for poor maintenance basics
+  - Projects with no owner for thresholds, alarm review, or sensor upkeep after install
+updateTriggers:
+  - Shifts in brownfield sensor and gateway deployment patterns
+  - New vendor guidance on condition-monitoring retrofit architectures
+  - Changes in maintenance integration patterns with CMMS and historian systems
+---
+
+import { LinkCard } from '@astrojs/starlight/components';
+
+# Condition Monitoring Without Replacing Existing PLCs
+
+Many plants want better maintenance visibility but do not want to open a controls replacement project just to get there. That is a rational constraint. Existing PLCs may still run the machine reliably. The real question is how to add condition-monitoring value around them without creating a brittle side architecture that no one owns after commissioning.
+
+## Quick answer
+
+Plants can often add useful condition monitoring without replacing existing PLCs when they keep three boundaries clear:
+
+1. machine protection stays with the existing control system;
+2. added sensing is used for maintenance visibility, not for ungoverned control changes;
+3. a gateway, historian, or edge boundary handles aggregation and context instead of forcing every new signal through legacy logic.
+
+That approach keeps the retrofit focused on maintenance value rather than on proving that every old controller must become modern overnight.
+
+## The wrong reason plants get stuck
+
+Teams often assume they need one of two extremes:
+
+- replace the PLC so the machine becomes data ready; or
+- bolt on sensors everywhere and hope more data creates insight.
+
+Both are usually poor starting points. The healthier question is smaller: which failure modes are expensive enough that earlier visibility would change maintenance action?
+
+## What signals are usually worth adding first
+
+Condition monitoring is strongest when it begins with a narrow set of signals linked to known equipment risks:
+
+| Asset risk | Common first signals | Why this usually works |
+| --- | --- | --- |
+| Motor and drivetrain wear | Vibration, current, temperature | Good for early abnormality detection when tied to operating state |
+| Pneumatic or utility issues | Pressure, flow, cycle anomalies | Useful when failures show up as recurring downtime or quality loss |
+| Thermal drift or overheating | Temperature and load context | Valuable when process stability depends on consistent operating ranges |
+| Pump or fan degradation | Vibration, run hours, differential behavior | Helps maintenance teams separate degradation from random failure events |
+
+The key is that the signal should connect to a maintenance decision. If it does not, it becomes storage cost and dashboard clutter.
+
+## Where the new sensing should live
+
+The easiest brownfield architecture usually keeps the existing PLC in place and adds a separate visibility layer:
+
+- sensors feed a condition-monitoring path directly;
+- the existing PLC retains control ownership;
+- a gateway or edge boundary collects, buffers, and forwards the new maintenance data;
+- historian, dashboard, or CMMS integrations happen above that boundary.
+
+This avoids loading legacy control logic with every new signal and reduces the risk of turning a maintenance retrofit into a controls rewrite.
+
+## What the PLC should and should not own
+
+The existing PLC should usually continue to own:
+
+- machine protection and interlocks;
+- operator HMI behavior;
+- process sequencing;
+- deterministic control behavior.
+
+The added monitoring stack should usually own:
+
+- condition signals that are not safety-critical;
+- trend storage and diagnostic context;
+- maintenance notifications and review workflows;
+- data forwarding to analytics or reporting tools.
+
+That separation is one of the main reasons brownfield condition monitoring can move faster than full modernization.
+
+## When a gateway is enough
+
+A gateway is often enough when:
+
+- the site mainly needs aggregation, buffering, and forwarding;
+- the added signals are limited and straightforward;
+- analytics or alerting can happen upstream;
+- the plant wants low complexity at the machine boundary.
+
+This is often the healthier first step for plants proving maintenance value.
+
+## When local edge compute is justified
+
+An edge layer becomes more reasonable when:
+
+- the site needs local analytics during network interruptions;
+- multiple condition signals need local correlation or filtering;
+- the plant wants faster local response for diagnostic or maintenance workflows;
+- there is a real owner for software updates and lifecycle support.
+
+Without those needs, local compute often becomes a sophistication tax.
+
+## Common retrofit mistakes
+
+Condition-monitoring retrofits usually disappoint when:
+
+- signals are added without a failure-mode hypothesis;
+- the team cannot distinguish loaded from unloaded machine behavior;
+- thresholds are copied from vendors instead of tuned to plant reality;
+- the sensor path is not maintained after install;
+- alarms go to operators and maintenance teams without a review model.
+
+The site ends up collecting abnormality data that no one trusts enough to act on.
+
+## A better rollout model
+
+The durable sequence usually looks like this:
+
+1. pick one asset class with recurring downtime or high repair cost;
+2. define the small set of signals most likely to change maintenance action;
+3. add a gateway or collection boundary outside the legacy control path;
+4. validate signal quality across real operating states;
+5. prove that maintenance action changes before scaling the pattern.
+
+That keeps the retrofit attached to measurable reliability outcomes.
+
+## Implementation checklist
+
+Before scaling condition monitoring across more assets, confirm that:
+
+- the target failure modes are explicit;
+- the plant can interpret signals in operating context;
+- the control and maintenance boundaries are separate;
+- the gateway or edge layer has a support owner;
+- alarm review and work-order follow-up are defined.
+
+If these are still unclear, more sensors will not fix the problem.
+
+## Compare next
+
+<div class="portal-links">
+	<LinkCard
+		title="OEE and downtime data from legacy lines"
+		href="/applications/oee-and-downtime-data-from-legacy-lines/"
+		description="Use line-state visibility to decide whether maintenance data belongs in the same architecture or a separate one."
+	/>
+	<LinkCard
+		title="Machine connectivity retrofits"
+		href="/applications/machine-connectivity-retrofits/"
+		description="Ground condition-monitoring ambition in the actual retrofit boundary before expanding signal scope."
+	/>
+	<LinkCard
+		title="Gateway vs edge computer"
+		href="/comparisons/gateway-vs-edge-computer-for-retrofit-data-projects/"
+		description="Decide whether the retrofit needs simple forwarding or a more explicit local software role."
+	/>
+	<LinkCard
+		title="Industrial gateways"
+		href="/product-families/industrial-gateways/"
+		description="Review the device class that often owns the maintenance-data boundary in brownfield plants."
+	/>
+</div>

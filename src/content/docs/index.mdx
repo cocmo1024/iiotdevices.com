@@ -1,6 +1,6 @@
 ---
 title: IIoT Devices
-description: Structured reference system for industrial connectivity hardware, protocol fit, device categories, and comparison workflows.
+description: Structured reference system for industrial connectivity, machine data problems, retrofit architecture, and durable implementation decisions.
 template: splash
 referenceType: home
 adProfile: foundation
@@ -9,13 +9,13 @@ reviewCadence: Monthly review
 hero:
   title: |
     IIoT Devices
-  tagline: Structured reference system for industrial connectivity hardware, protocol fit, device categories, and comparison workflows.
+  tagline: Structured reference system for industrial connectivity, machine data problems, retrofit architecture, and durable implementation decisions.
   actions:
     - text: Browse applications
       link: /applications/
       icon: right-arrow
-    - text: Compare device classes
-      link: /comparisons/
+    - text: Browse device classes
+      link: /device-types/
       variant: minimal
 ---
 
@@ -38,7 +38,7 @@ import { Card, CardGrid, LinkCard, Steps } from '@astrojs/starlight/components';
 		Protocol fit, interoperability boundaries, and data transport choices tied to real equipment decisions.
 	</Card>
 	<Card title="Comparisons" icon="approve-check-circle">
-		Comparison workflows for shortlisting hardware, vendors, and architectures without skipping lifecycle tradeoffs.
+		Comparison pages used after the problem is clear, so architecture and support burden stay tied to the actual deployment.
 	</Card>
 </CardGrid>
 
@@ -71,9 +71,9 @@ import { Card, CardGrid, LinkCard, Steps } from '@astrojs/starlight/components';
 		description="Compare data transport, interoperability, and control boundaries before narrowing products."
 	/>
 	<LinkCard
-		title="Run comparisons"
+		title="Use comparisons carefully"
 		href="/comparisons/"
-		description="Use a structured buying workflow to compare options without collapsing important lifecycle differences."
+		description="Use comparison pages after the application, data path, and support boundary are already clear."
 	/>
 </div>
 
@@ -86,24 +86,24 @@ import { Card, CardGrid, LinkCard, Steps } from '@astrojs/starlight/components';
 		description="A durable cluster around machine data quality, local compute boundaries, and industrial AI preparation."
 	/>
 	<LinkCard
+		title="Quality and traceability from legacy lines"
+		href="/applications/quality-traceability-data-from-legacy-packaging-lines/"
+		description="A practical cluster for plants trying to build traceability and quality context without replacing working packaging assets."
+	/>
+	<LinkCard
+		title="Condition monitoring without PLC replacement"
+		href="/applications/condition-monitoring-without-replacing-existing-plcs/"
+		description="A high-value cluster for maintenance and reliability teams trying to add visibility without opening a full controls retrofit."
+	/>
+	<LinkCard
+		title="Production visibility without full MES"
+		href="/applications/production-visibility-for-discrete-lines-without-full-mes/"
+		description="A durable operations cluster for teams that need useful line visibility before they are ready for a full manufacturing software stack."
+	/>
+	<LinkCard
 		title="Device-class boundaries"
 		href="/device-types/gateways-edge-computers-and-rtus/"
-		description="A core decision cluster for separating gateways, RTUs, and edge computers before buyers overbuy hardware."
-	/>
-	<LinkCard
-		title="Data infrastructure decisions"
-		href="/comparisons/mqtt-broker-vs-edge-buffer-for-brownfield-lines/"
-		description="A higher-value comparison cluster on when publish architecture belongs and when the line still needs a simpler boundary."
-	/>
-	<LinkCard
-		title="Sparkplug and industrial MQTT discipline"
-		href="/comparisons/sparkplug-vs-plain-mqtt-for-industrial-data-architecture/"
-		description="A high-intent architecture cluster for plants moving from generic MQTT talk toward real namespace and payload standardization."
-	/>
-	<LinkCard
-		title="Industrial edge AI hardware"
-		href="/product-families/industrial-edge-ai-devices-for-brownfield-lines/"
-		description="A current but durable buying cluster around the line between AI ambition and real local-compute need."
+		description="A core decision cluster for separating gateways, RTUs, and edge computers before the architecture gets overbuilt."
 	/>
 </div>
 
@@ -116,7 +116,7 @@ import { Card, CardGrid, LinkCard, Steps } from '@astrojs/starlight/components';
 	</div>
 	<div>
 		<strong>High-value traffic</strong>
-		<p>Device selection, protocol tradeoffs, vendor shortlists, and architecture comparisons tend to attract real project intent.</p>
+		<p>Application problems, retrofit visibility gaps, protocol tradeoffs, and implementation mistakes tend to attract durable industrial research traffic.</p>
 	</div>
 	<div>
 		<strong>Long-term edge</strong>

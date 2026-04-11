@@ -1,13 +1,13 @@
 ---
 title: Comparisons
-description: Structured comparison workflows for industrial connectivity hardware, vendors, and protocol-driven decisions.
+description: Comparison pages for industrial connectivity architecture, device classes, and protocol tradeoffs used after the operating problem is clear.
 ---
 
 import { LinkCard, Steps } from '@astrojs/starlight/components';
 
 # Comparisons
 
-Comparison pages are where buyer intent becomes explicit. This section turns application research, device categories, vendor coverage, and protocol fit into a shortlist process that can support real decisions.
+Comparison pages are support pages, not the starting point. The right use for this section is to pressure-test an architecture after the line problem, site conditions, support model, and device boundary are already defined.
 
 ## Core paths
 
@@ -15,17 +15,22 @@ Comparison pages are where buyer intent becomes explicit. This section turns app
 	<LinkCard
 		title="Selection workflow"
 		href="/comparisons/selection-workflow/"
-		description="A disciplined framework for narrowing options without skipping lifecycle, support, or integration realities."
+		description="Use a disciplined workflow after the plant has already defined the application, device class, and support expectations."
 	/>
 	<LinkCard
 		title="MQTT broker vs edge buffer"
 		href="/comparisons/mqtt-broker-vs-edge-buffer-for-brownfield-lines/"
-		description="A current but durable data-infrastructure comparison for brownfield lines moving toward industrial AI and broader data reuse."
+		description="Compare publish architecture choices only after the brownfield collection boundary is already stable."
 	/>
 	<LinkCard
 		title="Sparkplug vs plain MQTT"
 		href="/comparisons/sparkplug-vs-plain-mqtt-for-industrial-data-architecture/"
-		description="Use this page when the architecture is moving toward UNS or shared industrial semantics and the team needs to know whether plain MQTT is still enough."
+		description="Use this when the plant is moving toward shared semantics and needs to know whether plain MQTT still fits."
+	/>
+	<LinkCard
+		title="Gateway vs edge computer"
+		href="/comparisons/gateway-vs-edge-computer-for-retrofit-data-projects/"
+		description="Decide whether the project really needs local software or still needs cleaner data collection."
 	/>
 	<LinkCard
 		title="Vendor portfolio analysis"
@@ -39,11 +44,11 @@ Comparison pages are where buyer intent becomes explicit. This section turns app
 	/>
 </div>
 
-## Comparison sequence
+## How to use comparisons well
 
 <Steps>
-	1. Lock the application and device category first.
-	2. Remove options that miss non-negotiable environmental or interoperability requirements.
-	3. Compare vendor depth, lifecycle fit, and rollout complexity.
-	4. Re-check total operating burden before making the final call.
+	1. Lock the application and operating problem first.
+	2. Define the device boundary and support owner before narrowing products.
+	3. Use comparison pages to remove weak fits, not to create architecture from scratch.
+	4. Finish by re-checking lifecycle burden, maintenance reality, and rollout simplicity.
 </Steps>
