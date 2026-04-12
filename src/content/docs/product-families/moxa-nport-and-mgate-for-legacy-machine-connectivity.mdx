@@ -1,0 +1,178 @@
+---
+title: Moxa NPort and MGate for legacy machine connectivity
+description: A practical guide to where Moxa NPort and MGate families fit in legacy machine connectivity, protocol conversion, and serial-to-Ethernet modernization work.
+referenceType: product-family
+adProfile: product-family
+commercialIntent: high
+reviewCadence: Quarterly review
+primaryKeyword: moxa nport mgate legacy machine connectivity
+searchIntent: select
+decisionStage: shortlist
+targetRoles:
+  - Controls engineers
+  - OT architects
+  - System integrators
+  - Plant digitalization leads
+contentStatus: growing
+problemSolved: How to decide when Moxa NPort or MGate is the right boundary for serial and legacy protocol connectivity, and when a plant should stop trying to force a larger gateway or controller platform into a narrower conversion problem.
+readerTakeaway: You should leave with a clearer split between device-server and protocol-gateway roles, plus a more disciplined way to use Moxa classics in brownfield modernization without overbuilding the architecture.
+keyQuestions:
+  - When is NPort enough for serial device exposure?
+  - When does the problem require MGate-class protocol translation?
+  - What should keep teams from buying heavier gateway platforms for a narrow legacy-connection job?
+notFor:
+  - Plants that have already standardized on a different vendor's serial and protocol-conversion layer
+  - Readers looking for line-card level catalog coverage
+  - Greenfield projects where legacy serial and protocol baggage are not meaningful design constraints
+updateTriggers:
+  - New Moxa NPort or MGate family shifts that change the classic device-server vs gateway boundary
+  - Major brownfield migration patterns involving serial, Modbus, EtherNet/IP, or PROFINET translation
+  - New security or lifecycle guidance that materially changes how these families are deployed
+---
+
+import { LinkCard } from '@astrojs/starlight/components';
+
+# Moxa NPort and MGate for legacy machine connectivity
+
+Some of the best industrial hardware pages are built around product families that keep solving the same ugly problem year after year. Moxa NPort and MGate are exactly that kind of product family pair. They are not exciting because they are new. They are valuable because plants still have serial devices, mixed protocols, and brownfield connectivity problems that cannot be solved by pretending everything is now Ethernet-native.
+
+## Quick answer
+
+Use **NPort** when the job is primarily to expose a serial device or group of serial devices to an Ethernet environment. Use **MGate** when the job requires actual **protocol translation**, not just network attachment. The mistake is treating both families as "some kind of gateway." They sit on different sides of the conversion burden.
+
+## Why these Moxa families keep showing up
+
+Plants still carry:
+
+- RS-232/422/485 devices;
+- older meters, drives, and barcode readers;
+- serial PLC interfaces;
+- mixed protocol islands that are too expensive to replace immediately.
+
+That installed base is not going away quickly. NPort and MGate remain visible because they meet plants where reality already is.
+
+## The boundary between NPort and MGate
+
+This is the main decision:
+
+| Family | Core job | Wrong expectation |
+| --- | --- | --- |
+| NPort | Serial device server / serial-to-Ethernet exposure | Expecting deep cross-protocol normalization or higher-level integration logic |
+| MGate | Protocol conversion between dissimilar industrial networks | Treating it like a generic network attachment box with no translation burden |
+
+This distinction is more important than comparing model counts.
+
+## When NPort is enough
+
+NPort usually fits when:
+
+- the plant only needs to expose serial devices on Ethernet;
+- the application can keep the existing protocol behavior;
+- the main goal is preserving software or device access while modernizing the network boundary;
+- the support team wants the narrowest possible device role.
+
+That makes NPort especially useful in brownfield retrofits where the cleanest answer is not a big integration layer, just a stable bridge from serial into the network.
+
+Official product-family anchors:
+
+- [NPort IA5000 Series](https://www.moxa.com/en/products/industrial-edge-connectivity/serial-device-servers/industrial-device-servers/nport-ia5000-series)
+- [NPort 5100 Series](https://www.moxa.com/en/products/industrial-edge-connectivity/serial-device-servers/general-device-servers/nport-5100-series)
+
+## When MGate is the better fit
+
+MGate becomes necessary when:
+
+- the plant must translate between industrial protocols;
+- the upstream and downstream systems speak fundamentally different automation languages;
+- protocol ownership and diagnostics matter;
+- the deployment needs something more durable than a transparent serial exposure layer.
+
+That is the zone where "just put it on Ethernet" stops being enough.
+
+Official product examples inside the family:
+
+- [MGate 5134 Series](https://www.moxa.com/en/products/industrial-edge-connectivity/protocol-gateways/modbus-tcp-gateways/mgate-5134-series)
+- [MGate 5103 Series](https://www.moxa.com/en/products/industrial-edge-connectivity/protocol-gateways/modbus-tcp-gateways/mgate-5103-series)
+- [MGate EIP3170 and EIP3270 Series](https://www.moxa.com/en/products/industrial-edge-connectivity/protocol-gateways/ethernet-ip-gateways/mgate-eip3170-eip3270-series)
+
+The exact model matters less here than recognizing when a translation role exists at all.
+
+## Where plants overbuild the solution
+
+Plants often overbuild when they buy:
+
+- a general industrial gateway for what is really a device-server problem;
+- an edge computer because the architecture sounds more strategic;
+- custom integration logic when a protocol gateway already handles the core translation cleanly.
+
+That raises cost, support burden, and recovery complexity without improving the first rollout.
+
+## Where plants underbuild the solution
+
+The reverse problem is also common. Teams underbuild when they use a device-server approach for a problem that actually needs:
+
+- protocol translation;
+- deterministic mapping between upstream and downstream systems;
+- more explicit diagnostics;
+- repeatable deployment across many similar machines.
+
+That is how a cheap serial connection solution turns into a fragile rollout.
+
+## Why these families are strong search assets
+
+NPort and MGate are good content targets because the searches are rarely casual. Readers are usually dealing with:
+
+- legacy PLC or serial equipment;
+- PROFINET / EtherNet/IP / Modbus boundaries;
+- brownfield modernization with limited downtime;
+- integration support models they have to live with after commissioning.
+
+That is the kind of traffic that tends to stay valuable for industrial publishing.
+
+## A practical selection sequence
+
+Ask these questions in order:
+
+1. Is the real problem only serial exposure, or true protocol translation?
+2. Does the plant need to preserve the existing software behavior?
+3. Will the device need to be duplicated across many machines or sites?
+4. Who will troubleshoot protocol failures a year after go-live?
+5. Is the narrowest possible device role still enough?
+
+If the answer to the first question is "only serial exposure," start with NPort. If not, move into MGate logic early instead of pretending the difference is minor.
+
+## The hidden cost
+
+The hidden cost is not the box price. It is the maintenance model after installation:
+
+- whether anyone understands the conversion path;
+- whether diagnostics are strong enough during a night-shift failure;
+- whether the deployment can be copied across similar assets;
+- whether the chosen device class was appropriate in the first place.
+
+Classic product families stay classic because they reduce those support surprises when used correctly.
+
+## Compare next
+
+<div class="portal-links">
+	<LinkCard
+		title="Protocol converters and serial device servers"
+		href="/product-families/protocol-converters-and-serial-device-servers/"
+		description="Return to the broader category when the Moxa family question is still being framed."
+	/>
+	<LinkCard
+		title="Serial to Ethernet bridging"
+		href="/protocols/serial-to-ethernet-bridging/"
+		description="Use protocol guidance to pressure-test whether the application only needs exposure or a deeper translation path."
+	/>
+	<LinkCard
+		title="PLC data collection for mixed-vendor lines"
+		href="/applications/plc-data-collection-for-mixed-vendor-lines/"
+		description="See how serial and protocol boundaries affect real machine-data collection projects."
+	/>
+	<LinkCard
+		title="Retrofit gateway shortlist criteria"
+		href="/comparisons/retrofit-gateway-shortlist-criteria/"
+		description="Use this when the team is starting to overbuy device class for a narrower legacy problem."
+	/>
+</div>

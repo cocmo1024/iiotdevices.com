@@ -1,0 +1,197 @@
+---
+title: Siemens S7-1200 and S7-1500 for machine-data projects
+description: A practical guide to where Siemens S7-1200 and S7-1500 belong in brownfield machine-data work, when direct PLC-based collection is the right boundary, and when teams should stop asking the PLC to do more.
+referenceType: product-family
+adProfile: product-family
+commercialIntent: high
+reviewCadence: Quarterly review
+primaryKeyword: siemens s7-1200 vs s7-1500 machine data
+searchIntent: select
+decisionStage: shortlist
+targetRoles:
+  - Controls engineers
+  - OT architects
+  - Plant digitalization leads
+  - System integrators
+contentStatus: growing
+problemSolved: How to decide when Siemens S7-1200 or S7-1500 is the right installed-base anchor for machine-data collection, and when the data project should be separated from the PLC instead of loading more responsibility into the controller.
+readerTakeaway: You should leave with a clear way to separate S7-1200 and S7-1500 fit by machine complexity, data burden, and support ownership, plus a better sense of when a gateway or edge layer should own the digitalization work instead.
+keyQuestions:
+  - When is S7-1200 enough for machine visibility and light data extraction?
+  - When does S7-1500 justify its higher class in data and automation projects?
+  - When should teams stop extending the PLC role and add a gateway or edge boundary instead?
+notFor:
+  - Plants standardizing a new controller platform from scratch without a meaningful Siemens installed base
+  - Buyers looking for a full PLC specification sheet instead of data-project guidance
+  - Projects where the controller architecture has already been frozen by a machine OEM
+updateTriggers:
+  - Material Siemens changes to S7-1200 G2, S7-1500, or ET 200 expansion strategy
+  - New Siemens modules that materially change OPC UA, edge, or distributed I/O boundaries
+  - Major shifts in brownfield machine-data collection patterns or PLC readout expectations
+---
+
+import { LinkCard } from '@astrojs/starlight/components';
+
+# Siemens S7-1200 and S7-1500 for machine-data projects
+
+Siemens S7-1200 and S7-1500 keep showing up in machine-data work for a simple reason: they are already there. Brownfield digitalization projects are often built around installed controllers long before anyone agrees on historians, OEE tooling, quality dashboards, or AI use cases. That makes the real question less about which PLC is "better" in the abstract and more about what boundary the controller should own in a data project.
+
+## Quick answer
+
+Use **S7-1200** when the job is still compact: a basic machine, light data exposure, modest communication burden, and a support model that values simplicity. Use **S7-1500** when the machine or cell is already more demanding, the logic burden is heavier, data interfaces are richer, or future expansion is genuinely credible. Do not use either family as an excuse to avoid a gateway or edge layer when the data project starts asking the controller to become an integration platform.
+
+## Why these families matter so much in search and in plants
+
+The S7-1200 and S7-1500 are not just product lines. They are decision anchors:
+
+- machine OEMs standardize around them;
+- plant engineers inherit them in brownfield lines;
+- integrators know how to work around them;
+- IT and digital teams often assume the PLC is the easiest place to pull data from.
+
+That last assumption is where projects get into trouble. Installed base matters, but it does not automatically mean the controller should absorb every digitalization requirement.
+
+## The practical split between S7-1200 and S7-1500
+
+The simplest way to think about the families is this:
+
+| Product family | Where it usually fits | What it should not be forced to become |
+| --- | --- | --- |
+| S7-1200 | Compact machines, entry-to-mid automation, light machine visibility, modest protocol exposure | A catch-all integration server for every analytics and reporting request |
+| S7-1500 | More complex machines or cells, heavier communications, stronger performance expectations, broader modular expansion | A substitute for an actual gateway, broker, historian, or edge compute plan |
+
+This framing matters because many plants compare the two as if the answer is purely CPU performance. In data projects, the bigger issue is often role definition.
+
+## When S7-1200 is usually the right anchor
+
+S7-1200 is often enough when:
+
+- the machine boundary is compact and stable;
+- the data requirement is narrow and well understood;
+- the plant mostly needs machine state, counts, alarms, or a small group of process values;
+- the support team wants the least moving parts possible;
+- the project is trying to prove visibility before scaling to a wider architecture.
+
+In those conditions, the 1200 family is valuable precisely because it keeps the project disciplined. It pushes teams to ask for the data they need, not the data they might someday want.
+
+Siemens positions the line as a compact PLC family for basic automation, and the current product pages still emphasize compact footprint, communication, and cost-conscious performance rather than "do everything" expansion:
+
+- [SIMATIC S7-1200 G2](https://www.siemens.com/s7-1200)
+
+## When S7-1500 earns its place
+
+S7-1500 belongs when:
+
+- the machine or cell is already more demanding;
+- communication and modular expansion are materially heavier;
+- the project must support more complex integration, motion, or data-handling needs;
+- the plant expects the control platform to remain central as the machine evolves.
+
+The 1500 family is not just "faster." It is more comfortable in environments where the automation burden is already larger and where the platform will likely be asked to support a broader communication and module strategy over time.
+
+That is also why it is easy to overuse. Teams see a stronger controller family and start assigning it jobs that should have been separated into gateway or edge boundaries.
+
+Official Siemens positioning still frames S7-1500 as the high-performance, modular controller line:
+
+- [SIMATIC S7-1500](https://www.siemens.com/en-us/products/simatic/s7-1500/)
+
+## Where direct PLC-based machine data works well
+
+Direct PLC-based data collection usually works best when:
+
+- the data consumer is already known;
+- the tag set is relatively stable;
+- the plant values a tight, controlled data boundary;
+- the machine owner is comfortable owning the configuration over time;
+- the first rollout is intentionally narrow.
+
+This is common in:
+
+- line-state visibility pilots;
+- simple downtime capture;
+- basic quality or traceability context;
+- targeted condition monitoring signals.
+
+It becomes less attractive when the project turns into a broad data-fabric ambition without clear ownership.
+
+## Where teams should stop adding responsibility to the PLC
+
+The warning signs are familiar:
+
+- too many downstream systems want different tag structures;
+- the project needs buffering and store-and-forward behavior outside normal controller assumptions;
+- the plant wants protocol normalization across mixed-vendor assets;
+- the controller team is now being asked to support analytics-side changes;
+- security segmentation or remote access policy is becoming more complex than the controls team wants to carry.
+
+That is usually the point where a gateway or edge layer becomes healthier than "one more thing in the PLC project."
+
+## The related classic line that often changes the answer
+
+A lot of Siemens brownfield expansion work is not really about the CPU family at all. It is about whether the project needs distributed I/O growth at the machine boundary. That is where the ET 200 ecosystem often becomes more relevant than controller debate:
+
+- [SIMATIC ET 200SP](https://www.siemens.com/global/en/products/automation/systems/industrial/io-systems/et-200sp.html)
+- [SIMATIC ET 200 overview](https://www.siemens.com/et200s)
+
+For many machine-data projects, ET 200 expansion determines how easy it is to add signals, diagnostics, or decentralized I/O without destabilizing the machine architecture.
+
+## What buyers and engineers often misunderstand
+
+The most common misunderstanding is assuming the question is:
+
+> Should we choose S7-1200 or S7-1500?
+
+The better question is:
+
+> What role should the Siemens controller own in this data project, and what should sit outside it?
+
+If that boundary is not clear, the product-family discussion happens too early.
+
+## A practical selection model
+
+Use this sequence:
+
+1. Define the machine-data outcome first.
+2. Decide whether direct PLC-based collection is really appropriate.
+3. If yes, decide whether the machine complexity and expansion burden point to S7-1200 or S7-1500.
+4. Decide separately whether distributed I/O expansion belongs in ET 200 territory.
+5. Add gateways or edge only when the controller boundary is no longer healthy.
+
+This order prevents the plant from buying platform depth before the problem is properly scoped.
+
+## The hidden cost
+
+The hidden cost is rarely only the controller price. It is:
+
+- lifecycle support burden;
+- data-model drift across downstream consumers;
+- engineering changes that now require PLC project updates;
+- poor separation between control ownership and digitalization ownership;
+- future rollout pain when each machine exposes data differently.
+
+That is why the "best" controller family on paper can still be the wrong answer for the data architecture.
+
+## Compare next
+
+<div class="portal-links">
+	<LinkCard
+		title="Machine connectivity retrofits"
+		href="/applications/machine-connectivity-retrofits/"
+		description="Keep the controller-family question tied to the actual retrofit problem instead of buying on platform reputation."
+	/>
+	<LinkCard
+		title="Siemens ET 200 for distributed machine I/O expansion"
+		href="/product-families/siemens-et-200-for-distributed-machine-io-expansion/"
+		description="Use this path when the real issue is machine-side signal expansion, not CPU class."
+	/>
+	<LinkCard
+		title="Moxa NPort and MGate for legacy machine connectivity"
+		href="/product-families/moxa-nport-and-mgate-for-legacy-machine-connectivity/"
+		description="Move here when brownfield integration depends more on serial and protocol translation than on PLC family choice."
+	/>
+	<LinkCard
+		title="Gateway vs edge computer for retrofit data projects"
+		href="/comparisons/gateway-vs-edge-computer-for-retrofit-data-projects/"
+		description="Use device-class logic once the controller should no longer carry the whole integration burden."
+	/>
+</div>
