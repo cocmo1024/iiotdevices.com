@@ -1,0 +1,140 @@
+---
+title: Historian Tags vs Event Models for Brownfield Operations Data
+description: A practical comparison for plants deciding whether brownfield operations data should stay tag-centric or move toward a simpler event model.
+referenceType: comparison
+adProfile: comparison
+commercialIntent: high
+reviewCadence: Quarterly review
+primaryKeyword: historian tags vs event models for brownfield operations data
+searchIntent: compare
+decisionStage: shortlist
+targetRoles:
+  - OT architects
+  - Plant engineers
+  - Manufacturing systems leads
+  - Integrators
+contentStatus: cornerstone
+problemSolved: How to compare tag-centric historian collection with event-oriented brownfield data models so plants stop storing everything without improving operational answers.
+readerTakeaway: You should leave with a practical way to decide when tag history is sufficient and when the plant needs explicit event or state models for production analysis.
+keyQuestions:
+  - When is historian-style tag collection enough for brownfield operations data?
+  - What questions require event models instead of only tag trends?
+  - How should plants stage the shift from raw collection toward more useful event structure?
+notFor:
+  - Greenfield architectures with strong data modeling already in place
+  - Sites trying to solve enterprise data governance in one project
+  - Teams that have not yet defined the operational questions driving the data program
+updateTriggers:
+  - New common patterns in brownfield data architecture
+  - Changes in how plants connect historians, gateways, and operational event layers
+  - Vendor improvements that materially reduce the cost of event-oriented data capture
+---
+
+import { LinkCard } from '@astrojs/starlight/components';
+
+# Historian Tags vs Event Models for Brownfield Operations Data
+
+Brownfield plants often start with a reasonable instinct: collect the tags first, decide later. That works up to a point. Historians are very good at preserving time-series data from installed assets. The problem comes when the plant expects those tags alone to answer operational questions about changeover, fault meaning, line state, utility waste, or quality context. A raw tag history is usually necessary. It is often not sufficient.
+
+## Quick answer
+
+Tag-centric historian collection is a good first layer when the plant mainly needs:
+
+- trusted retention of machine values and trends;
+- broad visibility into what is changing over time;
+- a low-friction way to preserve installed-base data.
+
+Event models become more valuable when the plant needs:
+
+- operating meaning, not only raw values;
+- consistent changeover, fault, or state interpretation;
+- cross-machine context for line or cell decisions.
+
+The right progression is often tags first, event structure second, but only where the questions justify it.
+
+## What each model is good at
+
+| Model | Best for | Weakness |
+| --- | --- | --- |
+| Tag-centric historian | Fast retention, trending, broad installed-base capture | Weak operational meaning without extra modeling |
+| Event model | Start/stop, state, changeover, alarm, and shift context | Requires clearer operating definitions and ownership |
+
+Plants struggle when they ask one model to do the other's job.
+
+## When tags are enough
+
+Tag history is usually enough when the plant wants:
+
+- simple trend visibility;
+- operator and engineering review of analog behavior;
+- proof that a line, utility, or machine really changed over time;
+- a low-burden first collection layer before stronger questions emerge.
+
+This is often the right answer for early-phase brownfield work.
+
+## When events are worth the extra structure
+
+An explicit event or state model becomes worth it when:
+
+- the plant needs to explain why lines stopped, waited, or changed over;
+- production, utility, or quality analysis depends on operating context;
+- supervisors need a shared interpretation of what happened;
+- line-level meaning must span several uneven machine interfaces.
+
+That is when a historian-only strategy starts to feel expensive without being very helpful.
+
+## The real cost difference
+
+The cost difference is not only software. It is also:
+
+- time spent defining operating meaning;
+- ownership of event rules after deployment;
+- maintenance effort when states or transitions drift from reality;
+- the discipline to keep operations and OT aligned.
+
+That is why event models should be introduced where decision value is obvious, not everywhere at once.
+
+## Common failure modes
+
+Plants usually get poor results when:
+
+- they collect more tags instead of clarifying the question;
+- they design event models no one in operations recognizes;
+- they assume historian tags automatically equal line intelligence;
+- they jump into enterprise modeling before proving site-level value.
+
+## A staged approach that works
+
+The strongest rollout is usually:
+
+1. preserve useful tag history broadly;
+2. define line or cell states for the highest-value questions;
+3. add explicit events for changeover, faults, escalation, or utility loss where needed;
+4. keep the event layer narrow enough that operations still trusts it.
+
+That avoids both extremes: raw-data overload and premature over-modeling.
+
+## Compare next
+
+<div class="portal-links">
+	<LinkCard
+		title="Line-state modeling for brownfield machine data"
+		href="/applications/line-state-modeling-for-brownfield-machine-data/"
+		description="Use a state-model page to see what event structure should look like in a practical line context."
+	/>
+	<LinkCard
+		title="Alarm and andon event collection without full SCADA"
+		href="/applications/alarm-and-andon-event-collection-without-full-scada/"
+		description="Compare historian retention against the event layers supervisors and operators actually use."
+	/>
+	<LinkCard
+		title="Production visibility without full MES"
+		href="/applications/production-visibility-for-discrete-lines-without-full-mes/"
+		description="Tie the data-model choice back to the operating questions the plant is trying to answer."
+	/>
+	<LinkCard
+		title="MQTT broker vs edge buffer for brownfield lines"
+		href="/comparisons/mqtt-broker-vs-edge-buffer-for-brownfield-lines/"
+		description="Pressure-test the transport architecture once the tag-versus-event boundary is clear."
+	/>
+</div>

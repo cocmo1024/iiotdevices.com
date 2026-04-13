@@ -1,0 +1,160 @@
+---
+title: Line-State Modeling for Brownfield Machine Data
+description: A practical guide for building usable running, idle, blocked, starved, and changeover state models from brownfield machine data.
+referenceType: application
+adProfile: application
+commercialIntent: high
+reviewCadence: Quarterly review
+primaryKeyword: line state modeling for brownfield machine data
+searchIntent: design
+decisionStage: solution-aware
+targetRoles:
+  - Plant engineers
+  - OT architects
+  - Manufacturing engineers
+  - Continuous improvement leaders
+contentStatus: cornerstone
+problemSolved: How to build a usable line-state model from brownfield machine data so production, energy, and event analysis stop depending on weak tag-level interpretation.
+readerTakeaway: You should leave with a state-model design for brownfield lines, including where state logic should live and which mistakes make operations data ambiguous.
+keyQuestions:
+  - What line states actually matter for brownfield production analysis?
+  - Where should state logic live when machine interfaces are inconsistent?
+  - How much state fidelity is enough before teams overcomplicate the model?
+notFor:
+  - Greenfield systems with standardized state models already built in
+  - Sites trying to digitize every machine detail before agreeing on operating definitions
+  - Projects where there is no operational owner for the state model after deployment
+updateTriggers:
+  - New practical lessons in brownfield line-state modeling
+  - Changes in common operating-state patterns for OEE, utility, and event analysis
+  - Vendor improvements in exposing state context from legacy equipment
+---
+
+import { LinkCard } from '@astrojs/starlight/components';
+
+# Line-State Modeling for Brownfield Machine Data
+
+Many brownfield data projects fail because they collect tags before they define states. Plants end up with machine bits, counts, and alarms, but still cannot answer simple questions like when the line was truly running, when it was blocked, or when it was only waiting. A line-state model is what turns uneven machine data into operational context. Without it, almost every downstream analysis stays noisy.
+
+## Quick answer
+
+The strongest line-state models start small. Most brownfield lines need a dependable answer to a limited set of states:
+
+- running;
+- starved or waiting;
+- blocked;
+- planned stop or changeover;
+- fault or abnormal stop.
+
+That is usually enough to improve production visibility, event interpretation, and utility review. It is far better to maintain a small trusted state model than a larger one that operators do not believe.
+
+## What this page is for
+
+Use this page when the plant needs:
+
+- better operating context for downtime, visibility, and improvement work;
+- a clearer way to interpret mixed machine signals across a line;
+- state logic that can support quality, utility, or event analysis;
+- a brownfield-friendly data model before larger analytics or MES work.
+
+## Why tag-level data is not enough
+
+A brownfield line often exposes:
+
+- machine running bits;
+- alarms;
+- product counts;
+- recipe selections;
+- manual mode or fault states.
+
+Those signals help, but they do not automatically explain what the line was doing. The operational meaning comes from how those signals are combined and prioritized over time.
+
+## Which states matter first
+
+| State | Why it matters |
+| --- | --- |
+| Running | Anchors throughput and normal behavior |
+| Starved / waiting | Shows upstream dependency and material-flow problems |
+| Blocked | Shows downstream or accumulation problems |
+| Planned stop / changeover | Separates intentional transitions from loss |
+| Fault / abnormal stop | Supports event analysis and escalation |
+
+Plants can always refine the model later. They should not skip these basics.
+
+## Where the state logic should live
+
+The healthiest boundary is usually:
+
+- **line or cell level** when several machines must be interpreted together;
+- **supervisory or gateway level** when machine interfaces are mixed but enough signals exist;
+- **machine level** only when a single asset truly defines the operational state of the process.
+
+Trying to hold all state meaning at the machine level usually creates inconsistency across the line.
+
+## When more fidelity helps
+
+More detailed states are useful only when they change decisions. For example:
+
+- separating changeover from planned sanitation may matter;
+- separating microstops from long faults may matter;
+- separating manual assist from true waiting may matter.
+
+If the plant does not act differently on those distinctions, extra fidelity becomes maintenance overhead.
+
+## Common failure modes
+
+State-model projects usually disappoint when:
+
+- state definitions are technical but not operational;
+- different teams use the same word to mean different things;
+- the model becomes too complex to troubleshoot;
+- the line lacks a clear source of truth for planned vs unplanned transitions;
+- no one owns the state model after go-live.
+
+Then the line looks instrumented but still argues about what happened.
+
+## What a good state model should enable
+
+A good first state model should let the plant:
+
+- compare lines and shifts with less ambiguity;
+- separate production loss from planned or expected behavior;
+- connect utility or quality analysis to real operating states;
+- improve alarm and event reviews with stronger context.
+
+If it cannot do those things, the model is probably too weak or too complicated.
+
+## Implementation checklist
+
+Before expanding the state model, confirm that:
+
+- operations and engineering share the same definitions;
+- the line has a clear priority order when several states appear to compete;
+- planned transitions are distinguishable from faults;
+- the chosen collection boundary is maintainable;
+- the model improves decisions, not only dashboards.
+
+## Compare next
+
+<div class="portal-links">
+	<LinkCard
+		title="Production visibility without full MES"
+		href="/applications/production-visibility-for-discrete-lines-without-full-mes/"
+		description="Use a broader visibility page to connect state logic back to daily operational use."
+	/>
+	<LinkCard
+		title="Alarm and andon event collection without full SCADA"
+		href="/applications/alarm-and-andon-event-collection-without-full-scada/"
+		description="See how state models make alarm and escalation history more trustworthy."
+	/>
+	<LinkCard
+		title="Machine changeover and recipe data"
+		href="/applications/machine-changeover-and-recipe-data-for-mixed-model-lines/"
+		description="Connect setup context to the underlying state model before widening the data program."
+	/>
+	<LinkCard
+		title="Historian tags vs event models for brownfield operations data"
+		href="/comparisons/historian-tags-vs-event-models-for-brownfield-operations-data/"
+		description="Choose the data structure that fits the line-state model instead of treating tags as the end product."
+	/>
+</div>
