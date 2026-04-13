@@ -1,0 +1,163 @@
+---
+title: Energy Monitoring and Submetering from Existing PLC and Power Data
+description: A practical guide for plants that need useful energy visibility from existing PLCs, drives, and power meters without turning the first phase into a full utility-software program.
+referenceType: application
+adProfile: application
+commercialIntent: high
+reviewCadence: Quarterly review
+primaryKeyword: energy monitoring and submetering from existing plc and power data
+searchIntent: design
+decisionStage: solution-aware
+targetRoles:
+  - Plant engineers
+  - Energy managers
+  - OT architects
+  - Operations leaders
+contentStatus: cornerstone
+problemSolved: How to build usable energy monitoring and submetering from existing PLC and power data without overbuilding the stack or pretending every machine exposes revenue-grade power context.
+readerTakeaway: You should leave with an energy-data boundary, a submetering rollout model, and a clearer idea of when existing PLC data is enough and when dedicated metering is mandatory.
+keyQuestions:
+  - What energy data can plants trust from existing PLCs, drives, and panels?
+  - When is submetering good enough for operational decisions even if it is not utility-grade billing data?
+  - Where should teams place gateways, meters, and contextual data so energy visibility stays maintainable?
+notFor:
+  - Sites trying to design a greenfield energy architecture from scratch
+  - Revenue billing projects that require certified utility-grade metering and settlement controls
+  - Plants that have not defined whether they need operational energy visibility, cost allocation, or power-quality investigation
+updateTriggers:
+  - New common patterns for plant-level energy visibility and submetering
+  - Vendor changes that materially improve brownfield power-data collection
+  - Shifts in how plants connect energy data to production context and operations review
+---
+
+import { LinkCard } from '@astrojs/starlight/components';
+
+# Energy Monitoring and Submetering from Existing PLC and Power Data
+
+Plants often know energy matters long before they know what kind of energy data they actually need. That is why many submetering projects become bloated quickly. The plant starts by asking for visibility into compressed air, chillers, process loads, packaging lines, or shift-level energy use. Within a few meetings, the scope drifts into enterprise dashboards, utility-bill reconciliation, and power-quality analysis that the current instrumentation cannot support. The practical job is narrower: create an energy model that helps operations make better decisions with the signals the site can realistically maintain.
+
+## Quick answer
+
+For most brownfield plants, the first useful energy layer combines three things:
+
+- existing power or drive data where it is trustworthy;
+- a small number of added submeters around the highest-cost or highest-variability loads;
+- production context such as shift, product, changeover, and downtime state.
+
+That is usually enough to answer operational questions like which lines spike during idle time, which utilities drift by shift, or which areas deserve deeper metering next. It is rarely necessary to start with a plant-wide metering program.
+
+## What this page is for
+
+Use this page when the plant needs:
+
+- energy visibility by line, area, utility, or operating mode;
+- submetering that supports operations and cost reduction rather than utility settlement;
+- a practical way to combine PLC data, meter data, and production context;
+- a staged rollout instead of a full energy-management platform on day one.
+
+This page is less useful when the site already has a well-governed utility metering stack and the gap is only dashboard presentation.
+
+## The real question is not meter count
+
+The first question is what decision the data should support. Most plants are trying to answer a smaller set of questions:
+
+| Decision question | Why it matters | Likely data source |
+| --- | --- | --- |
+| Which loads are consuming materially more than expected? | Finds obvious operating waste | Panel meters, utility submeters, VFD or PLC values |
+| What happens to energy use during idle, starved, blocked, or changeover states? | Connects energy to production behavior | PLC state model plus meter data |
+| Which utilities or lines deserve better instrumentation next? | Helps stage capital and engineering effort | Area-level meters and historical trend context |
+| Can the plant allocate energy meaningfully by process or line? | Supports internal accountability | Submeters plus shift, SKU, or line context |
+
+If the project cannot answer those questions clearly, it is still too abstract.
+
+## Where existing PLC and drive data is enough
+
+Existing PLC and drive data is often good enough when:
+
+- the plant only needs directional visibility rather than settlement-grade numbers;
+- the biggest goal is comparing states, shifts, or lines instead of producing invoices;
+- drives or controllers already expose usable load, speed, or power proxies;
+- the team wants to identify where dedicated metering is worth adding later.
+
+This is especially true for first-phase work on packaging, discrete, and mixed-utility lines where the goal is operational focus, not perfect accounting.
+
+## Where dedicated submetering is mandatory
+
+The plant usually needs dedicated power meters when:
+
+- cost allocation needs to survive financial scrutiny;
+- multiple assets share panels or loads in ways PLC tags cannot separate;
+- the energy question is about total feeder behavior, power factor, or harmonics;
+- the site wants utility-grade consistency across buildings, lines, or tenants.
+
+Trying to stretch PLC data into those roles often creates argument instead of insight.
+
+## The healthiest rollout model
+
+The most durable rollout is usually:
+
+1. identify the top energy questions by line, utility, or area;
+2. map the existing signals that can answer them cheaply;
+3. add submeters only where the decision value is already obvious;
+4. tie the energy data to operating context such as shift, mode, and production state;
+5. use the first stage to prove where deeper instrumentation belongs.
+
+This prevents the plant from buying meter inventory faster than it can create useful operating decisions.
+
+## Common failure modes
+
+Energy visibility projects usually disappoint when:
+
+- the site asks for plant-wide coverage before proving local value;
+- production context is missing, so energy trends cannot explain themselves;
+- PLC or drive values are assumed to be billing-grade when they are not;
+- utility and operations teams want different answers but share one vague scope;
+- the maintenance team inherits a submetering stack it did not help design.
+
+The result is often a dashboard that looks serious but drives very little action.
+
+## What a good first phase should prove
+
+The first phase should prove that the plant can:
+
+- distinguish normal from abnormal energy behavior;
+- compare similar time periods or lines with usable confidence;
+- connect energy spikes to operating states or events;
+- decide where dedicated metering is justified next.
+
+If the project cannot do those things, adding more tags or meters will not fix the problem.
+
+## Implementation checklist
+
+Before broadening the energy architecture, confirm that:
+
+- the plant has defined whether the goal is operations insight, cost allocation, or utility-grade reporting;
+- existing PLC, drive, or meter signals have been classified by trust level;
+- the data model includes shift, product, or line-state context;
+- the first stage is scoped to a small number of loads or areas with clear decision value;
+- someone owns ongoing point quality and meter context after commissioning.
+
+## Compare next
+
+<div class="portal-links">
+	<LinkCard
+		title="Condition monitoring without PLC replacement"
+		href="/applications/condition-monitoring-without-replacing-existing-plcs/"
+		description="Use a related brownfield page to separate equipment-health visibility from broader plant instrumentation scope."
+	/>
+	<LinkCard
+		title="Production visibility without full MES"
+		href="/applications/production-visibility-for-discrete-lines-without-full-mes/"
+		description="See how operating context makes energy data more useful than raw trends alone."
+	/>
+	<LinkCard
+		title="Gateways, edge computers, and RTUs"
+		href="/device-types/gateways-edge-computers-and-rtus/"
+		description="Narrow the hardware class that should collect, buffer, and forward the first energy layer."
+	/>
+	<LinkCard
+		title="Sparkplug vs plain MQTT for industrial data architecture"
+		href="/comparisons/sparkplug-vs-plain-mqtt-for-industrial-data-architecture/"
+		description="Choose the upstream data model only after the energy and operating context boundary is stable."
+	/>
+</div>

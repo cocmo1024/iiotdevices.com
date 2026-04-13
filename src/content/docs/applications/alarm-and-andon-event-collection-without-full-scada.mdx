@@ -1,0 +1,161 @@
+---
+title: Alarm and Andon Event Collection Without Full SCADA
+description: A practical guide for plants that need useful alarm and andon event visibility before they are ready for a full SCADA program.
+referenceType: application
+adProfile: application
+commercialIntent: high
+reviewCadence: Quarterly review
+primaryKeyword: alarm and andon event collection without full scada
+searchIntent: design
+decisionStage: solution-aware
+targetRoles:
+  - Plant engineers
+  - Operations managers
+  - OT architects
+  - Continuous improvement leaders
+contentStatus: cornerstone
+problemSolved: How to collect alarm and andon events from brownfield lines without pretending the plant needs or can support a full SCADA deployment immediately.
+readerTakeaway: You should leave with a lean alarm and andon event model, a collection boundary for brownfield lines, and a clearer sense of what should be visible before larger supervisory investments.
+keyQuestions:
+  - What alarm and andon events matter before a plant has full SCADA coverage?
+  - Where should brownfield plants collect event data so supervisors and improvement teams can actually use it?
+  - When is lightweight event collection enough, and when is a fuller supervisory stack justified?
+notFor:
+  - Plants already operating with mature SCADA event governance
+  - Sites trying to replace all operator escalation workflows with one technology layer
+  - Programs that have not agreed on alarm priority, ownership, or response expectations
+updateTriggers:
+  - New brownfield event-collection patterns
+  - Vendor improvements in lightweight supervisory or line-event tooling
+  - Changes in how plants connect andon and alarm data to operational review
+---
+
+import { LinkCard } from '@astrojs/starlight/components';
+
+# Alarm and Andon Event Collection Without Full SCADA
+
+Many plants need better event visibility long before they are ready for a full SCADA program. Supervisors want to know why the line keeps starving, operators want faster escalation, and improvement teams want recurring evidence rather than shift anecdotes. The mistake is assuming that the only path to better event visibility is a fully designed supervisory stack. In many brownfield environments, a smaller event layer creates value sooner and with less support burden.
+
+## Quick answer
+
+Most plants should start with a lean event model:
+
+- a small number of alarm categories that truly drive intervention;
+- line or cell states that explain stop behavior and escalation;
+- andon events that capture when help was requested, how long response took, and whether recovery succeeded.
+
+That first event layer is often enough to improve response discipline, expose recurring failures, and justify where a broader SCADA rollout belongs later.
+
+## What this page is for
+
+Use this page when the plant needs:
+
+- better visibility into line stops, response delays, and recurring equipment calls;
+- andon history that supports staffing, escalation, and improvement decisions;
+- a low-burden way to capture brownfield events from mixed assets;
+- event evidence before committing to a full supervisory stack.
+
+This page is less useful when the plant already has strong event governance and the remaining gap is only advanced analytics or visualization.
+
+## The first event model should stay small
+
+The biggest mistake is capturing everything. A healthier first model usually tracks:
+
+| Event type | Why it matters | Typical source |
+| --- | --- | --- |
+| Critical machine or line faults | Drives immediate action and repeatability analysis | PLC states, relays, machine alarms |
+| Starved, blocked, or waiting conditions | Explains flow interruptions beyond simple downtime | Line logic, counters, HMI states |
+| Manual help calls or andon requests | Shows where operator support burden lives | Andon buttons, HMI prompts, mobile triggers |
+| Recovery acknowledgment or clearance | Distinguishes long outages from slow response | HMI actions, reset events, operator confirmation |
+| Shift and crew context | Makes event review operationally useful | Scheduling or line context layer |
+
+That is usually enough to create practical event intelligence without drowning the plant in noise.
+
+## Where the collection boundary should sit
+
+The collection point depends on what the plant already has:
+
+- **Cell or line gateways** work when the goal is event stitching from several machines.
+- **Light supervisory layers** work when the plant already has operator HMIs and needs a shared event record.
+- **Andon-specific tools** work when escalation and response time are the real business question.
+- **Hybrid approaches** are justified when machine fault states and human escalation events come from different systems.
+
+The point is to collect events where they become operationally meaningful, not where they are easiest to technically poll.
+
+## When a lightweight event layer is enough
+
+A smaller solution is often enough when:
+
+- the plant needs faster visibility and recurring-failure evidence more than full control-room functionality;
+- operator escalation and response time are central pain points;
+- the line lacks consistent supervisory infrastructure but exposes enough states to model events;
+- support ownership would be damaged by a large early SCADA footprint.
+
+This is common in discrete assembly, packaging, and brownfield production cells.
+
+## When the plant really does need SCADA
+
+The case for broader supervisory architecture strengthens when:
+
+- event correlation must span many areas and utilities;
+- visualization, acknowledgment, and historian behavior need to be standardized across the plant;
+- control-room workflows are already central to operating discipline;
+- the event model has proven its value and the support team can absorb a larger stack.
+
+If those things are not yet true, early SCADA expansion can create more maintenance burden than operational clarity.
+
+## Common failure modes
+
+These projects often disappoint when:
+
+- the plant captures too many low-value events;
+- alarm priority is poorly governed;
+- andon calls are visible but not tied to response or recovery;
+- event timestamps are inconsistent across systems;
+- nobody owns the line between technical event collection and operational use.
+
+Then the site gets more data without better response behavior.
+
+## What a good first phase should prove
+
+The first phase should prove that the plant can:
+
+- see the difference between critical and non-critical interruptions;
+- measure response and recovery time with enough confidence to act;
+- identify recurring stop patterns instead of isolated anecdotes;
+- decide where broader supervisory investment would create real leverage.
+
+## Implementation checklist
+
+Before expanding the event architecture, confirm that:
+
+- alarm and andon categories are intentionally limited;
+- event ownership is clear across operations, maintenance, and OT;
+- shift and crew context are available;
+- response and recovery events can be captured, not only initial faults;
+- the support team can maintain the chosen event layer after rollout.
+
+## Compare next
+
+<div class="portal-links">
+	<LinkCard
+		title="Production visibility without full MES"
+		href="/applications/production-visibility-for-discrete-lines-without-full-mes/"
+		description="Use a broader line-visibility page to tie event collection back to operational performance."
+	/>
+	<LinkCard
+		title="Machine connectivity retrofits"
+		href="/applications/machine-connectivity-retrofits/"
+		description="Pressure-test whether the plant's event problem is really an asset-connectivity problem first."
+	/>
+	<LinkCard
+		title="PLC data collection for mixed-vendor lines"
+		href="/applications/plc-data-collection-for-mixed-vendor-lines/"
+		description="See where event stitching belongs when the line spans uneven machine interfaces."
+	/>
+	<LinkCard
+		title="Gateway vs edge computer for retrofit data projects"
+		href="/comparisons/gateway-vs-edge-computer-for-retrofit-data-projects/"
+		description="Choose the collection footprint that matches event buffering, local logic, and support needs."
+	/>
+</div>

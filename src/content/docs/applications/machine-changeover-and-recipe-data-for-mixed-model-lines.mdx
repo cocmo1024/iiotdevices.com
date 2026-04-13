@@ -1,0 +1,168 @@
+---
+title: Machine Changeover and Recipe Data for Mixed-Model Lines
+description: A practical guide for plants that need better changeover visibility, recipe governance, and mixed-model context without assuming every machine exposes a modern data model.
+referenceType: application
+adProfile: application
+commercialIntent: high
+reviewCadence: Quarterly review
+primaryKeyword: machine changeover and recipe data for mixed model lines
+searchIntent: design
+decisionStage: solution-aware
+targetRoles:
+  - Manufacturing engineers
+  - Plant engineers
+  - Operations managers
+  - OT architects
+contentStatus: cornerstone
+problemSolved: How to collect useful changeover and recipe data from mixed-model lines so plants can improve setup loss, recipe discipline, and event analysis without opening a full controls rewrite.
+readerTakeaway: You should leave with a changeover-data model, clearer recipe-context boundaries, and a phased approach for turning mixed-model line behavior into usable operational data.
+keyQuestions:
+  - What changeover and recipe events actually matter on mixed-model lines?
+  - Where should the line collect recipe context when machine interfaces are uneven?
+  - When is line-level context enough, and when do plants need deeper controller or HMI changes?
+notFor:
+  - Greenfield lines where recipe architecture can be standardized from the start
+  - Plants that have not agreed on basic product-code, revision, and setup discipline
+  - Programs trying to fix planning, scheduling, and line balancing only through better machine data
+updateTriggers:
+  - New brownfield patterns for changeover-data capture
+  - Vendor improvements in exposing recipe and setup context from installed assets
+  - Changes in how mixed-model production teams connect setup loss to operational analytics
+---
+
+import { LinkCard } from '@astrojs/starlight/components';
+
+# Machine Changeover and Recipe Data for Mixed-Model Lines
+
+Mixed-model lines are full of useful data that plants still struggle to trust. Changeovers create setup loss, recipe drift, manual overrides, and first-good-part problems, but the line often records those inconsistently. One machine may expose recipe selection, another only exposes status bits, and the rest of the real story lives with operators or supervisors. The goal is not to capture every setup detail from every asset. The goal is to build enough recipe and changeover context that production losses can be explained and improved.
+
+## Quick answer
+
+The healthiest first phase is usually a line-level changeover model. Plants should define:
+
+- when changeover starts and ends;
+- which recipe or SKU context matters;
+- what counts as a successful setup;
+- which alarms, approvals, or manual interventions should be attached to the event.
+
+That usually creates more value than trying to normalize every machine register on the line before the plant has agreed on the operating definition of changeover.
+
+## What this page is for
+
+Use this page when the plant needs:
+
+- reliable changeover timing across mixed-model production;
+- recipe and product context tied to line events and output;
+- better root-cause visibility into setup losses and first-pass yield after changeover;
+- a practical way to capture mixed-model behavior from inconsistent machine interfaces.
+
+This page is less useful when the line already has a strongly governed recipe system and the remaining problem is only scheduling efficiency.
+
+## What data really matters
+
+Most mixed-model lines only need a smaller set of stable answers:
+
+| Data question | Why it matters | Common source |
+| --- | --- | --- |
+| What product, variant, or recipe was intended? | Anchors setup and output context | Recipe system, HMI selection, MES or line control |
+| When did changeover begin and end? | Defines setup loss and comparability | Line state model, supervisory event, operator action |
+| What major interruptions happened during setup? | Explains long or failed changeovers | Alarm events, line stops, manual reset steps |
+| When was the first good part or stable output achieved? | Separates mechanical setup from true recovery | Quality signals, inspection, operator confirmation |
+| Which manual steps were required? | Exposes where setup remains people-dependent | HMI prompts, checklists, workflow confirmation |
+
+That is often enough to create useful mixed-model analytics without a full software transformation.
+
+## Where recipe context should live
+
+Plants often make two mistakes:
+
+- they push recipe context too deep into machine-specific logic; or
+- they keep all context too abstract at the ERP or schedule layer.
+
+The stronger boundary is usually at the line or supervisory layer, where:
+
+- product and revision context can be standardized;
+- changeover events can span multiple machines;
+- setup loss can be analyzed without reverse-engineering every local controller.
+
+Machine-level data is still useful, but only after the line has a stable event model.
+
+## When existing machine data is enough
+
+Existing machine and HMI data is often enough when:
+
+- the line mainly needs visibility into setup duration and major interruptions;
+- a line-level controller or supervisory layer can supply product context;
+- the plant can define a consistent start and end state for changeover;
+- setup quality is more important than deep recipe genealogy.
+
+This is a common first step for mixed-model packaging, discrete assembly, and change-part manufacturing lines.
+
+## When deeper controls work is required
+
+The line usually needs more than surface-level data when:
+
+- different machines use incompatible or weak recipe identifiers;
+- first-good-part logic is unclear or manual;
+- changeover steps require many local workarounds that are never recorded;
+- the plant wants recipe genealogy or approval records that current controls cannot support cleanly.
+
+That is the point where controller, HMI, or supervisory changes become justified.
+
+## Common failure modes
+
+These projects usually disappoint when:
+
+- the plant has not agreed on what counts as a changeover;
+- product and revision naming are inconsistent across systems;
+- manual setup work is ignored because it is not easy to capture;
+- the project tracks duration but not the reason setup quality varies;
+- the line inherits a data model that operations does not trust or maintain.
+
+The result is a dashboard that shows setup time but not why the line struggles.
+
+## What a good first phase should prove
+
+The first rollout should prove that the plant can:
+
+- identify the real start and end of changeover;
+- tie the event to product and recipe context;
+- explain major setup delays with evidence rather than anecdotes;
+- compare changeovers across shifts, products, and crews with reasonable trust.
+
+If those outcomes are not visible, the next step is not more data. It is better operational definitions.
+
+## Implementation checklist
+
+Before scaling the architecture, confirm that:
+
+- product, recipe, and revision identifiers are stable enough to compare;
+- a line-level changeover event definition exists;
+- first-good-part or stable-run logic is explicit;
+- manual setup steps are represented where they materially affect time or quality;
+- operations will maintain context quality after the initial project ends.
+
+## Compare next
+
+<div class="portal-links">
+	<LinkCard
+		title="Production visibility without full MES"
+		href="/applications/production-visibility-for-discrete-lines-without-full-mes/"
+		description="Use a broader line-visibility page to anchor changeover data in real operating context."
+	/>
+	<LinkCard
+		title="PLC data collection for mixed-vendor lines"
+		href="/applications/plc-data-collection-for-mixed-vendor-lines/"
+		description="Decide which machine-level signals are actually worth collecting into the line event model."
+	/>
+	<LinkCard
+		title="Quality and traceability from legacy packaging lines"
+		href="/applications/quality-traceability-data-from-legacy-packaging-lines/"
+		description="Connect recipe and setup context to quality events and reject analysis."
+	/>
+	<LinkCard
+		title="Retrofit gateway shortlist criteria"
+		href="/comparisons/retrofit-gateway-shortlist-criteria/"
+		description="Pressure-test whether the line can solve the first stage with stitching and buffering or needs deeper architecture changes."
+	/>
+</div>
