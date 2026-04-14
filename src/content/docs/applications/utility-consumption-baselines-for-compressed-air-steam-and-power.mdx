@@ -1,0 +1,98 @@
+---
+title: Utility consumption baselines for compressed air, steam, and power
+description: How to create useful utility baselines from existing plant signals so compressed air, steam, and power data can support operations instead of becoming another disconnected dashboard.
+referenceType: application
+adProfile: application
+commercialIntent: high
+reviewCadence: Quarterly review
+primaryKeyword: utility consumption baselines for compressed air steam and power
+searchIntent: design
+decisionStage: solution-aware
+targetRoles:
+  - Plant engineers
+  - Energy managers
+  - Manufacturing engineers
+  - OT architects
+contentStatus: growing
+problemSolved: Helps plants build utility baselines that can be tied to production states, shift behavior, and asset conditions without requiring a large energy platform first.
+readerTakeaway: You should leave with a baseline model for utility data that is useful for operations, leak hunting, and energy review instead of just monthly reporting.
+keyQuestions:
+  - What should a practical utility baseline include?
+  - How do teams tie utility behavior to line state and production context?
+  - What makes utility dashboards look useful but fail operationally?
+notFor:
+  - Enterprise sustainability reporting programs as the only goal
+  - Plants with no credible production or time context for utility data
+updateTriggers:
+  - New patterns in utility monitoring from brownfield signals
+  - Changes in common baseline design for plant energy and air systems
+---
+
+# Utility consumption baselines for compressed air, steam, and power
+
+Utility data becomes expensive noise when it is collected without operating context. Many sites add power meters, compressor data, or boiler data and still cannot answer the questions that matter: what is normal by shift, what changed during downtime, and which lines or utilities are drifting away from expected behavior.
+
+## Quick answer
+
+A useful utility baseline is not just an average. It is a set of expected ranges tied to:
+
+- time window;
+- line or asset operating state;
+- production level or throughput band;
+- and known planned events such as startup, sanitation, or changeover.
+
+Without those anchors, plants usually end up comparing unlike periods and calling normal variation a problem.
+
+## What a practical baseline should answer
+
+At minimum, the baseline should help the site answer:
+
+- what compressed air, steam, or power looks like during normal running;
+- what the same utility looks like when the line is idle or blocked;
+- what startup and changeover do to utility demand;
+- and when a utility draw has shifted far enough to deserve investigation.
+
+That is a more useful starting point than a large dashboard with weak actionability.
+
+## Why simple trend lines are not enough
+
+Trend charts alone usually fail because they do not separate:
+
+- normal process variation;
+- operating-state changes;
+- maintenance drift;
+- and true abnormal consumption.
+
+The plant then gets many pretty graphs and very few decisions.
+
+## The strongest baseline dimensions
+
+| Dimension | Why it matters |
+| --- | --- |
+| Shift or time window | Utility patterns often change with staffing and operations rhythm |
+| Line state | Running, idle, blocked, and changeover all change expected load |
+| Production rate band | Consumption without throughput context can be misleading |
+| Asset grouping | Useful action often happens at system or area level before individual devices |
+
+These dimensions are what turn utility data into operational evidence.
+
+## Common mistakes
+
+The usual mistakes are:
+
+- measuring utility load with no production-state context;
+- comparing weekday and weekend behavior as if they were equal;
+- chasing per-minute noise instead of stable patterns;
+- and trying to allocate everything precisely before the basic baseline is trusted.
+
+A smaller, believable baseline is more valuable than a bigger uncertain one.
+
+## What a brownfield rollout should do first
+
+Start by tying utility measurements to:
+
+- basic time windows;
+- a small set of line states;
+- and one or two meaningful production signals.
+
+That usually creates enough context to detect leaks, drift, and abnormal idle consumption without overengineering the first phase.

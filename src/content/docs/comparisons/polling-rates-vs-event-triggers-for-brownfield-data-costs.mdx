@@ -1,0 +1,81 @@
+---
+title: Polling rates vs event triggers for brownfield data costs
+description: A practical comparison of polling-heavy brownfield collection versus event-driven capture when plants need better data economics without losing useful operational context.
+referenceType: comparison
+adProfile: comparison
+commercialIntent: high
+reviewCadence: Quarterly review
+primaryKeyword: polling rates vs event triggers for brownfield data costs
+searchIntent: compare
+decisionStage: implementation
+targetRoles:
+  - OT architects
+  - Plant engineers
+  - Data platform teams
+  - System integrators
+contentStatus: growing
+problemSolved: Helps plants decide when polling is still the right collection pattern and when event-driven capture creates better economics and clearer operational data.
+readerTakeaway: You should leave with a practical model for deciding how much brownfield data should be polled continuously versus captured as events or state changes.
+keyQuestions:
+  - When is polling still the right answer?
+  - When do event triggers create better data economics?
+  - What important operational context gets lost when teams chase event-only collection too aggressively?
+notFor:
+  - Greenfield architectures with event models already designed in
+  - Teams that have not yet defined the operational questions the data must answer
+updateTriggers:
+  - New brownfield practices for polling and event capture
+  - Changes in data-cost and buffering patterns for plant systems
+---
+
+# Polling rates vs event triggers for brownfield data costs
+
+Brownfield data teams often discover that collecting more tags more often is easy, while making the resulting data operationally useful and economically sane is harder. The usual reaction is to swing from polling everything to triggering everything. Both extremes create problems.
+
+## Quick answer
+
+Polling is still the right answer for:
+
+- analog values that need trends;
+- slowly changing utility signals;
+- and states where the source cannot emit trustworthy events.
+
+Event triggers are stronger for:
+
+- stop and start transitions;
+- alarms and acknowledgements;
+- changeover boundaries;
+- and low-frequency but high-importance state changes.
+
+Most brownfield systems need both. The real decision is where each pattern belongs.
+
+## Why teams over-poll
+
+They over-poll because it is simple. Polling feels safe when signal quality is uncertain. The problem appears later as storage growth, noisy historian data, weak semantics, and difficulty separating meaningful change from raw movement.
+
+## Why teams over-correct into events
+
+They over-correct because event models look cheaper and cleaner. The problem is that brownfield assets often do not emit reliable events, and event-only designs can miss context needed for troubleshooting, trend analysis, or utility review.
+
+## A practical split
+
+| Data type | Better default |
+| --- | --- |
+| Analog process values | Polling |
+| Discrete state changes | Event capture |
+| Utility baselines | Polling with coarse intervals |
+| Alarms and acknowledgements | Event capture |
+| Changeovers and production transitions | Event capture plus minimal supporting polling |
+
+That split usually preserves context while containing cost.
+
+## What really drives cost
+
+The real cost is not just bytes. It is:
+
+- storage and retention;
+- processing and normalization;
+- troubleshooting time;
+- and human trust in what the data means.
+
+A cheap collection pattern that produces weak context is often more expensive in practice than a cleaner hybrid design.

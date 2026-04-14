@@ -1,0 +1,104 @@
+---
+title: Downtime reason capture from legacy lines without full MES
+description: A practical guide to collecting useful downtime reasons from brownfield production lines before a full MES or broad manufacturing software rollout.
+referenceType: application
+adProfile: application
+commercialIntent: high
+reviewCadence: Quarterly review
+primaryKeyword: downtime reason capture from legacy lines without full mes
+searchIntent: design
+decisionStage: solution-aware
+targetRoles:
+  - Plant engineers
+  - Continuous improvement leaders
+  - Manufacturing engineers
+  - OT architects
+contentStatus: cornerstone
+problemSolved: Helps plants build trustworthy downtime reason capture from existing machines, operators, and event signals without waiting for a full MES deployment.
+readerTakeaway: You should leave with a practical model for capturing downtime reasons that balances operator input, event rules, and brownfield machine reality.
+keyQuestions:
+  - How much downtime reason capture can be trusted without MES?
+  - What should come from machines versus operators?
+  - Which design mistakes make downtime data unusable later?
+notFor:
+  - Greenfield lines with integrated manufacturing software already planned
+  - Teams trying to model every possible reason before phase one is live
+updateTriggers:
+  - New brownfield patterns for downtime and event capture
+  - Changes in how mixed machine and operator reason capture is implemented
+---
+
+# Downtime reason capture from legacy lines without full MES
+
+Many plants want better downtime reasons long before they are ready for a full MES. The problem is not just software budget. It is that brownfield machines rarely expose enough clean state context to explain why the line stopped. Teams either wait too long for a bigger program or collect vague operator notes that no one trusts later.
+
+## Quick answer
+
+The strongest brownfield downtime-reason systems start with a small shared model:
+
+- machine-derived stop events,
+- operator-confirmed reason categories,
+- and a clear rule for what gets assigned automatically versus manually.
+
+If the site tries to automate all reason capture from imperfect legacy signals, the data becomes misleading. If it pushes everything to operators, the data becomes inconsistent. The right answer is usually a hybrid model.
+
+## What phase one should actually capture
+
+Phase one usually needs:
+
+- stop start and end time;
+- affected machine or line segment;
+- planned versus unplanned stop class;
+- one practical reason hierarchy;
+- and enough context to support later improvement work.
+
+That is enough to improve shift review, loss analysis, and event accountability without pretending the plant already has a finished MES data model.
+
+## What should come from machines
+
+Machines are strongest at:
+
+- detecting state changes quickly;
+- identifying broad fault or stop conditions;
+- recording repeatable events consistently;
+- and anchoring the timeline.
+
+Machines are weak at:
+
+- explaining upstream versus downstream operational cause;
+- describing staffing, materials, quality holds, or changeover context;
+- and assigning nuanced reasons where several business causes look identical electrically.
+
+## What should come from operators
+
+Operators are usually the right source for:
+
+- missing context the machine cannot infer;
+- distinguishing planned events from abnormal ones;
+- confirming the dominant reason when several conditions overlap;
+- and correcting bad assumptions from auto-classification.
+
+The rule is simple: ask operators for the information only humans can reliably supply. Do not use them as the full event historian.
+
+## The most common failure modes
+
+Downtime reason capture usually fails when:
+
+- the hierarchy is too detailed to use on shift;
+- reason assignment rules are hidden or inconsistent;
+- manual entry happens long after the event;
+- or the system records stop duration but never resolves ownership.
+
+The data may look complete and still be operationally useless.
+
+## A practical rollout model
+
+The safest rollout is:
+
+1. capture dependable stop windows first;
+2. add a small reason tree that operations can actually use;
+3. automate only the reason classes supported by strong evidence;
+4. use operator confirmation for the rest;
+5. review the false-assignment cases every week.
+
+That creates a dataset people trust enough to improve over time.
