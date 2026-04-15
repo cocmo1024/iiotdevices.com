@@ -1,0 +1,111 @@
+---
+title: Tag growth vs modeled events for brownfield data economics
+description: A practical comparison for plants deciding whether more historian tags still make sense or whether modeled events now create better economics for brownfield operations data.
+referenceType: comparison
+adProfile: comparison
+commercialIntent: high
+reviewCadence: Quarterly review
+primaryKeyword: tag growth vs modeled events for brownfield data economics
+searchIntent: compare
+decisionStage: shortlist
+targetRoles:
+  - OT architects
+  - Manufacturing systems leads
+  - Plant engineers
+  - Integrators
+contentStatus: cornerstone
+problemSolved: Helps plants decide when expanding tag collection is still reasonable and when explicit event models now create lower operating cost and better operational value.
+readerTakeaway: You should leave with a practical way to compare tag growth against modeled-event design for brownfield lines that are outgrowing simple historian expansion.
+keyQuestions:
+  - When is adding more tags still the right answer?
+  - When do modeled events create better economics than broad tag expansion?
+  - What hidden costs appear when brownfield data stays tag-heavy for too long?
+notFor:
+  - Greenfield architectures with mature event models already in place
+  - Enterprise data-lake debates with no plant-level operating question
+updateTriggers:
+  - New patterns in brownfield historian expansion and event architecture
+  - Changes in common cost drivers for operations data retention and modeling
+---
+
+# Tag growth vs modeled events for brownfield data economics
+
+Brownfield data programs often begin with a sensible instinct: collect more tags first, decide later. That works until the plant starts paying for growth in storage, modeling, dashboard noise, and interpretation effort without getting better answers about line state, downtime, or shift performance. At that point, the economics are no longer only about retention. They are about whether the architecture still matches the question.
+
+## Quick answer
+
+More tags are still a good answer when the plant mainly needs:
+
+- wider visibility into installed assets;
+- simple trend history;
+- and a low-friction way to preserve machine behavior before stronger use cases are defined.
+
+Modeled events become more economic when the plant increasingly needs:
+
+- operating meaning instead of raw value retention;
+- repeated line-state, downtime, or microstop analysis;
+- shared event logic that supervisors and CI teams can act on.
+
+The cost comparison is not only software and storage. It is also human interpretation cost.
+
+## Where tag growth still wins
+
+Tag expansion usually still wins when:
+
+- the site lacks basic visibility;
+- the value is mostly in trend review or diagnostics;
+- the first phase must stay light and fast;
+- and operational questions are still broad.
+
+In that situation, event design can be premature.
+
+## Where modeled events start winning
+
+Modeled events usually create better economics when:
+
+- the plant keeps rebuilding the same derived metrics in different dashboards;
+- supervisors need agreed downtime or state meaning;
+- data consumers are asking for production context, not only analog history;
+- the tag count is growing faster than the site's ability to use it.
+
+That is when tag growth becomes a weak substitute for cleaner structure.
+
+## The real cost categories
+
+| Cost area | Tag-heavy pattern | Event-model pattern |
+| --- | --- | --- |
+| Storage and transport | Broad, persistent growth | Narrower if event scope stays disciplined |
+| Dashboard and query effort | Repeated interpretation burden | Higher upfront modeling, lower repeated interpretation |
+| Operations trust | Often low if meaning stays ambiguous | Higher when events match how the plant talks about loss |
+| Maintenance burden | Lower at first, higher when ad hoc logic spreads | Higher upfront, lower if the model stays narrow and owned |
+
+Plants usually underestimate the dashboard and interpretation side of the bill.
+
+## Signs the plant is overusing tags
+
+You are probably overusing tag expansion when:
+
+- teams still argue about what the line was doing;
+- multiple reports recreate the same runtime or downtime logic differently;
+- historians are full of values but thin on operational meaning;
+- every new use case starts by adding more raw collection instead of clarifying the event model.
+
+That pattern raises cost without improving decisions.
+
+## A staged answer that usually works
+
+The strongest answer is often:
+
+1. keep broad tag history for diagnostics and traceability;
+2. add narrow event models only for the highest-value operating questions;
+3. resist enterprise-wide event ambition until site-level value is trusted;
+4. let the event layer grow where line-state, handover, or loss analysis clearly benefits.
+
+That keeps both cost models under control.
+
+## What to read next
+
+- [Historian tags vs event models for brownfield operations data](/comparisons/historian-tags-vs-event-models-for-brownfield-operations-data/)
+- [Polling rates vs event triggers for brownfield data costs](/comparisons/polling-rates-vs-event-triggers-for-brownfield-data-costs/)
+- [Shift handover and daily operations boards from legacy line data](/applications/shift-handover-and-daily-operations-boards-from-legacy-line-data/)
+

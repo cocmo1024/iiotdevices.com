@@ -1,0 +1,115 @@
+---
+title: Microstoppage capture for high-speed brownfield lines
+description: How to capture microstoppages from fast legacy packaging and assembly lines without creating an expensive data program that operators cannot trust.
+referenceType: application
+adProfile: application
+commercialIntent: high
+reviewCadence: Quarterly review
+primaryKeyword: microstoppage capture for high speed brownfield lines
+searchIntent: design
+decisionStage: solution-aware
+targetRoles:
+  - Manufacturing engineers
+  - CI leaders
+  - Packaging engineers
+  - OT architects
+contentStatus: growing
+problemSolved: Helps high-speed lines capture microstoppages in a way that creates usable loss evidence instead of overwhelming teams with noisy short-duration events.
+readerTakeaway: You should leave with a practical model for deciding which short stops matter, how to detect them, and how to keep the event layer useful.
+keyQuestions:
+  - What should count as a microstoppage on a fast line?
+  - How should teams detect and group short events without overcounting?
+  - What makes microstoppage programs expensive but still operationally weak?
+notFor:
+  - Slow batch processes where brief pauses do not materially change output
+  - Sites with no trustworthy runtime or count context
+updateTriggers:
+  - New field practices in microstoppage capture and event grouping
+  - Changes in how plants model fast line losses from brownfield signals
+---
+
+# Microstoppage capture for high-speed brownfield lines
+
+Microstoppages are where many high-speed lines quietly lose capacity. The line never looks catastrophically down, but small pauses keep accumulating and supervisors struggle to prove where the loss really lives. Plants often respond by collecting far too many short events, then discover that the event history is too noisy to support action.
+
+## Quick answer
+
+Microstoppage capture works best when the plant:
+
+- defines a stop window that matters to line output;
+- groups bursts of related short events into usable loss episodes;
+- ties those episodes to line section or machine context;
+- and avoids pretending every sub-second pause deserves a root-cause program.
+
+The goal is not perfect event completeness. It is actionable loss evidence.
+
+## What should count as a microstoppage
+
+That threshold depends on the line. A practical rule is to count short stops only when they:
+
+- recur often enough to change throughput;
+- align with a recognizable machine or handoff problem;
+- or create operator intervention, starved or blocked behavior, or scrap risk.
+
+If the line can absorb the interruption without meaningful consequence, the event may be technically real and still not worth operational attention.
+
+## Why plants get buried in noise
+
+Teams usually fail because they:
+
+- set the threshold too low;
+- treat every raw transition as a separate event;
+- ignore the difference between one bursty issue and twenty unrelated issues;
+- or publish microstop charts without section-level context.
+
+The result is a long list of tiny events with no believable story about where capacity is actually being lost.
+
+## A better event model
+
+| Element | What it should do |
+| --- | --- |
+| Threshold window | Separate real short stops from normal chatter |
+| Grouping rule | Combine repeated bursts into one meaningful loss episode |
+| Location context | Identify the machine, transfer, or line zone involved |
+| Rate context | Show whether the event pattern really affects line output |
+
+This is what turns fast-line data into something a CI team can use.
+
+## Where brownfield capture usually starts
+
+The strongest phase-one approach is:
+
+1. capture running versus not-running transitions on the constraint or line proxy;
+2. add a short-stop threshold tied to line speed and product behavior;
+3. group closely spaced interruptions into one episode;
+4. attach the episode to the best available section or machine context.
+
+That gives the site a usable first picture without pretending the entire line has modern event instrumentation.
+
+## What operations should see
+
+The output should help teams answer:
+
+- which part of the line generates the most repeated short loss;
+- whether the same issue appears by product, shift, or crew;
+- whether a recurring short-stop pattern is becoming a bigger hidden loss than a few major stops;
+- and whether a maintenance or changeover issue is driving the behavior.
+
+If the report cannot answer those questions, the event model is too raw.
+
+## What not to do
+
+Do not:
+
+- flood operators with machine-level short-stop alarms;
+- treat event count as the same thing as production loss;
+- or push for perfect root-cause precision before the plant trusts the event grouping.
+
+Microstoppage programs create value when they narrow attention, not when they create a bigger list.
+
+## What to read next
+
+- [Downtime reason capture from legacy lines](/applications/downtime-reason-capture-from-legacy-lines-without-full-mes/)
+- [Line state modeling for brownfield machine data](/applications/line-state-modeling-for-brownfield-machine-data/)
+- [Polling rates vs event triggers for brownfield data costs](/comparisons/polling-rates-vs-event-triggers-for-brownfield-data-costs/)
+

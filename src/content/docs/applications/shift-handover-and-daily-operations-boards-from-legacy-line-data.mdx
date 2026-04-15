@@ -1,0 +1,128 @@
+---
+title: Shift handover and daily operations boards from legacy line data
+description: How to build useful shift handover and daily operations boards from brownfield machine data without waiting for a full MES or enterprise manufacturing platform.
+referenceType: application
+adProfile: application
+commercialIntent: high
+reviewCadence: Quarterly review
+primaryKeyword: shift handover and daily operations boards from legacy line data
+searchIntent: design
+decisionStage: solution-aware
+targetRoles:
+  - Production managers
+  - Continuous improvement leaders
+  - Manufacturing engineers
+  - OT architects
+contentStatus: growing
+problemSolved: Helps plants turn installed machine signals into useful shift-level production boards and handover context instead of relying on manual notes and incomplete spreadsheets.
+readerTakeaway: You should leave with a practical model for building daily boards from brownfield line data without pretending phase one needs a full MES.
+keyQuestions:
+  - What should a useful shift board include?
+  - Which legacy signals are enough to support handover discipline?
+  - What makes daily boards look digital but still fail supervisors and shift leads?
+notFor:
+  - Enterprise reporting programs with no shift-level operating owner
+  - Sites trying to replace all production management processes in one phase
+updateTriggers:
+  - New brownfield patterns for shift reporting and daily operations boards
+  - Changes in common plant practices for line-state and event capture
+---
+
+# Shift handover and daily operations boards from legacy line data
+
+Many plants still run shift handover with whiteboards, screenshots, and whatever the outgoing supervisor remembers at the end of the day. Brownfield machine data can improve that quickly, but only if the first version stays close to what shift teams actually need. When teams start with enterprise dashboards, the board looks modern and still fails the handover.
+
+## Quick answer
+
+A useful daily operations board usually starts with:
+
+- trustworthy run, stop, and starved or blocked context by line;
+- a small count of major downtime reasons or loss categories;
+- production counts or batches tied to time windows;
+- and a visible summary of what changed during the shift.
+
+That is enough to improve handover quality. It is not necessary to model every machine state, quality event, and labor detail in phase one.
+
+## What the board should answer
+
+The handover board should help the next shift answer:
+
+- did the line meet plan, miss plan, or recover late;
+- where were the longest interruptions and were they resolved;
+- whether changeovers, utilities, or upstream starvation shaped the shift;
+- and what needs immediate attention in the next operating window.
+
+If the board cannot answer those questions quickly, it is not helping handover.
+
+## The minimum brownfield inputs
+
+Most sites can build a useful board from:
+
+- line running state or a proxy for machine active time;
+- production or pack counts;
+- a small event layer for major stops, alarms, or andon conditions;
+- and timestamps for shift changes, changeovers, and major interventions.
+
+Plants usually do not need perfect machine-level semantics before they can create a better daily board.
+
+## Where teams go wrong
+
+The most common mistakes are:
+
+- trying to copy a full MES board before the site has trustworthy events;
+- pulling too many tags into the first board;
+- showing trend charts when supervisors need shift summaries and exceptions;
+- and publishing a board with no clear owner for reason-code quality.
+
+Daily boards are operational tools. They fail when they are designed like analytics showcases.
+
+## A practical board structure
+
+| Board area | What it should show |
+| --- | --- |
+| Shift summary | Planned versus actual output, runtime, and major loss buckets |
+| Top interruptions | Longest stops with the clearest available reason or line context |
+| Changeover performance | Start, end, and whether recovery matched expectation |
+| Action carryover | Open items the next shift needs to inherit clearly |
+
+This structure gives supervisors something usable without demanding a full manufacturing data stack.
+
+## What brownfield phase one should not try to do
+
+Phase one should not try to:
+
+- replace every paper process across all departments;
+- assign every minute of lost time precisely on day one;
+- merge maintenance, quality, labor, and production data into a single perfect model;
+- or make the board serve executives, planners, engineers, and operators equally.
+
+The first board should mainly serve shift leadership and plant operations.
+
+## How to build trust in the board
+
+Trust usually improves when the site:
+
+1. starts with one line or cell that supervisors care about;
+2. limits the event model to the biggest recurring losses;
+3. checks the shift summary against what supervisors already know;
+4. fixes board credibility before adding more dimensions.
+
+That progression is slower than a large rollout, but it is how daily boards become part of routine behavior.
+
+## Signs the board is creating value
+
+The board is helping when:
+
+- shift handover becomes faster and less dependent on memory;
+- recurring loss patterns become easier to challenge;
+- supervisors stop arguing about what happened and start arguing about what to change;
+- the next shift begins with fewer unknowns.
+
+That is the real point of a brownfield daily board.
+
+## What to read next
+
+- [Line state modeling for brownfield machine data](/applications/line-state-modeling-for-brownfield-machine-data/)
+- [Downtime reason capture from legacy lines](/applications/downtime-reason-capture-from-legacy-lines-without-full-mes/)
+- [Production visibility for discrete lines without full MES](/applications/production-visibility-for-discrete-lines-without-full-mes/)
+
