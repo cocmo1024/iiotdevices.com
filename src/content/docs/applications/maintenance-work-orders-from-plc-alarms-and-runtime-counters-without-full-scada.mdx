@@ -1,0 +1,142 @@
+---
+title: Maintenance work orders from PLC alarms and runtime counters without full SCADA
+description: How plants can generate useful maintenance signals, runtime-based service triggers, and work-order candidates from brownfield PLC data without first deploying a full SCADA or MES stack.
+referenceType: application
+adProfile: application
+commercialIntent: high
+reviewCadence: Monthly review
+contentStatus: growing
+problemSolved: Helps maintenance and operations teams decide how to turn existing PLC alarms, counters, and machine states into actionable work-order signals without overbuilding the first phase.
+readerTakeaway: You should leave with a practical model for using legacy machine data to trigger maintenance workflows, plus clearer rules for what belongs in a lightweight event layer versus a larger SCADA or CMMS integration.
+primaryKeyword: maintenance work orders from plc alarms
+searchIntent: design
+decisionStage: solution-aware
+targetRoles:
+  - Plant engineers
+  - Reliability leads
+  - Maintenance managers
+  - System integrators
+keyQuestions:
+  - How can plants trigger maintenance work from PLC alarms and runtime counters?
+  - What data is good enough for lightweight work-order generation before full SCADA?
+  - When should a team stop with event-driven alerts and move to broader CMMS or MES integration?
+notFor:
+  - Plants already running mature CMMS and SCADA workflows with clean event ownership
+  - Greenfield controls projects where a new architecture is already being designed from scratch
+updateTriggers:
+  - Changes in common brownfield CMMS integration patterns
+  - New vendor patterns for lightweight maintenance-event pipelines
+  - Shifts in how plants use PLC runtime counters for reliability and service triggers
+---
+
+## Quick answer
+
+Many plants can get useful maintenance work-order signals from existing PLC alarms, fault codes, cycle counts, and runtime counters without starting with a full SCADA or MES deployment.
+
+The first phase usually works best when it focuses on:
+
+- a small set of high-value alarms,
+- runtime thresholds tied to service intervals,
+- repeat-fault grouping,
+- and clear ownership for which events should create maintenance action instead of just operator noise.
+
+If the plant tries to mirror every alarm into a maintenance workflow, the result is usually alert fatigue, not better execution.
+
+## Why this is a strong brownfield use case
+
+Most brownfield lines already have some combination of:
+
+- PLC alarms,
+- machine-state bits,
+- counters,
+- runtime hours,
+- and basic operator reset behavior.
+
+What they often lack is a clean path from those signals into a maintenance action that survives shift handoff and does not depend on someone remembering to mention the problem later.
+
+That makes this a high-value intermediate step between "we have alarms" and "we have a real maintenance data system."
+
+## What data is usually enough to start
+
+The minimum useful set is often:
+
+- asset or machine identifier,
+- timestamp,
+- alarm or fault code,
+- runtime or cycle count,
+- state at time of event,
+- and repeat count over a defined window.
+
+That is enough to support:
+
+- threshold-based service triggers,
+- repeated-fault escalation,
+- and maintenance candidate lists for review.
+
+It is not yet enough to replace a mature CMMS process. That is not the goal.
+
+## What should generate a work-order candidate
+
+Good first-phase candidates usually include:
+
+- repeated nuisance faults that now consume operator time,
+- runtime-based service intervals for predictable wear items,
+- trips tied to known failure modes,
+- and alarms that correlate strongly with real downtime or quality loss.
+
+Poor first-phase candidates usually include generic warnings, unowned fault chatter, and every HMI message that happens to exist in the PLC.
+
+## The key design rule
+
+Treat the PLC as the source of useful machine events, not as the final maintenance workflow system.
+
+That means the intermediate layer should do the work of:
+
+- grouping events,
+- filtering duplicates,
+- applying thresholds,
+- and deciding which signals deserve maintenance review.
+
+Without that layer, the line simply exports alarm noise faster.
+
+## A practical architecture pattern
+
+The common brownfield pattern looks like this:
+
+1. collect selected alarms, counters, and state from the PLC,
+2. normalize them into simple event records,
+3. apply rules for repeat faults and runtime thresholds,
+4. surface candidate maintenance actions,
+5. hand them to the existing maintenance process or lightweight review queue.
+
+This is often enough to create value before the plant takes on deeper CMMS integration.
+
+## Where teams usually go wrong
+
+The common failure modes are:
+
+- trying to ingest every available alarm,
+- creating work orders from signals with no owner,
+- mixing operator-recovery events with maintenance-only events,
+- and treating the data stream as complete before the fault taxonomy is stable.
+
+That produces false urgency and weak adoption.
+
+## When a bigger system is justified
+
+The plant should move beyond a lightweight pattern when it now needs:
+
+- closed-loop work-order status,
+- asset hierarchy and parts context,
+- workforce planning,
+- maintenance history joined cleanly to events,
+- or line-wide maintenance intelligence that can no longer live in a simple event layer.
+
+That is the moment to deepen CMMS or SCADA integration. Starting there too early often slows down the first win.
+
+## Compare next
+
+- [Alarm and andon event collection without full SCADA](/applications/alarm-and-andon-event-collection-without-full-scada/)
+- [Condition monitoring without replacing existing PLCs](/applications/condition-monitoring-without-replacing-existing-plcs/)
+- [Downtime reason capture from legacy lines without full MES](/applications/downtime-reason-capture-from-legacy-lines-without-full-mes/)
+- [Historian tags vs event models for brownfield operations data](/comparisons/historian-tags-vs-event-models-for-brownfield-operations-data/)
