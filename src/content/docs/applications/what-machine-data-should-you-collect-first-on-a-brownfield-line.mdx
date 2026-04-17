@@ -1,0 +1,157 @@
+---
+title: What machine data should you collect first on a brownfield line?
+description: A practical guide to the first machine data points that create operational value on brownfield lines before teams drown in tags, historian growth, or overbuilt architectures.
+referenceType: application
+adProfile: application
+commercialIntent: high
+reviewCadence: Quarterly review
+primaryKeyword: what machine data should you collect first on a brownfield line
+searchIntent: design
+decisionStage: solution-aware
+targetRoles:
+  - Plant engineers
+  - OT architects
+  - Manufacturing systems leads
+  - Integrators
+contentStatus: cornerstone
+problemSolved: How to choose the first machine data points on a brownfield line so the plant gets useful operating visibility without wasting effort on low-value tags and disconnected telemetry.
+readerTakeaway: You should leave with a practical first-phase data set tied to production state, loss analysis, maintenance triggers, and quality context instead of generic tag harvesting.
+keyQuestions:
+  - Which machine data points create the most value first on a brownfield line?
+  - What data should wait until the plant has stronger operating questions?
+  - How can teams avoid collecting a large tag set that never becomes actionable?
+notFor:
+  - Greenfield projects with a full controls and MES architecture already being designed
+  - Sites that only need machine diagnostics for one asset rather than line-level operations visibility
+updateTriggers:
+  - New brownfield data patterns around line-state and event modeling
+  - Changes in how plants capture maintenance and quality context from installed assets
+---
+
+import { LinkCard } from '@astrojs/starlight/components';
+
+# What machine data should you collect first on a brownfield line?
+
+The first brownfield data project usually goes wrong in one of two ways. Either the plant collects too little and gets no operational value, or it collects far too much and ends up with a historian full of tags that answer very few real questions. The right first phase is smaller and more opinionated than most teams expect.
+
+## Quick answer
+
+Start with the data that explains:
+
+- whether the line was running or not;
+- why the line stopped or slowed down;
+- how much good output and reject output was produced;
+- what product, lot, or recipe context was active;
+- which alarms or runtime conditions should trigger maintenance attention.
+
+That is usually enough to support supervisor visibility, downtime review, shift handover, and early maintenance workflows. It is a far better starting point than broad analog-point collection with no operating model.
+
+## The first-phase data set that usually creates value
+
+For most brownfield lines, the first useful data layer looks like this:
+
+| Data type | Why it matters | Typical source |
+| --- | --- | --- |
+| Run / stop / idle / blocked state | Creates line-state context instead of raw tag noise | PLC status bits, line-control logic, supervisory state |
+| Good count and reject count | Anchors output, yield, and loss review | Counters, reject station logic, pack-out logic |
+| Major alarms and fault groups | Supports triage and event review | PLC alarms, HMI alarm summaries, supervisory layer |
+| Product / recipe / SKU context | Keeps production events tied to what was being made | Recipe selection, operator input, barcode workflow |
+| Runtime counters and service thresholds | Supports maintenance triggers | PLC counters, runtime accumulators, service bits |
+
+This set is rarely perfect, but it is usually enough to start producing decisions.
+
+## What should not come first
+
+Many teams start with large analog and status dumps because those are easy to export. That often creates the wrong foundation. The first phase usually should **not** be dominated by:
+
+- every analog value the controller exposes;
+- low-level diagnostics with no owner;
+- broad motor or sensor data that no team is ready to analyze;
+- machine variables that cannot be tied to line state or business context;
+- high-frequency polling that adds cost but not operating meaning.
+
+Those signals may matter later. They just are not usually the first signals that change plant behavior.
+
+## The questions the first data set should answer
+
+If the first phase cannot answer these questions, it is probably collecting the wrong things:
+
+1. Was the line running, starved, blocked, in changeover, or down?
+2. Which losses were visible to production and maintenance during the shift?
+3. How much output and reject behavior happened during a product run?
+4. Which machines or stations generated the most meaningful interruptions?
+5. What should maintenance inspect before the issue repeats?
+
+Those are the operating questions that make brownfield data useful.
+
+## When to broaden beyond the basics
+
+Broader data collection becomes justified when the plant has already proven value from the first layer and now needs:
+
+- quality or genealogy detail by station;
+- utility and energy context tied to production states;
+- richer maintenance models;
+- event models that support OEE or MES integration;
+- localized AI or anomaly workflows with clear ownership.
+
+Before that point, more tags usually mean more ambiguity.
+
+## Common mistakes
+
+The first brownfield data layer often fails because:
+
+- the plant collects machine variables before defining line states;
+- the project is built around what is available, not what decisions are needed;
+- product or shift context is ignored;
+- alarm quality is poor, so event history is not trusted;
+- teams mistake raw retention for usable production visibility.
+
+The plant then has more data but not more clarity.
+
+## A practical selection rule
+
+If a data point does not improve one of these four jobs, it probably does not belong in phase one:
+
+- line-state visibility;
+- loss review;
+- output and quality context;
+- maintenance signal generation.
+
+That rule keeps the first phase small enough to succeed.
+
+## Implementation checklist
+
+Before adding another layer of collection, confirm that:
+
+- the plant can explain its line-state model in plain language;
+- output and reject counts are trustworthy enough to review;
+- product or recipe context is available where it matters;
+- alarms are grouped well enough to create usable event history;
+- maintenance teams agree which counters or fault repeats actually matter.
+
+If those conditions are weak, collect less data and define better meaning first.
+
+## Compare next
+
+<div class="portal-links">
+	<LinkCard
+		title="Line-state modeling for brownfield machine data"
+		href="/applications/line-state-modeling-for-brownfield-machine-data/"
+		description="Use line-state logic to turn the first tag set into operating meaning."
+	/>
+	<LinkCard
+		title="Production visibility without full MES"
+		href="/applications/production-visibility-for-discrete-lines-without-full-mes/"
+		description="See how the first data layer becomes a usable operating view before a larger software program."
+	/>
+	<LinkCard
+		title="Historian tags vs event models"
+		href="/comparisons/historian-tags-vs-event-models-for-brownfield-operations-data/"
+		description="Decide when the plant should move from raw retention toward event structure."
+	/>
+	<LinkCard
+		title="Maintenance work orders from PLC alarms"
+		href="/applications/maintenance-work-orders-from-plc-alarms-and-runtime-counters-without-full-scada/"
+		description="Extend the first-phase data layer into actionable maintenance signals."
+	/>
+</div>
