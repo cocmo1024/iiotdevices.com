@@ -36,7 +36,7 @@ import { LinkCard } from '@astrojs/starlight/components';
 
 Brownfield teams often hear "use MQTT" early in modernization discussions, especially when industrial AI, unified namespace thinking, or cross-system data reuse enters the conversation. That advice is not wrong, but it is often early. Many lines do not fail because they lack a broker. They fail because the machine boundary is unstable, buffering behavior is weak, and nobody has decided which consumer the data is supposed to serve first.
 
-## Quick answer
+## What matters first
 
 Use an **edge buffer first** when the line still needs a clean machine boundary, resilient store-and-forward behavior, and a narrow first consumer. Use a **broker-first architecture** when the data is already stable enough to support several downstream consumers, event discipline is real, and the organization can own topic governance and platform operations. The healthier first step for many brownfield lines is still a buffer before a broker.
 

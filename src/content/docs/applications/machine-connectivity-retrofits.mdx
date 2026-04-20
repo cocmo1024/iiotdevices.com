@@ -36,7 +36,7 @@ import { LinkCard } from '@astrojs/starlight/components';
 
 Retrofit work is where industrial connectivity becomes highly commercial. The installed base is real, shutdown windows are limited, and the project usually depends on bridging old and new systems without disturbing production. A successful retrofit gives the plant useful visibility without creating a new operational mess. A bad retrofit creates fragile polling, unclear ownership, unsupported bridges, and more maintenance work than the data is worth.
 
-## Quick answer
+## What matters first
 
 The cleanest retrofit projects usually win by doing less, not more. The first goal should be to expose the right machine signals reliably for monitoring, alarms, downtime analysis, or OEE, using the smallest device class that can own the protocol boundary safely. Most retrofit projects fail when they try to turn an old machine into a full digital platform before proving that basic signal access, buffering, translation, and support ownership are stable.
 
@@ -105,7 +105,7 @@ In practice:
 - `MQTT` becomes more useful when publish-oriented aggregation or broker-centered architectures are in play.
 - serial bridging still matters because many retrofit projects begin with awkward field boundaries, not clean Ethernet.
 
-The wrong pattern is choosing the “modern” protocol first and then forcing the machine layer to comply.
+The wrong pattern is choosing the “modern�?protocol first and then forcing the machine layer to comply.
 
 ## What to avoid
 

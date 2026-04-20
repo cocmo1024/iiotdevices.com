@@ -36,7 +36,7 @@ import { LinkCard } from '@astrojs/starlight/components';
 
 Mixed-vendor lines are where IIoT architecture stops being theoretical. Plants often need production data, alarms, counters, or machine states from assets that were never designed to share a common upstream path. The commercial value is high because these readers are usually trying to connect a real installed base, not sketch an abstract future architecture. The real challenge is not just reading data from one PLC. It is doing it in a way that survives commissioning, maintenance turnover, and future line changes.
 
-## Quick answer
+## What matters first
 
 Most mixed-vendor line projects should begin by proving one repeatable collection pattern rather than trying to normalize every controller family at once. The safest sequence is usually:
 
@@ -73,7 +73,7 @@ That combination means the project is rarely won by the most feature-rich platfo
 
 ## Decide the business outcome before the data model
 
-Plants often start with “we want all the data.” That is the wrong first move. A better start is a narrower question:
+Plants often start with “we want all the data.�?That is the wrong first move. A better start is a narrower question:
 
 - Do we need downtime causes?
 - Do we need cycle counts and part counts?

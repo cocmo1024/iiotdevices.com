@@ -1,0 +1,87 @@
+---
+title: When Should You Use Remote I/O Instead of a Small PLC?
+description: A practical architecture guide for deciding when remote I/O is the cleaner answer than a compact PLC and when trying to save controller cost creates more complexity later.
+referenceType: application
+adProfile: application
+commercialIntent: high
+reviewCadence: Quarterly review
+contentStatus: growing
+problemSolved: Helps teams decide whether distributed signals should be handled as remote I/O or whether the field location really needs a small PLC.
+readerTakeaway: You should leave with a clearer line between signal distribution problems and local control problems, which is the real decision behind remote I/O versus small PLC.
+primaryKeyword: remote io vs small plc
+searchIntent: select
+decisionStage: shortlist
+targetRoles:
+  - Controls engineers
+  - System integrators
+  - OT architects
+keyQuestions:
+  - When is remote I/O enough?
+  - When does the field location actually need its own controller?
+  - What hidden maintenance and communications issues change the answer?
+notFor:
+  - Greenfield lines where the whole control architecture is still open
+  - Readers looking for generic PLC programming advice
+updateTriggers:
+  - Shifts in distributed controls buying patterns
+  - New remote I/O and compact PLC product classes
+---
+
+import { LinkCard } from '@astrojs/starlight/components';
+
+# When Should You Use Remote I/O Instead of a Small PLC?
+
+This question comes up because both paths seem to solve the same early problem: "we need points closer to the machine." The real difference is not physical distance. It is whether the field location only needs distributed signals or whether it needs local decisions.
+
+## Use remote I/O when the problem is distribution
+
+Remote I/O is usually cleaner when the logic already belongs to an upstream controller and the field node mainly exists to reduce wiring distance, cabinet congestion, or modular expansion pain. In that case, another PLC just creates another programming, backup, and diagnostics surface.
+
+## Use a small PLC when the problem is autonomy
+
+Choose a compact PLC when the field location needs:
+
+- local sequencing,
+- fallback behavior during upstream interruption,
+- recipe or state management,
+- or machine behavior that maintenance will treat as a distinct control domain.
+
+If those needs are real, remote I/O may look cheaper only because the project has not admitted how much local behavior is about to accumulate.
+
+## The hidden costs that decide the answer
+
+### Communications dependency
+
+Remote I/O assumes the network path is healthy enough to support the control design. If the site cannot tolerate that dependency, the "cheaper" remote I/O path may be false economy.
+
+### Maintenance ownership
+
+Small PLCs add another programming and support layer. Remote I/O keeps the architecture flatter, but only if diagnostics and replacement stay simple for maintenance teams.
+
+### Expansion behavior
+
+Projects often start with simple signals and gradually add more local logic. If that is the likely direction, a compact PLC may be the cleaner long-term answer.
+
+## A practical rule
+
+If the field location needs local judgment, buy a controller. If it mainly needs local terminations and signal extension, buy remote I/O.
+
+## Compare next
+
+<div class="portal-links">
+	<LinkCard
+		title="Remote I/O systems"
+		href="/product-families/remote-io-systems/"
+		description="Use this page when the category itself still needs to be clarified before vendor shortlisting starts."
+	/>
+	<LinkCard
+		title="Remote sites and telemetry"
+		href="/applications/remote-sites-and-telemetry/"
+		description="Use this page when the architecture is becoming more like distributed telemetry than a plant-floor control extension."
+	/>
+	<LinkCard
+		title="Selection workflow"
+		href="/comparisons/selection-workflow/"
+		description="Use this page when the team needs a disciplined method for shortlisting controller-adjacent device classes."
+	/>
+</div>

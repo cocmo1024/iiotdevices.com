@@ -36,7 +36,7 @@ import { LinkCard } from '@astrojs/starlight/components';
 
 OEE and downtime projects are often the first brownfield initiative that gets real executive attention. They sound simple: collect run, stop, count, and loss information from older assets so leadership can see where throughput is being lost. In practice, these projects go wrong when teams chase every signal the line can expose instead of the smaller set of signals that operators, supervisors, and maintenance actually need to trust. The first win is not a perfect digital twin. It is reliable production-state visibility that survives commissioning and shift turnover.
 
-## Quick answer
+## What matters first
 
 Most legacy-line OEE projects should start with a narrow signal pack: machine running, machine stopped, fault or alarm present, part count if available, and a small set of downtime reason inputs if the process can support them. The cheapest successful architecture is usually the smallest one that can collect those signals cleanly, buffer them safely, and forward them into the reporting stack. If your first phase needs extensive local logic, custom scripts, or a large edge footprint, you are probably trying to solve phase three in phase one.
 

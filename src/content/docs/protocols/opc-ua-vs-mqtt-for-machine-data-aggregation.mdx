@@ -36,7 +36,7 @@ import { LinkCard } from '@astrojs/starlight/components';
 
 This comparison is most useful after the plant already knows how it will access the machine data. OPC UA and MQTT solve different parts of the problem. That is why many debates around them become noisy. Teams compare them as if they are interchangeable, then discover later that the real issue was translation at the machine boundary rather than transport upstream.
 
-## Quick answer
+## What matters first
 
 Choose OPC UA when the project needs structured industrial interoperability, plant-software friendliness, and a model that fits existing OT systems. Choose MQTT when the project benefits from lightweight publish-subscribe behavior, decoupled downstream consumers, and cloud- or analytics-oriented distribution. The wrong move is treating either protocol as the fix for messy machine-side access. If the field boundary is weak, the transport choice will not rescue the architecture.
 

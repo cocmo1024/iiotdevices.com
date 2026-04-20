@@ -1,13 +1,22 @@
 ---
 title: Vendors
-description: Vendor-focused reference pages for mapping industrial connectivity portfolios to application needs and rollout realities.
+description: Vendor-focused reference pages for mapping industrial connectivity portfolios to application needs, lifecycle support, and brownfield rollout realities.
 ---
 
 import { LinkCard, Steps } from '@astrojs/starlight/components';
 
 # Vendors
 
-Vendor coverage is most useful after the application and device class are already framed. This section is designed to compare portfolio breadth, integration posture, support expectations, and where each vendor tends to fit best.
+Vendor pages should help a reader answer a narrower question than "who is a good industrial brand?" They should help decide which portfolio is strong in the exact category and operating context the plant actually cares about.
+
+That means vendor research belongs after the application and device class are reasonably clear. Otherwise the buyer is comparing reputations, not solutions.
+
+## What a useful vendor page should clarify
+
+- where the vendor is genuinely strong,
+- where the portfolio is only adjacent to the real problem,
+- what kind of plant or support model tends to fit that vendor,
+- and how much ecosystem alignment matters after commissioning.
 
 ## Core paths
 
@@ -15,25 +24,35 @@ Vendor coverage is most useful after the application and device class are alread
 	<LinkCard
 		title="Vendor portfolio analysis"
 		href="/vendors/vendor-portfolio-analysis/"
-		description="A framework for understanding how vendor breadth, depth, and support posture affect buying decisions."
+		description="A framework for weighing breadth, lifecycle posture, and support reality before turning brand familiarity into a shortlist."
+	/>
+	<LinkCard
+		title="Siemens industrial connectivity"
+		href="/vendors/siemens-industrial-connectivity/"
+		description="Use this page when Siemens ecosystem fit is a real factor instead of an automatic default."
+	/>
+	<LinkCard
+		title="Phoenix Contact industrial networking"
+		href="/vendors/phoenix-contact-industrial-networking/"
+		description="Use this page when field wiring, cabinet reality, and modular connectivity posture matter heavily."
 	/>
 	<LinkCard
 		title="Applications"
 		href="/applications/"
-		description="Use the application to avoid comparing vendors that solve different categories of problem."
+		description="Return to the application if the vendor conversation is moving faster than the architecture definition."
 	/>
 	<LinkCard
 		title="Comparisons"
 		href="/comparisons/"
-		description="Bring vendor analysis into the final shortlist only after device and protocol assumptions are clear."
+		description="Bring vendor analysis into the shortlist only after category, protocol, and rollout assumptions are stable."
 	/>
 </div>
 
 ## Vendor review flow
 
 <Steps>
-	1. Confirm the hardware category and application boundary first.
-	2. Review whether the vendor is strong in that exact category or only adjacent to it.
-	3. Compare lifecycle support, regional availability, integration ecosystem, and long-term fit.
-	4. Use structured comparisons to turn vendor profiles into a shortlist.
+	1. Confirm the application boundary and the hardware category first.
+	2. Check whether the vendor is truly strong in that category or simply well known nearby.
+	3. Compare lifecycle support, regional availability, standards fit, and maintenance burden.
+	4. Use structured comparisons to turn vendor familiarity into a defensible shortlist.
 </Steps>

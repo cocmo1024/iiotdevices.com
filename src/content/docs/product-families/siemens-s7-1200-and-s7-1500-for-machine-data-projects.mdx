@@ -36,7 +36,7 @@ import { LinkCard } from '@astrojs/starlight/components';
 
 Siemens S7-1200 and S7-1500 keep showing up in machine-data work for a simple reason: they are already there. Brownfield digitalization projects are often built around installed controllers long before anyone agrees on historians, OEE tooling, quality dashboards, or AI use cases. That makes the real question less about which PLC is "better" in the abstract and more about what boundary the controller should own in a data project.
 
-## Quick answer
+## What matters first
 
 Use **S7-1200** when the job is still compact: a basic machine, light data exposure, modest communication burden, and a support model that values simplicity. Use **S7-1500** when the machine or cell is already more demanding, the logic burden is heavier, data interfaces are richer, or future expansion is genuinely credible. Do not use either family as an excuse to avoid a gateway or edge layer when the data project starts asking the controller to become an integration platform.
 
