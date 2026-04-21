@@ -20,6 +20,8 @@ export const siteMeta = {
 	icon512Path: '/icon-512.png',
 	appleTouchIconPath: '/apple-touch-icon.png',
 	repoUrl: 'https://github.com/cocmo1024/iiotdevices.com',
+	xUrl: 'https://x.com/oocxx_com',
+	sameAs: ['https://x.com/oocxx_com'],
 	indexNowKey: '7c6d3c37-daa8-488e-8f2f-509fc0a8ac68',
 	keywords: [
 		'iiot devices',
