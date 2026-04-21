@@ -25,30 +25,12 @@ export default defineConfig({
 				{
 					label: 'Reference Areas',
 					items: [
-						{
-							label: 'Applications',
-							autogenerate: { directory: 'applications' },
-						},
-						{
-							label: 'Device Types',
-							autogenerate: { directory: 'device-types' },
-						},
-						{
-							label: 'Product Families',
-							autogenerate: { directory: 'product-families' },
-						},
-						{
-							label: 'Vendors',
-							autogenerate: { directory: 'vendors' },
-						},
-						{
-							label: 'Protocols',
-							autogenerate: { directory: 'protocols' },
-						},
-						{
-							label: 'Comparisons',
-							autogenerate: { directory: 'comparisons' },
-						},
+						'applications',
+						'device-types',
+						'product-families',
+						'vendors',
+						'protocols',
+						'comparisons',
 					],
 				},
 				{
