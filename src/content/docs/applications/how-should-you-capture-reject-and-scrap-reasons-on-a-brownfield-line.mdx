@@ -1,0 +1,152 @@
+---
+title: How should you capture reject and scrap reasons on a brownfield line?
+description: A practical guide to capturing reject and scrap reasons on brownfield production lines without turning phase one into a full MES rewrite.
+referenceType: application
+adProfile: application
+commercialIntent: high
+reviewCadence: Quarterly review
+contentStatus: growing
+problemSolved: Helps plants capture reject and scrap reasons in a way that supports quality review, rework decisions, and line improvement without drowning in low-value tags.
+readerTakeaway: You should leave with a cleaner first-phase model for reject events, reason groups, operator inputs, and machine context on brownfield lines.
+primaryKeyword: reject and scrap reason capture brownfield line
+searchIntent: design
+decisionStage: solution-aware
+targetRoles:
+  - Plant engineers
+  - Quality leaders
+  - OT architects
+  - Manufacturing systems leads
+keyQuestions:
+  - What should a plant capture first when it wants reject and scrap reasons?
+  - Which parts of reject classification should come from machines and which require human input?
+  - How can a brownfield line capture usable reject data without a full MES project?
+notFor:
+  - Greenfield traceability systems already designed around full genealogy
+  - Plants looking only for a generic quality-software overview
+updateTriggers:
+  - New quality-data patterns for brownfield lines
+  - Changes in how plants connect reject handling to rework and traceability
+---
+
+import { LinkCard } from '@astrojs/starlight/components';
+
+# How should you capture reject and scrap reasons on a brownfield line?
+
+Many plants can count rejects long before they can explain them. That is the real problem. A reject counter tells the plant that quality is leaking. It does not tell anyone whether the issue came from setup drift, upstream material, machine state, operator handling, or a process condition that should trigger maintenance or containment.
+
+That is why reject-reason capture should be treated as an event-design problem, not just a tag-collection problem.
+
+## Start with outcome, context, and reason separately
+
+Reject capture is healthier when the plant separates three things:
+
+1. **Outcome**: what happened, such as reject, scrap, rework, hold, or manual removal.
+2. **Context**: which SKU, recipe, station, shift, and machine state were active.
+3. **Reason**: why the product was rejected, expressed in a reason model the plant can actually maintain.
+
+When teams collapse those into one overloaded status field, quality review becomes noisy and rework decisions become hard to trust.
+
+## The first data set that usually creates value
+
+For phase one, most brownfield lines do not need a full genealogy stack. They need a usable reject event record. That usually includes:
+
+| Data element | Why it matters |
+| --- | --- |
+| Reject event timestamp | Anchors the event to shift and line history |
+| Station or machine source | Shows where the event was detected |
+| Good, reject, and scrap counters | Distinguishes volume from one-off exceptions |
+| Active SKU or recipe | Prevents reject trends from floating free of product context |
+| Machine state at reject time | Helps separate startup, changeover, blocked, and normal-run issues |
+| Reason group | Gives quality and operations something actionable to review |
+| Disposition | Separates scrap, rework, quarantine, and operator recovery |
+
+That is enough to start answering better questions without overbuilding.
+
+## Do not start with 40 reject codes
+
+Plants often sabotage this project by creating an elegant but impossible reason tree. If operators or technicians cannot apply the code correctly under shift pressure, the model will rot quickly.
+
+Most sites are better off starting with a short set of reason groups such as:
+
+- material defect,
+- process drift,
+- setup or changeover issue,
+- machine fault,
+- sensor or detection problem,
+- handling damage,
+- unknown pending review.
+
+That is not the final taxonomy. It is the smallest one the plant can use consistently.
+
+## Let the machine say what it knows, and let people say what it cannot
+
+Machine logic can often provide:
+
+- the detecting station,
+- the active recipe,
+- the machine or line state,
+- and the relevant alarm or fault context.
+
+People are still usually needed to classify:
+
+- whether the issue was material-related,
+- whether the product can be reworked,
+- whether the reject was caused by setup,
+- and whether the event reflects a recurring issue or an isolated handling mistake.
+
+Trying to automate all reject reasons from the start usually produces false precision.
+
+## Use events, not only tags
+
+Reject and scrap data become more useful when stored as events with context rather than only as broad historian tags. A plant that only stores counters can see that rejects happened. A plant that stores reject events can ask:
+
+- which product was running,
+- which station detected the issue,
+- what line state was active,
+- whether the same reason repeated after changeover,
+- and whether scrap is clustering around one machine or one shift.
+
+That difference is what turns reject data into a practical operating layer.
+
+## The mistake plants make most often
+
+The most common failure is collecting reject data without connecting it to action. The line records counts and maybe a few alarms, but no one can tell:
+
+- whether maintenance should inspect something,
+- whether quality should quarantine product,
+- whether setup procedure needs to change,
+- or whether the reject pattern is normal during startup but abnormal during steady run.
+
+If the event does not help the plant decide what to do next, the capture model is incomplete.
+
+## A practical first-phase rule
+
+For a brownfield line, phase one is usually good enough if it helps the plant answer:
+
+- what was rejected;
+- where it was rejected;
+- what was running at the time;
+- whether the event belongs to startup, changeover, fault, or steady production;
+- and whether scrap, rework, or hold was the right next step.
+
+That is already far more useful than raw reject counts.
+
+## Compare next
+
+<div class="portal-links">
+	<LinkCard
+		title="Quality and traceability data from legacy packaging lines"
+		href="/applications/quality-traceability-data-from-legacy-packaging-lines/"
+		description="Use this page when reject capture is only one part of a broader traceability and quality-context problem."
+	/>
+	<LinkCard
+		title="Downtime reason capture from legacy lines"
+		href="/applications/downtime-reason-capture-from-legacy-lines-without-full-mes/"
+		description="Use this page when the plant also needs a cleaner model for stoppages, not only quality losses."
+	/>
+	<LinkCard
+		title="Shift handover and daily operations boards"
+		href="/applications/shift-handover-and-daily-operations-boards-from-legacy-line-data/"
+		description="Use this page when reject events need to become part of daily production review rather than a disconnected quality log."
+	/>
+</div>
