@@ -38,7 +38,7 @@ import { Card, CardGrid, LinkCard, Steps } from '@astrojs/starlight/components';
 		Protocol fit, interoperability boundaries, and data transport choices tied to real equipment decisions.
 	</Card>
 	<Card title="Comparisons" icon="approve-check-circle">
-		Comparison pages used after the problem is clear, so architecture and support burden stay tied to the actual deployment.
+		Comparison pages used after the problem, data path, and support boundary are already clear.
 	</Card>
 </CardGrid>
 
@@ -77,118 +77,105 @@ import { Card, CardGrid, LinkCard, Steps } from '@astrojs/starlight/components';
 	/>
 </div>
 
-## Featured strategic clusters
+## Current priority clusters
+
+The homepage stays curated by design. New brownfield and device-selection pages should enter the relevant hub first; this page promotes only stable cluster entrances with clear industrial search intent.
 
 <div class="portal-links">
 	<LinkCard
-		title="Brownfield AI readiness"
-		href="/applications/preparing-brownfield-machine-data-for-industrial-ai/"
-		description="A durable cluster around machine data quality, local compute boundaries, and industrial AI preparation."
-	/>
-	<LinkCard
-		title="Quality and traceability from legacy lines"
-		href="/applications/quality-traceability-data-from-legacy-packaging-lines/"
-		description="A practical cluster for plants trying to build traceability and quality context without replacing working packaging assets."
-	/>
-	<LinkCard
-		title="Condition monitoring without PLC replacement"
-		href="/applications/condition-monitoring-without-replacing-existing-plcs/"
-		description="A high-value cluster for maintenance and reliability teams trying to add visibility without opening a full controls retrofit."
-	/>
-	<LinkCard
-		title="Energy monitoring and submetering from existing PLC and power data"
-		href="/applications/energy-monitoring-and-submetering-from-existing-plc-and-power-data/"
-		description="A durable operating-cost cluster for plants that need practical energy visibility tied to shift, line, and utility behavior."
-	/>
-	<LinkCard
-		title="Machine changeover and recipe data"
-		href="/applications/machine-changeover-and-recipe-data-for-mixed-model-lines/"
-		description="A setup-loss cluster for mixed-model lines where recipe context and changeover evidence create recurring operational search intent."
-	/>
-	<LinkCard
-		title="Shift handover and daily board data"
-		href="/applications/shift-handover-and-daily-operations-boards-from-legacy-line-data/"
-		description="A durable operations cluster for sites trying to improve supervisor handover and daily accountability before they need larger manufacturing software."
-	/>
-	<LinkCard
-		title="Microstoppage capture on fast brownfield lines"
-		href="/applications/microstoppage-capture-for-high-speed-brownfield-lines/"
-		description="A high-frequency loss cluster for packaging and assembly lines where hidden short stops erode output more than a few visible breakdowns."
-	/>
-	<LinkCard
-		title="Compressed-air and utility leak visibility"
-		href="/applications/compressed-air-and-utility-leak-visibility-without-full-energy-platform/"
-		description="A durable utility cluster for plants trying to find avoidable load and leak patterns without jumping straight into a large energy platform."
-	/>
-	<LinkCard
-		title="Utility consumption baselines"
-		href="/applications/utility-consumption-baselines-for-compressed-air-steam-and-power/"
-		description="A practical utility cluster for tying compressed air, steam, and power usage to line states, shifts, and production context."
-	/>
-	<LinkCard
-		title="Line-state models for brownfield data"
-		href="/applications/line-state-modeling-for-brownfield-machine-data/"
-		description="A foundational operating-context cluster for turning raw machine tags into trusted production meaning."
-	/>
-	<LinkCard
-		title="Downtime reason capture without full MES"
-		href="/applications/downtime-reason-capture-from-legacy-lines-without-full-mes/"
-		description="A durable operations cluster for plants that need usable downtime reasons before a full manufacturing software rollout."
-	/>
-	<LinkCard
-		title="Alarm and andon event collection"
-		href="/applications/alarm-and-andon-event-collection-without-full-scada/"
-		description="A supervisory-gap cluster for brownfield plants that need usable event history before a full SCADA or MES commitment."
-	/>
-	<LinkCard
-		title="Maintenance work orders from PLC alarms"
-		href="/applications/maintenance-work-orders-from-plc-alarms-and-runtime-counters-without-full-scada/"
-		description="A high-intent maintenance-data cluster for turning brownfield alarms and runtime counters into actionable service triggers."
-	/>
-	<LinkCard
-		title="Reject and scrap reason capture"
-		href="/applications/how-should-you-capture-reject-and-scrap-reasons-on-a-brownfield-line/"
-		description="A quality-event cluster for brownfield lines that need usable reject context before they jump to a full MES or genealogy stack."
-	/>
-	<LinkCard
-		title="What machine data should you collect first?"
+		title="Brownfield machine data economics"
 		href="/applications/what-machine-data-should-you-collect-first-on-a-brownfield-line/"
-		description="A direct question-driven entry point for plants trying to avoid low-value tag collection and start with the smallest useful brownfield data layer."
+		description="The entry cluster for tag discipline, first-data priorities, event models, and avoiding low-value data collection."
 	/>
 	<LinkCard
 		title="Production visibility without full MES"
 		href="/applications/production-visibility-for-discrete-lines-without-full-mes/"
-		description="A durable operations cluster for teams that need useful line visibility before they are ready for a full manufacturing software stack."
+		description="A practical operations cluster for line visibility, daily boards, downtime context, and lightweight operations layers."
 	/>
 	<LinkCard
-		title="Device-class boundaries"
+		title="Line states and modeled events"
+		href="/applications/line-state-modeling-for-brownfield-machine-data/"
+		description="Foundational pages for turning raw PLC tags into production states, events, and trusted operating context."
+	/>
+	<LinkCard
+		title="Downtime and microstoppage capture"
+		href="/applications/microstoppage-capture-for-high-speed-brownfield-lines/"
+		description="A high-frequency loss cluster for short stops, downtime reasons, and line-event capture without full MES scope."
+	/>
+	<LinkCard
+		title="Quality and traceability"
+		href="/applications/quality-traceability-data-from-legacy-packaging-lines/"
+		description="Legacy-line traceability, reject context, scrap reasons, and quality evidence before a full genealogy system."
+	/>
+	<LinkCard
+		title="Maintenance signals from existing PLCs"
+		href="/applications/maintenance-work-orders-from-plc-alarms-and-runtime-counters-without-full-scada/"
+		description="Alarm, runtime, and condition-monitoring pages for plants adding maintenance visibility without PLC replacement."
+	/>
+	<LinkCard
+		title="Utility and energy visibility"
+		href="/applications/utility-consumption-baselines-for-compressed-air-steam-and-power/"
+		description="Energy monitoring, compressed-air leaks, utility baselines, and submetering context tied to production states."
+	/>
+	<LinkCard
+		title="Gateway, RTU, and edge-computer boundaries"
 		href="/device-types/gateways-edge-computers-and-rtus/"
-		description="A core decision cluster for separating gateways, RTUs, and edge computers before the architecture gets overbuilt."
+		description="The core device-class decision cluster for avoiding overbuilt retrofit architectures."
 	/>
 	<LinkCard
 		title="Classic installed-base product lines"
 		href="/product-families/siemens-s7-1200-and-s7-1500-for-machine-data-projects/"
-		description="Evergreen pages built around Siemens S7, ET 200, and Moxa conversion families that repeatedly appear in brownfield machine-data work."
+		description="Evergreen product-family coverage for Siemens S7, ET 200, Moxa conversion, and similar brownfield shortlists."
 	/>
 	<LinkCard
-		title="Tags vs event models"
-		href="/comparisons/historian-tags-vs-event-models-for-brownfield-operations-data/"
-		description="A data-economics cluster for deciding when broad tag history is enough and when the plant needs explicit event structure."
-	/>
-	<LinkCard
-		title="SCADA vs MES vs a lightweight operations layer"
+		title="SCADA, MES, and lightweight layers"
 		href="/comparisons/scada-vs-mes-vs-lightweight-operations-layer-for-brownfield-lines/"
-		description="A software-layer cluster for deciding whether the next brownfield step is supervisory visibility, governed execution, or a smaller event-and-operations layer."
+		description="A software-layer cluster for deciding whether the next step is supervisory visibility, governed execution, or a smaller operations layer."
 	/>
 	<LinkCard
-		title="Polling rates vs event triggers"
+		title="Tags versus event models"
+		href="/comparisons/historian-tags-vs-event-models-for-brownfield-operations-data/"
+		description="A data-economics cluster for deciding where broad history is enough and where explicit event structure creates more value."
+	/>
+	<LinkCard
+		title="Polling rates versus event triggers"
 		href="/comparisons/polling-rates-vs-event-triggers-for-brownfield-data-costs/"
-		description="A stronger brownfield data-economics cluster for deciding where continuous polling still belongs and where event capture is the better cost model."
+		description="A cost-control cluster for choosing between continuous polling, triggered events, buffering, and useful historian load."
+	/>
+</div>
+
+## High-intent question paths
+
+<div class="portal-links">
+	<LinkCard
+		title="What machine data should you collect first?"
+		href="/applications/what-machine-data-should-you-collect-first-on-a-brownfield-line/"
+		description="Start with the smallest useful data layer instead of collecting every available tag."
 	/>
 	<LinkCard
-		title="Tag growth vs modeled events"
+		title="How should you capture reject and scrap reasons?"
+		href="/applications/how-should-you-capture-reject-and-scrap-reasons-on-a-brownfield-line/"
+		description="Connect quality events to machine state, operator reason codes, and traceability needs without overbuilding."
+	/>
+	<LinkCard
+		title="Can you collect downtime reasons without full MES?"
+		href="/applications/downtime-reason-capture-from-legacy-lines-without-full-mes/"
+		description="Use a lightweight reason-capture layer when MES scope is not yet justified."
+	/>
+	<LinkCard
+		title="When are modeled events better than more tags?"
 		href="/comparisons/tag-growth-vs-modeled-events-for-brownfield-data-economics/"
-		description="A brownfield data-economics cluster for deciding when more historian tags still make sense and when modeled events create better operational return."
+		description="Decide when tag growth stops helping and event structure creates clearer operating return."
+	/>
+	<LinkCard
+		title="Which device class fits a retrofit?"
+		href="/comparisons/retrofit-gateway-shortlist-criteria/"
+		description="Shortlist gateways, converters, and edge devices by the actual retrofit boundary."
+	/>
+	<LinkCard
+		title="How should alarm and andon events be collected?"
+		href="/applications/alarm-and-andon-event-collection-without-full-scada/"
+		description="Preserve event history and supervisory context before committing to a larger SCADA or MES layer."
 	/>
 </div>
 
