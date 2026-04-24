@@ -1,0 +1,209 @@
+---
+title: Brownfield Data Acceptance Criteria Before Scaling Machine Data Collection
+description: A practical acceptance framework for proving brownfield machine data is trustworthy before expanding tag count, gateway count, or site rollout scope.
+referenceType: comparison
+adProfile: comparison
+commercialIntent: high
+reviewCadence: Quarterly review
+primaryKeyword: brownfield machine data acceptance criteria
+searchIntent: deploy
+decisionStage: implementation
+targetRoles:
+  - Plant engineers
+  - OT architects
+  - Manufacturing systems leads
+  - System integrators
+contentStatus: cornerstone
+problemSolved: How to decide whether the first brownfield machine data layer is reliable enough to scale instead of collecting more tags on top of weak definitions.
+readerTakeaway: You should leave with a field-ready acceptance checklist for line states, events, timestamps, buffering, ownership, and support evidence.
+keyQuestions:
+  - What should brownfield machine data prove before a wider rollout?
+  - How should plants validate line states, events, timestamps, and buffering?
+  - When should a team stop adding tags and fix data quality instead?
+notFor:
+  - Greenfield data platforms with new controls and data standards already specified
+  - Pure enterprise analytics programs with no plant-floor acceptance stage
+  - Teams that have not selected the first operating question the data must answer
+updateTriggers:
+  - New brownfield data collection patterns across gateways, historians, and edge systems
+  - Changes in common MES, OEE, cloud, and historian integration expectations
+  - Field lessons around line-state modeling, event capture, and machine-data acceptance
+---
+
+import { LinkCard } from '@astrojs/starlight/components';
+
+# Brownfield Data Acceptance Criteria Before Scaling Machine Data Collection
+
+The first brownfield data project usually fails quietly before it fails visibly. Tags are collected, dashboards appear, and the pilot looks alive. Then supervisors notice that stops do not match shift memory, maintenance does not trust fault counts, quality cannot tie rejects to the right context, or the historian has a thousand signals that still do not explain what happened.
+
+The fix is not to collect more data first. The fix is to define acceptance criteria for the data layer before scaling it. A small, trusted dataset is worth more than a large dataset that operations treats as approximate.
+
+## Quick answer
+
+Accept brownfield machine data only when it proves four things: the operating states match real line behavior, important events preserve sequence and time context, data survives normal network and machine disturbances, and a named owner can maintain the definitions after the integrator leaves. If those four tests fail, scaling tag count will usually create more cost than insight.
+
+## What accepted data means
+
+"Data is flowing" is not acceptance. Accepted data means the site can use the data to make a decision without constant engineering interpretation. In practice, that requires:
+
+- stable line-state definitions that operations recognizes;
+- event timestamps that are accurate enough for the decision being made;
+- reason, alarm, or reject context that survives common edge cases;
+- buffering behavior that matches realistic outage windows;
+- tag naming and model structure that a second line can copy without rewriting everything;
+- documented ownership for rule changes, backups, and replacement.
+
+This is why acceptance belongs before expansion. Scaling a weak model only spreads confusion faster.
+
+## The minimum acceptance stack
+
+| Acceptance layer | What to prove | Typical evidence |
+| --- | --- | --- |
+| Signal integrity | The collected value represents the machine condition correctly | Side-by-side observation, PLC cross-check, historian trend review |
+| State meaning | Running, blocked, starved, faulted, changeover, idle, and planned stop logic matches production reality | Shift replay against known events and supervisor review |
+| Event sequence | Important transitions preserve order and enough timestamp precision | Event log compared with operator notes, alarms, or video/time study |
+| Buffering | Short outages or restarts do not erase the operating story | Forced disconnect, gateway restart, store-and-forward verification |
+| Upstream usability | Historian, OEE, MES, CMMS, or board data arrives in a usable shape | Consumer-side review, not only gateway-side success |
+| Support ownership | The plant can maintain definitions and replace hardware | Backup, restore, spare, and change-control evidence |
+
+The most important column is evidence. If a criterion cannot produce evidence, it is probably a wish.
+
+## Validate line states before adding more tags
+
+Line-state modeling is where many brownfield projects either become useful or collapse into dashboards. A practical state model should answer:
+
+- Is the line producing good units?
+- Is it waiting for upstream supply?
+- Is it blocked by downstream equipment?
+- Is it stopped by fault, changeover, cleaning, planned maintenance, or no schedule?
+- Is the state inferred automatically, operator-entered, or corrected after the fact?
+
+For acceptance, do not validate only a clean hour. Test the ugly periods:
+
+- first start after shift change;
+- product changeover;
+- short repeated stops;
+- blocked downstream accumulation;
+- restart after maintenance;
+- end-of-shift cleanup or no-order condition.
+
+If the model cannot survive those periods, it is not ready to scale.
+
+## Validate event capture with real edge cases
+
+Event capture should be accepted against the events that create business value:
+
+- downtime start and stop;
+- alarm assert and clear;
+- reject, scrap, and hold events;
+- recipe or product change;
+- utility excursion tied to a production state;
+- operator reason correction or late reason entry.
+
+The event record should preserve at least:
+
+- timestamp;
+- source asset;
+- event type;
+- relevant state before and after;
+- reason or code when available;
+- whether the event was automatic, operator-entered, or corrected.
+
+If the plant only stores the latest value, it may lose the event story that explains the shift.
+
+## Timestamp rules matter more than teams expect
+
+Timestamp quality should match the decision:
+
+| Use case | Timestamp expectation |
+| --- | --- |
+| Daily production board | Minute-level accuracy may be enough if state totals are trusted |
+| Microstoppage analysis | Seconds matter because repeated short stops disappear in coarse logs |
+| Reject and scrap context | Timestamp must align with product, station, and lot context |
+| Alarm sequence review | Order matters as much as absolute time |
+| Utility baseline | Timestamp must align with production state and shift calendar |
+
+Do not overpay for precision that the use case cannot use. Do not under-spec timing where sequence is the whole value.
+
+## Buffering and outage acceptance
+
+Brownfield data systems should be tested against normal disturbances:
+
+- gateway reboot;
+- upstream network loss;
+- historian or broker downtime;
+- PLC communication interruption;
+- power cycle in the local cabinet;
+- duplicate delivery after reconnect.
+
+Acceptance evidence should show what is lost, what is retained, and how duplicates are handled. The goal is not perfection. The goal is knowing the failure mode before the first production argument.
+
+## Stop scaling when these warning signs appear
+
+Pause expansion if:
+
+- supervisors dispute the line-state totals every week;
+- engineering keeps adding tags to compensate for unclear questions;
+- OEE, historian, and maintenance reports disagree on basic event timing;
+- gateway configuration is not backed up or reproducible;
+- no one owns data-rule changes after the pilot;
+- a second line requires a full custom rebuild instead of a controlled adaptation.
+
+Those are acceptance failures, not minor tuning issues.
+
+## What a good acceptance pack should include
+
+A practical acceptance pack for the first line or asset should include:
+
+1. a list of signals collected and why each matters;
+2. state and event definitions in plain operational language;
+3. a replay of at least one normal shift and one disturbed period;
+4. outage and restart test results;
+5. upstream consumer screenshots or exports showing the data in use;
+6. known limitations and explicit non-goals;
+7. backup, restore, and replacement instructions;
+8. the named owner for data rules after handoff.
+
+This pack is more valuable than another dashboard because it proves the data layer can be trusted and repeated.
+
+## How this changes device selection
+
+Acceptance criteria often clarify whether the plant needs:
+
+- a smaller protocol converter because the boundary is narrow;
+- a gateway with stronger buffering because outage recovery matters;
+- an edge computer because state modeling and local transformation are real requirements;
+- a remote I/O or RTU layer because field signal capture is the harder problem;
+- a historian-first approach because the initial need is retention, not event modeling.
+
+The acceptance definition should reduce the shortlist, not expand it.
+
+## Compare next
+
+<div class="portal-links">
+	<LinkCard
+		title="Line-state modeling for brownfield machine data"
+		href="/applications/line-state-modeling-for-brownfield-machine-data/"
+		description="Use line-state definitions as the first proof that collected data maps to real production behavior."
+	/>
+	<LinkCard
+		title="What machine data should you collect first?"
+		href="/applications/what-machine-data-should-you-collect-first-on-a-brownfield-line/"
+		description="Narrow the first signals before the acceptance checklist turns into a large tag inventory."
+	/>
+	<LinkCard
+		title="Historian tags vs event models"
+		href="/comparisons/historian-tags-vs-event-models-for-brownfield-operations-data/"
+		description="Decide where raw tag retention is enough and where explicit event structure is required."
+	/>
+	<LinkCard
+		title="Polling rates vs event triggers"
+		href="/comparisons/polling-rates-vs-event-triggers-for-brownfield-data-costs/"
+		description="Pressure-test whether the data layer should collect continuously, trigger on events, or mix both."
+	/>
+	<LinkCard
+		title="Selection workflow"
+		href="/comparisons/selection-workflow/"
+		description="Return to the broader workflow for turning accepted data requirements into a device shortlist."
+	/>
+</div>

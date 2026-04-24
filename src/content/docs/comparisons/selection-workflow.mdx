@@ -1,38 +1,171 @@
 ---
 title: Selection Workflow
 description: A step-by-step comparison framework for narrowing IIoT hardware and vendor options with less bias and more operational discipline.
+referenceType: comparison
+adProfile: comparison
+commercialIntent: high
+reviewCadence: Quarterly review
+primaryKeyword: industrial device selection workflow
+searchIntent: select
+decisionStage: shortlist
+targetRoles:
+  - Plant engineers
+  - OT architects
+  - Technical buyers
+  - System integrators
+contentStatus: growing
+problemSolved: How to move from a brownfield data or telemetry problem to a defensible device shortlist without choosing a gateway, converter, or edge computer too early.
+readerTakeaway: You should leave with a staged selection workflow that separates application fit, data acceptance, protocol burden, device class, vendor support, and lifecycle ownership.
+keyQuestions:
+  - What should be decided before comparing industrial gateways or edge devices?
+  - When should the team stop adding features and define acceptance criteria instead?
+  - How should vendor comparison fit into a brownfield device selection workflow?
+notFor:
+  - Greenfield architectures where the full control stack is being specified from scratch
+  - Projects already locked into a single vendor ecosystem
+  - Teams that have not defined the operating problem the data must solve
+updateTriggers:
+  - Changes in common brownfield gateway, edge, and remote I/O architectures
+  - New vendor releases that materially change device class boundaries
+  - New patterns in historian, MES, cloud, and operations data handoff
 ---
 
 import { LinkCard } from '@astrojs/starlight/components';
 
 # Selection Workflow
 
-A useful selection workflow is less about making a scoring sheet look scientific and more about preventing preventable mistakes. The best comparison process filters out category errors early, then compares the remaining options on rollout reality rather than brochure language.
+Industrial device selection fails when the team starts with catalogs instead of the operating boundary. A gateway with more protocols, a bigger edge computer, or a vendor platform bundle can all look attractive in a demo. None of those choices matter if the project has not defined what data must be trusted, what site conditions the hardware must survive, who will maintain it, and what acceptance evidence proves the job is done.
 
-## Compare in this order
+Use this workflow to move from a brownfield machine-data, remote I/O, or telemetry problem to a shortlist that can survive commissioning. The point is not to make the selection process slower. It is to avoid a late-stage discovery that the chosen box solved the wrong layer.
 
-- Application fit and environmental survival.
-- Device class fit and software ownership burden.
-- Protocol and interoperability alignment.
-- Vendor depth, support posture, and lifecycle clarity.
+## Quick answer
 
-## Watch for
+Choose devices in this order: operating problem, acceptance evidence, machine-side boundary, upstream consumer, device class, protocol fit, support model, vendor portfolio. If a project cannot define what "accepted data" looks like, the shortlist is premature. Feature comparison should come after the team knows what the device must prove in the field.
 
-- Comparing products from different hardware categories as if they perform the same job.
-- Overweighting features that are attractive in demos but costly in operations.
-- Ignoring serviceability, replacement timing, or regional support constraints.
+## The six-gate workflow
 
-## Related paths
+| Gate | Decision | What can go wrong if skipped |
+| --- | --- | --- |
+| 1. Application boundary | What problem must this installation solve? | The project becomes a generic data-collection effort with no operational owner. |
+| 2. Acceptance evidence | What will prove the data or connection is trustworthy? | The device is commissioned, but operations does not trust the result. |
+| 3. Field boundary | What assets, signals, and protocols are actually present? | The team buys for a future-state architecture instead of the installed base. |
+| 4. Upstream consumer | Who uses the output: historian, SCADA, MES, OEE, CMMS, cloud broker, or supervisor board? | Data arrives somewhere, but not in the form the consuming workflow needs. |
+| 5. Device class | Is this a gateway, protocol converter, remote I/O island, RTU, or edge computer problem? | The team pays for the wrong category and then compensates with custom work. |
+| 6. Support model | Who owns replacement, configuration, certificates, firmware, and fault recovery? | The pilot works while the integrator is present and degrades after handoff. |
+
+The workflow is intentionally sequential. If gate two fails, do not compensate by comparing more vendors. Fix the acceptance definition first.
+
+## Gate 1: define the application boundary
+
+Start with the operational question, not the device. Useful boundaries usually sound like:
+
+- "We need reliable line-state and downtime reason data from three packaging lines without replacing PLCs."
+- "We need remote tank level, pump status, and alarm continuity from unattended sites with intermittent cellular coverage."
+- "We need energy and compressed-air usage tied to production state before investing in a full utility platform."
+
+Weak boundaries sound like:
+
+- "We need an IIoT gateway."
+- "We need MQTT."
+- "We need to get all tags into the cloud."
+
+Those statements may be technically true later, but they are not selection criteria yet.
+
+## Gate 2: define acceptance evidence before buying hardware
+
+This is the step most teams skip. The project should define what evidence proves the device is doing useful work. For a brownfield production line, acceptance evidence may include:
+
+- line state matches observed running, starved, blocked, faulted, changeover, and idle behavior during a real shift;
+- timestamps are consistent enough to reconstruct microstops, alarms, and changeovers;
+- buffered data survives the outage windows the site actually experiences;
+- operators or supervisors recognize the event meaning without engineering translation;
+- replacement procedures are short enough for the maintenance model.
+
+If the project cannot describe that evidence, the device shortlist is mostly guesswork.
+
+## Gate 3: map the field boundary honestly
+
+The field boundary should document:
+
+- controller families and firmware limits;
+- serial, Ethernet, discrete, analog, or pulse signals still in use;
+- whether the machine can tolerate polling load;
+- cabinet space, power, grounding, temperature, and access constraints;
+- whether field changes require production downtime or OEM approval.
+
+This boundary often eliminates attractive devices quickly. A device can be technically capable and still be a poor fit if it assumes network access, cabinet space, protocol consistency, or maintenance skills the plant does not have.
+
+## Gate 4: identify the upstream consumer
+
+The upstream consumer changes the selection logic:
+
+| Upstream consumer | Selection pressure |
+| --- | --- |
+| Historian | Stable tag naming, timestamp behavior, polling load, retention path |
+| OEE or downtime workflow | State/event meaning, reason capture, operator correction, shift context |
+| MES or quality system | Lot, recipe, reject, serial, station, and traceability context |
+| SCADA | Alarm behavior, supervisory state, operator visibility, control boundary |
+| Cloud broker | Store-and-forward, security, certificates, bandwidth, payload structure |
+| CMMS | Fault counts, runtime counters, maintenance trigger quality |
+
+Do not choose the gateway as if every upstream destination needs the same data shape.
+
+## Gate 5: choose the device class last enough
+
+Device class should emerge from the earlier decisions:
+
+- A protocol converter is attractive when the boundary is narrow, local, and stable.
+- A gateway is attractive when protocol translation, buffering, and upstream handoff matter.
+- An edge computer is attractive when local normalization, applications, heavier buffering, or analytics must run near the line.
+- Remote I/O is attractive when field signals need a rugged distributed landing point more than local intelligence.
+- An RTU is attractive when autonomy, telemetry, and remote survivability matter more than plant-floor integration.
+
+Buying the richest class too early usually increases support burden without improving the first operational answer.
+
+## Gate 6: compare vendors after the job is stable
+
+Vendor comparison should focus on evidence the plant will still care about one year later:
+
+- configuration export and replacement workflow;
+- availability of local support, spares, and documentation;
+- protocol driver maturity for the installed base;
+- security update and certificate management burden;
+- how well the portfolio supports the next likely adjacent use case without forcing a platform lock-in.
+
+This is where brand preference becomes useful. Earlier than this, it often hides unclear requirements.
+
+## A practical shortlist rule
+
+Keep only devices that can answer all four questions:
+
+1. What exact field boundary does this device simplify?
+2. What acceptance evidence will prove it worked?
+3. Who owns it after commissioning?
+4. What is the smallest adjacent expansion it can support without redesign?
+
+If a device cannot answer those questions clearly, remove it from the first shortlist.
+
+## Compare next
 
 <div class="portal-links">
 	<LinkCard
+		title="Brownfield data acceptance criteria before scaling"
+		href="/comparisons/brownfield-data-acceptance-criteria-before-scaling-machine-data-collection/"
+		description="Define what the first data layer must prove before the plant scales collection across more lines or assets."
+	/>
+	<LinkCard
 		title="Vendor portfolio analysis"
 		href="/vendors/vendor-portfolio-analysis/"
-		description="Use vendor strength as one layer in the workflow, not the first filter."
+		description="Compare vendors after the selection path is clear enough to avoid buying a brand instead of solving a boundary."
 	/>
 	<LinkCard
 		title="Remote sites and telemetry"
 		href="/applications/remote-sites-and-telemetry/"
-		description="Field conditions often eliminate options long before a formal scoring exercise begins."
+		description="Use remote-site requirements to see how environment and support change device selection."
+	/>
+	<LinkCard
+		title="Retrofit gateway shortlist criteria"
+		href="/comparisons/retrofit-gateway-shortlist-criteria/"
+		description="Pressure-test gateway choices once the workflow has narrowed the device class."
 	/>
 </div>
