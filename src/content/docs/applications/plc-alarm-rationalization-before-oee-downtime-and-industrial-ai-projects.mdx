@@ -1,0 +1,131 @@
+---
+title: PLC alarm rationalization before OEE, downtime, and industrial AI projects
+description: How brownfield teams should clean up PLC alarm signals before using them for OEE, downtime reason capture, maintenance workflows, or industrial AI.
+referenceType: application
+adProfile: application
+commercialIntent: high
+reviewCadence: Quarterly review
+contentStatus: cornerstone
+problemSolved: Helps plants avoid building dashboards, OEE models, and AI workflows on noisy, duplicated, or operationally weak PLC alarm data.
+readerTakeaway: You should leave with a practical alarm-rationalization workflow tied to event quality, downtime context, and machine-data economics.
+primaryKeyword: PLC alarm rationalization before OEE
+searchIntent: design
+decisionStage: implementation
+targetRoles:
+  - Plant engineers
+  - Controls engineers
+  - Continuous improvement leaders
+  - System integrators
+keyQuestions:
+  - Why should PLC alarms be rationalized before OEE?
+  - Which alarms are useful for downtime and AI projects?
+  - How should brownfield teams reduce noisy alarm data?
+---
+
+import { LinkCard } from '@astrojs/starlight/components';
+
+# PLC alarm rationalization before OEE, downtime, and industrial AI projects
+
+Many brownfield data projects start by pulling alarm bits from PLCs because they are already available. That can be useful, but it can also poison the first data layer. If the alarm list is noisy, duplicated, stale, poorly named, or disconnected from real operating states, the downstream OEE, downtime, maintenance, and AI project inherits that weakness.
+
+Alarm rationalization does not need to become a full enterprise alarm-management program before the plant can use machine data. But the first data project should still separate meaningful operating events from raw alarm noise.
+
+## Quick answer
+
+Before using PLC alarms for OEE, downtime, maintenance workflows, or industrial AI, classify each alarm by operational meaning, event timing, severity, actionability, source quality, and relationship to machine state. Keep alarms that explain loss, safety, quality, maintenance, or recovery behavior. Deprioritize alarms that are duplicate, nuisance, transient, poorly timestamped, or only useful inside the machine program.
+
+## Why alarm data often misleads early projects
+
+PLC alarms are usually created for machine operation, not analytics. They may be excellent for an operator standing at the HMI and weak for a historian, OEE tool, or AI system.
+
+Common problems include:
+
+- several alarm bits describing the same underlying condition;
+- alarms that flicker during normal transitions;
+- faults that clear before the data layer captures sequence;
+- alarms named for internal program logic rather than plant language;
+- missing relationship between alarm and production state;
+- and alarms that indicate symptoms but not root cause.
+
+If all of these are collected equally, the plant gets volume instead of insight.
+
+## A practical alarm classification model
+
+| Class | Use in data project | Example question |
+| --- | --- | --- |
+| Production-loss alarm | High value | Did this event stop or slow the line? |
+| Quality-risk alarm | High value | Could this event affect product quality or reject rate? |
+| Maintenance-action alarm | High value | Does this event tell maintenance what to inspect? |
+| Safety or interlock event | High value but context-sensitive | Does this explain a protected stop or access event? |
+| Transition noise | Usually low value | Does it occur during normal startup, stop, or recipe change? |
+| Duplicate symptom | Merge or deprioritize | Is another signal already a better explanation? |
+| Internal diagnostic | Keep local unless needed | Is it only useful to controls troubleshooting? |
+
+The classification should be done with operations, maintenance, and controls together. Controls alone may know the bit. Operations knows whether it matters.
+
+## What to collect first
+
+For a first useful layer, prioritize:
+
+1. line stop causes;
+2. protected stop and interlock events;
+3. jam, starved, blocked, and faulted conditions;
+4. maintenance-repeat alarms;
+5. quality-risk alarms;
+6. event start, clear, and duration;
+7. machine state at the time of event;
+8. and operator reason code when automatic context is insufficient.
+
+This set is usually more valuable than pulling every available fault bit.
+
+## What to avoid
+
+Avoid treating these as equally useful:
+
+- alarm count alone;
+- current active alarm only;
+- ungrouped fault lists;
+- alarms with no state context;
+- alarms with no event duration;
+- nuisance alarms that operators already ignore;
+- and alarms with names that no one outside controls understands.
+
+These can still be stored, but they should not drive first-phase KPI or AI claims.
+
+## Acceptance test
+
+Before scaling alarm data, test whether the alarm model can answer:
+
+- What stopped the line first?
+- Which events are symptoms and which are likely causes?
+- How long did the condition last?
+- Did the machine recover automatically or require human intervention?
+- Did the alarm occur during production, changeover, startup, shutdown, or cleaning?
+- Would maintenance know what to inspect from this event?
+
+If the answer is no, more alarm tags will not fix the model.
+
+## Compare next
+
+<div class="portal-links">
+	<LinkCard
+		title="Alarm and Andon event collection without full SCADA"
+		href="/applications/alarm-and-andon-event-collection-without-full-scada/"
+		description="Use this when alarm sequence and operator visibility are the main deployment problem."
+	/>
+	<LinkCard
+		title="Line-state modeling for brownfield machine data"
+		href="/applications/line-state-modeling-for-brownfield-machine-data/"
+		description="Alarm rationalization becomes stronger when events are tied to operating states."
+	/>
+	<LinkCard
+		title="Downtime reason capture from legacy lines"
+		href="/applications/downtime-reason-capture-from-legacy-lines-without-full-mes/"
+		description="Use this when alarm data needs to become a reason-capture workflow."
+	/>
+	<LinkCard
+		title="Preparing brownfield machine data for industrial AI"
+		href="/applications/preparing-brownfield-machine-data-for-industrial-ai/"
+		description="Use this before feeding alarm-derived data into prediction or AI workflows."
+	/>
+</div>

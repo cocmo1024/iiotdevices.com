@@ -1,20 +1,95 @@
 ---
 title: Vendor Portfolio Analysis
-description: A framework for evaluating industrial connectivity vendors by category strength, ecosystem fit, and lifecycle support.
+description: A practical framework for evaluating industrial connectivity vendors by category strength, ecosystem fit, lifecycle support, and brownfield rollout risk.
+referenceType: vendor
+adProfile: vendor
+commercialIntent: high
+reviewCadence: Quarterly review
+contentStatus: cornerstone
+problemSolved: Helps teams turn vendor familiarity into a defensible shortlist instead of assuming broad catalogs equal best fit.
+readerTakeaway: You should leave with a vendor-evaluation model that separates category depth, ecosystem alignment, support reality, and project risk.
+primaryKeyword: industrial connectivity vendor portfolio analysis
+searchIntent: select
+decisionStage: shortlist
+targetRoles:
+  - Technical buyers
+  - OT architects
+  - Plant engineers
+  - System integrators
+keyQuestions:
+  - How should industrial connectivity vendors be compared?
+  - When does ecosystem fit matter more than product features?
+  - What makes a vendor portfolio strong for a brownfield project?
 ---
 
 import { LinkCard } from '@astrojs/starlight/components';
 
 # Vendor Portfolio Analysis
 
-The biggest vendor mistake is treating broad catalogs as proof of strong fit. Portfolio breadth can be an advantage, but only when the vendor is also strong in the specific device class, protocol context, and support model that the site requires.
+The biggest vendor mistake is treating broad catalogs as proof of strong fit. Portfolio breadth can be useful, but only when the vendor is strong in the exact device class, protocol context, support model, and installed-base reality the project requires.
 
-## Review dimensions
+Industrial connectivity decisions are rarely clean brand competitions. A plant may have Siemens PLCs, Moxa converters, Phoenix Contact field hardware, Rockwell controls, legacy Modbus devices, and a corporate historian standard in the same environment. The vendor question is therefore not "which brand is best?" The better question is **which vendor should own which layer of this retrofit?**
 
-- Category depth in the exact hardware family being considered.
-- Ecosystem fit with the plant, integrator, or software stack already in place.
-- Availability of technical support, documentation quality, and lifecycle clarity.
-- Whether the vendor's strengths match the deployment environment or only the headline product category.
+## Quick answer
+
+Compare vendors by role fit, not reputation. A strong vendor shortlist should identify the category being bought, the protocol burden, the support owner, lifecycle expectations, regional availability, and the consequences of adding one more ecosystem to the plant. A familiar brand should not win unless it reduces real deployment and maintenance risk.
+
+## The six dimensions that matter
+
+| Dimension | What to check | Why it matters |
+| --- | --- | --- |
+| Category depth | Is the vendor genuinely strong in this device class? | Broad automation strength does not always equal strong gateway, converter, RTU, or remote I/O fit. |
+| Installed-base alignment | Does the plant already own adjacent tools, skills, or spares? | Ecosystem fit can reduce support burden, but can also hide lock-in. |
+| Protocol posture | Does the vendor handle the required protocol boundary cleanly? | Protocol translation problems create long-term support friction. |
+| Lifecycle clarity | Are replacements, firmware, documentation, and support paths clear? | Brownfield projects often live longer than the original modernization budget. |
+| Integrator familiarity | Can the local integrator support the stack without heroics? | A technically good product can still be a weak choice if support is fragile. |
+| Failure visibility | Can maintenance diagnose common faults quickly? | Hidden failures turn small device issues into production mysteries. |
+
+## When portfolio breadth helps
+
+Breadth helps when the project benefits from one vendor across several adjacent layers:
+
+- cabinet interface and remote I/O;
+- gateway and protocol conversion;
+- switch, router, and industrial network accessories;
+- automation controller and data collection boundary;
+- or field hardware plus serviceable replacement practices.
+
+The value is not fewer purchase orders. The value is fewer unsupported boundaries after commissioning.
+
+## When portfolio breadth misleads
+
+Breadth misleads when it encourages buyers to force one vendor into a role where a smaller specialist product would be cleaner. This happens when:
+
+- a PLC vendor is chosen for every data project even when the PLC should not own the data path;
+- a gateway is purchased because it belongs to the preferred ecosystem, not because it fits the protocol burden;
+- the plant chooses a familiar brand but local support for that specific product family is weak;
+- or the vendor has many adjacent products but no clear owner for the exact retrofit problem.
+
+## A practical vendor scorecard
+
+Use a simple 1-5 score for each category, then discuss the outliers instead of averaging everything away.
+
+| Category | Question |
+| --- | --- |
+| Fit to application | Does the vendor solve the actual plant problem, not just a nearby category? |
+| Fit to device class | Is the product family mature in the role being considered? |
+| Fit to protocols | Does the vendor reduce translation burden or add another layer? |
+| Fit to support model | Can the owner maintain it after the integrator leaves? |
+| Fit to lifecycle | Are replacement, firmware, and documentation expectations credible? |
+| Fit to economics | Does the vendor reduce total project friction enough to justify its cost? |
+
+The best vendor is not always the highest total score. It is the vendor with no fatal weakness in the layer it must own.
+
+## Red flags
+
+Remove or downgrade a vendor when:
+
+- the evaluation relies mostly on brand comfort;
+- documentation is hard for maintenance to use;
+- protocol support is technically present but operationally awkward;
+- replacements or configuration tools create unnecessary dependency on one expert;
+- or the vendor is strong in automation broadly but weak in the exact connectivity role.
 
 ## Use with
 
@@ -25,8 +100,18 @@ The biggest vendor mistake is treating broad catalogs as proof of strong fit. Po
 		description="Apply vendor analysis inside a disciplined shortlist process."
 	/>
 	<LinkCard
-		title="Remote sites and telemetry"
-		href="/applications/remote-sites-and-telemetry/"
-		description="Keep vendor review anchored to field reality rather than catalog presentation."
+		title="Phoenix Contact industrial networking"
+		href="/vendors/phoenix-contact-industrial-networking/"
+		description="Use a vendor-specific page after the portfolio evaluation model is clear."
+	/>
+	<LinkCard
+		title="Siemens industrial connectivity"
+		href="/vendors/siemens-industrial-connectivity/"
+		description="Compare ecosystem alignment when Siemens installed base changes the support model."
+	/>
+	<LinkCard
+		title="Retrofit gateway shortlist criteria"
+		href="/comparisons/retrofit-gateway-shortlist-criteria/"
+		description="Bring vendor analysis into the device-class shortlist only after the application boundary is stable."
 	/>
 </div>
