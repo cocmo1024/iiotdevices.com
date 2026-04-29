@@ -1,13 +1,102 @@
 ---
-title: Device Types
-description: Reference material for the hardware categories that appear most often in industrial connectivity and telemetry projects.
+title: IIoT Device Types and Industrial IoT Hardware Categories
+description: A practical guide to IIoT device types, industrial IoT hardware categories, gateways, RTUs, edge computers, remote I/O, protocol converters, and sensors for brownfield plants.
+referenceType: comparison
+adProfile: comparison
+commercialIntent: high
+reviewCadence: Monthly review
+contentStatus: cornerstone
+problemSolved: Helps technical buyers and plant teams understand which IIoT device category fits a brownfield connectivity, telemetry, OEE, or remote monitoring problem before comparing vendors.
+readerTakeaway: You should leave with a clear map of common IIoT hardware categories and a first shortlist method tied to the job each device must own.
+primaryKeyword: iiot devices
+searchIntent: learn
+decisionStage: problem-aware
+targetRoles:
+  - Plant engineers
+  - OT architects
+  - Technical buyers
+  - System integrators
+keyQuestions:
+  - What counts as an IIoT device in an industrial project?
+  - Which industrial IoT hardware category should a brownfield plant compare first?
+  - When do gateways, RTUs, edge computers, remote I/O, and protocol converters solve different jobs?
+notFor:
+  - Consumer IoT device buyers
+  - Greenfield control-system projects with a fully specified architecture
+  - Teams trying to compare model numbers before defining the data boundary
+updateTriggers:
+  - Major changes in industrial gateway, RTU, remote I/O, or edge-computer categories
+  - New buyer behavior around IIoT hardware and brownfield data collection
+  - New product-family pages that should be promoted from this hub
 ---
 
 import { LinkCard, Steps } from '@astrojs/starlight/components';
 
-# Device Types
+# IIoT Device Types and Industrial IoT Hardware Categories
 
-Device categories matter because they define what a system can do reliably, what it costs to operate, and how much integration burden lands on the project team. This section clarifies job boundaries between hardware classes.
+An IIoT device is not just any connected box in a factory. In practical industrial projects, the term usually points to hardware that helps collect, translate, buffer, compute, control, or transport machine and site data. The category matters because each device class creates a different support burden.
+
+The fastest way to make a bad shortlist is to start with vendor catalogs. Start with the job boundary instead: **what must this device own after commissioning?**
+
+## Quick answer
+
+| Device category | Primary job | Common mistake |
+| --- | --- | --- |
+| Industrial gateway | Protocol translation, buffering, and upstream data transport | Expecting it to behave like a full software platform |
+| Edge computer | Local applications, analytics, storage, and heavier integration | Buying compute before naming who owns software updates |
+| RTU | Remote-site autonomy, telemetry, and deterministic field behavior | Treating it like a generic IT edge box |
+| Remote I/O | Distributed signal collection near sensors and actuators | Using it where local logic or autonomy is actually required |
+| Protocol converter | Translating between specific legacy and modern protocols | Underestimating mapping, documentation, and maintenance effort |
+| Industrial router | Secure WAN, cellular, VPN, and remote access | Selecting by speed instead of manageability and site survivability |
+| Smart sensor or meter | Measurement at the source | Assuming the device solves data context, naming, and event modeling |
+
+The best first device is usually the smallest class that owns the real boundary cleanly.
+
+## What counts as an IIoT device?
+
+In this site, IIoT devices include hardware used to connect or expose industrial data, including:
+
+- gateways and protocol bridges;
+- RTUs and telemetry controllers;
+- industrial cellular routers;
+- edge computers and box PCs;
+- remote I/O blocks;
+- smart sensors and meters;
+- managed industrial switches;
+- condition-monitoring modules;
+- power meters and submeters;
+- data loggers and store-and-forward devices.
+
+PLCs can also participate in IIoT systems, but they should not automatically be treated as the right data boundary. A working PLC should often remain focused on control while a gateway, RTU, or edge device handles data movement.
+
+## The first selection question
+
+Before comparing hardware, answer this:
+
+**Is the main job signal collection, protocol translation, remote-site autonomy, local software, secure networking, or measurement?**
+
+That answer narrows the category faster than spec sheets.
+
+<Steps>
+	1. Name the machine, line, or remote site boundary.
+	2. Name the upstream consumer: historian, OEE tool, SCADA, MES, cloud broker, dashboard, or maintenance workflow.
+	3. Decide whether the device needs local logic, buffering, protocol conversion, or only transport.
+	4. Assign a support owner for commissioning, replacement, cybersecurity, and updates.
+</Steps>
+
+If step four is unclear, the team should avoid buying a broad edge-compute class too early.
+
+## How common IIoT hardware categories differ
+
+| Category | Use it when | Avoid it when |
+| --- | --- | --- |
+| Gateway | Brownfield PLC data needs translation, buffering, or upstream publishing | The site needs custom apps, complex analytics, or deterministic remote control |
+| Edge computer | Local software or analytics is genuinely required | The project only needs a few tags moved upstream |
+| RTU | The asset is remote, sparse, and needs local telemetry autonomy | The workload is mostly plant-floor data integration |
+| Remote I/O | Signals are distributed and need a clean field wiring boundary | The field location needs local decision-making |
+| Protocol converter | One protocol boundary blocks the project | The real problem is data semantics, not protocol access |
+| Industrial router | Secure site connectivity or remote access is the main job | The project expects the router to solve machine data modeling |
+| Sensor / meter | A missing measurement is the bottleneck | The plant already has measurements but no usable context |
 
 ## Core paths
 
@@ -18,22 +107,68 @@ Device categories matter because they define what a system can do reliably, what
 		description="A practical comparison of the most frequently confused hardware classes in IIoT projects."
 	/>
 	<LinkCard
-		title="Applications"
-		href="/applications/"
-		description="Return to the deployment environment if the device shortlist starts expanding without discipline."
+		title="Retrofit gateway shortlist criteria"
+		href="/comparisons/retrofit-gateway-shortlist-criteria/"
+		description="Use this when the task is to narrow a brownfield gateway, converter, or edge-device shortlist."
 	/>
 	<LinkCard
-		title="Comparisons"
-		href="/comparisons/"
-		description="Use comparison workflows after the hardware class is narrowed."
+		title="Machine connectivity retrofits"
+		href="/applications/machine-connectivity-retrofits/"
+		description="Anchor the device choice in a real retrofit environment before comparing products."
+	/>
+	<LinkCard
+		title="Remote sites and telemetry"
+		href="/applications/remote-sites-and-telemetry/"
+		description="Use this when the IIoT device must survive sparse access, field power, and unreliable communications."
+	/>
+	<LinkCard
+		title="Industrial gateways"
+		href="/product-families/industrial-gateways/"
+		description="Move here when the gateway class is already the likely answer."
+	/>
+	<LinkCard
+		title="Remote I/O systems"
+		href="/product-families/remote-io-systems/"
+		description="Use this when distributed signals, wiring, and field modules are the main hardware question."
 	/>
 </div>
 
 ## Key questions
 
-<Steps>
-	1. Does the site need translation, control, local logic, or just reliable data transport?
-	2. What uptime, maintenance, and power assumptions does the hardware need to survive?
-	3. How much software ownership is the operating team prepared to absorb?
-	4. Which category minimizes avoidable complexity while still meeting the site objective?
-</Steps>
+Use these questions before comparing model numbers:
+
+- Does the site need translation, control, local logic, or just reliable data transport?
+- What uptime, maintenance, and power assumptions does the hardware need to survive?
+- How much software ownership is the operating team prepared to absorb?
+- Which category minimizes avoidable complexity while still meeting the site objective?
+- What is the next simpler device class, and why is it not enough?
+
+The last question is useful because overbuying creates hidden lifecycle cost. A more capable IIoT device usually needs more configuration, documentation, patching, and support.
+
+## What weak IIoT device comparisons miss
+
+Weak comparisons usually rank devices by ports, CPU, protocol list, or cloud compatibility. Those facts matter, but they do not decide whether the project succeeds.
+
+Better comparisons ask:
+
+- who will maintain mappings after the integrator leaves;
+- whether the device can be replaced without rebuilding the whole data path;
+- whether local buffering is necessary or only nice to have;
+- whether the plant has enough cybersecurity process for remote access;
+- whether the site needs deterministic local behavior during WAN loss;
+- whether the data model is stable enough for broad publishing.
+
+An IIoT device is useful only if the organization can operate it.
+
+## Practical shortlist rule
+
+Start narrow:
+
+- choose **remote I/O** when the problem is distributed signals;
+- choose a **protocol converter** when one legacy protocol blocks the path;
+- choose a **gateway** when translation and upstream transport are the main job;
+- choose an **RTU** when remote-site autonomy matters;
+- choose an **industrial router** when WAN and remote access are the real boundary;
+- choose an **edge computer** only when local software is already a real requirement.
+
+That rule prevents many brownfield projects from turning a simple data-visibility need into a software platform before the plant is ready.
