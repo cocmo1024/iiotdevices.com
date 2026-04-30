@@ -5,6 +5,18 @@ referenceType: product-family
 adProfile: product-family
 commercialIntent: high
 reviewCadence: Quarterly review
+primaryKeyword: industrial iot product families
+searchIntent: select
+decisionStage: shortlist
+targetRoles:
+  - Technical buyers
+  - OT architects
+  - System integrators
+  - Plant engineers
+contentStatus: cornerstone
+problemSolved: Helps buyers move from broad IIoT device language into durable product families such as gateways, remote I/O, protocol converters, edge AI devices, and classic PLC-adjacent hardware.
+readerTakeaway: You should leave with a cleaner category map before comparing vendor product pages or model numbers.
+lastReviewed: 2026-05-01
 ---
 
 import { LinkCard, Steps } from '@astrojs/starlight/components';
@@ -12,6 +24,21 @@ import { LinkCard, Steps } from '@astrojs/starlight/components';
 # Product Families
 
 Product family pages sit between high-level device classes and individual vendor pages. They are useful because buyers often search by category before they trust a specific vendor or model.
+
+The practical job of this section is to prevent category drift. A plant that needs a protocol converter should not be sold a broad edge platform. A plant that needs distributed I/O should not overbuild a gateway layer. A plant that needs local AI should not start with GPU hardware before it has clean events and stable camera or PLC data.
+
+## Product-family map
+
+| Product family | Best first use | Buying risk |
+| --- | --- | --- |
+| Industrial gateways | Protocol translation, buffering, upstream delivery, multi-device aggregation | Buying too much platform when a converter is enough |
+| Protocol converters and serial device servers | Exposing useful legacy devices, Modbus/serial bridging, small boundary fixes | Treating simple conversion as full data architecture |
+| Remote I/O systems | Distributed signals, cabinet expansion, modular field I/O | Expecting I/O modules to solve context, historian, or MES problems |
+| Edge data logging gateways | Store-and-forward, local buffering, historian-light retrofits | Collecting every tag without deciding what operators will use |
+| Industrial edge AI devices | Local inference near machines, inspection support, anomaly workflows | Buying compute before the data path and acceptance criteria exist |
+| PLC-adjacent installed base | Siemens S7, ET 200, and similar common families | Assuming vendor familiarity automatically means clean data access |
+
+This map is intentionally category-first. Vendor pages are more useful after the buyer knows which family owns the real boundary.
 
 ## Core paths
 
@@ -61,3 +88,14 @@ Product family pages sit between high-level device classes and individual vendor
 	3. Move into vendor analysis only after the category fit is credible.
 	4. Finish with comparison pages once the shortlist is narrow enough to be useful.
 </Steps>
+
+## When to move down to a smaller device
+
+One of the best cost controls in IIoT projects is choosing a smaller product family when the job allows it:
+
+- use a serial device server instead of an edge computer when the problem is only exposing one legacy device;
+- use remote I/O instead of a gateway when the problem is field signal expansion;
+- use a gateway instead of edge AI when the value is data movement and buffering, not inference;
+- use an existing PLC path when the machine already owns the logic and the project only needs reliable read access.
+
+The correct product family is the smallest durable boundary the plant can support after commissioning.

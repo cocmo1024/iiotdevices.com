@@ -1,6 +1,22 @@
 ---
 title: Protocols
 description: Protocol-fit reference pages for industrial connectivity hardware, telemetry paths, and interoperability planning.
+referenceType: protocol
+adProfile: protocol
+commercialIntent: high
+reviewCadence: Monthly review
+primaryKeyword: industrial protocol selection
+searchIntent: compare
+decisionStage: solution-aware
+targetRoles:
+  - Controls engineers
+  - OT architects
+  - System integrators
+  - Plant engineers
+contentStatus: cornerstone
+problemSolved: Helps teams decide which industrial protocol boundary should shape the device shortlist before they buy gateways, converters, or edge hardware.
+readerTakeaway: You should leave knowing when Modbus, OPC UA, MQTT, polling, publish, and serial bridging belong in the architecture.
+lastReviewed: 2026-05-01
 ---
 
 import { LinkCard, Steps } from '@astrojs/starlight/components';
@@ -9,6 +25,21 @@ import { LinkCard, Steps } from '@astrojs/starlight/components';
 
 Protocol choices often reshape the hardware shortlist more than teams expect. This section explains how protocol fit affects interoperability, data handling, engineering effort, and long-term architecture boundaries.
 
+The expensive protocol mistake is not choosing an unpopular standard. It is putting the wrong protocol at the wrong boundary. A serial device may still be perfectly useful if the boundary is a converter or gateway. OPC UA may be the right plant-side integration layer but the wrong cloud delivery pattern. MQTT may be excellent for publish-style telemetry but weak if the team still has not modeled the machine states it wants to publish.
+
+## Quick protocol boundary
+
+| Protocol or pattern | Best-fit boundary | Weak-fit boundary |
+| --- | --- | --- |
+| Modbus RTU / TCP | Simple register access, meters, drives, legacy devices, straightforward polling | Rich semantic data models or broad enterprise context |
+| OPC UA | PLC, SCADA, historian, and structured plant data integration | Ultra-light remote telemetry where overhead and configuration burden dominate |
+| MQTT | Publish/subscribe telemetry, edge-to-cloud movement, event delivery | Raw device interrogation without an event or topic model |
+| Serial bridging | Preserving useful RS-232/RS-485 assets without replacing equipment | Complex multi-consumer data architecture |
+| Polling | Stable low-frequency reads where freshness expectations are modest | High-speed event capture or loss analysis |
+| Publish/report-by-exception | State changes, alarms, and bandwidth-aware telemetry | Workloads that still need broad historical sweeps |
+
+The shortlist should be driven by where translation happens and who owns it after commissioning.
+
 ## Core paths
 
 <div class="portal-links">
@@ -16,6 +47,21 @@ Protocol choices often reshape the hardware shortlist more than teams expect. Th
 		title="Modbus, OPC UA, and MQTT fit"
 		href="/protocols/modbus-opc-ua-and-mqtt-fit/"
 		description="A practical comparison of common industrial data paths and where each one tends to belong."
+	/>
+	<LinkCard
+		title="OPC UA vs MQTT for machine data aggregation"
+		href="/protocols/opc-ua-vs-mqtt-for-machine-data-aggregation/"
+		description="Use this when the debate is whether the plant needs structured industrial context, publish-style delivery, or both."
+	/>
+	<LinkCard
+		title="Polling vs publish for legacy machine data"
+		href="/protocols/polling-vs-publish-for-legacy-machine-data/"
+		description="Use this when polling intervals, event freshness, and bandwidth are starting to shape the architecture."
+	/>
+	<LinkCard
+		title="Serial to Ethernet bridging"
+		href="/protocols/serial-to-ethernet-bridging/"
+		description="Use this when useful legacy serial assets should be exposed without pretending the plant has modernized everything."
 	/>
 	<LinkCard
 		title="Applications"
@@ -28,6 +74,28 @@ Protocol choices often reshape the hardware shortlist more than teams expect. Th
 		description="See which hardware classes handle the protocol mix with the least avoidable complexity."
 	/>
 </div>
+
+## What to define before choosing hardware
+
+Before a gateway, converter, or edge device belongs on the shortlist, define these protocol facts:
+
+1. **Machine-side protocol burden**: serial, Modbus TCP, EtherNet/IP, Profinet, OPC UA, vendor driver, file export, or mixed.
+2. **Upstream consumer**: historian, SCADA, MES, OEE tool, cloud broker, maintenance system, or custom application.
+3. **Freshness requirement**: seconds, minutes, shift-level summaries, or event-first capture.
+4. **Data shape**: raw tags, calculated states, event records, alarm sequence, batch context, or traceability evidence.
+5. **Ownership**: controls team, plant IT/OT, integrator, enterprise platform team, or vendor support.
+
+Those facts decide whether the device class should be a protocol converter, industrial gateway, edge computer, remote I/O layer, or something smaller.
+
+## Common protocol-selection failure modes
+
+| Failure mode | What it looks like | Better approach |
+| --- | --- | --- |
+| Protocol-first buying | A gateway is bought because it supports many protocols | Start with the two or three protocols actually crossing the boundary |
+| Cloud-first abstraction | MQTT is chosen before machine states are modeled | Define event and state semantics before topic design |
+| Historian sprawl | Every readable register becomes a tag | Separate durable signals from diagnostic noise |
+| Serial replacement bias | Legacy serial devices are replaced before their value is understood | Bridge or convert if the device is stable and useful |
+| OPC UA overreach | OPC UA is expected to solve ownership, naming, and context by itself | Treat OPC UA as transport and information modeling, not governance |
 
 ## Protocol review flow
 
