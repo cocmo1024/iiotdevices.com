@@ -1,0 +1,334 @@
+---
+title: PLC Data Quality Audit Before OEE, MES, and Industrial AI Projects
+description: A practical audit checklist for proving PLC data quality before using machine data for OEE, MES, analytics, or industrial AI.
+referenceType: comparison
+adProfile: comparison
+commercialIntent: high
+reviewCadence: Quarterly review
+contentStatus: cornerstone
+problemSolved: Helps teams stop scaling bad PLC data into OEE, MES, historian, and industrial AI systems before the signal quality is understood.
+readerTakeaway: You should leave with a field audit method for tag meaning, timestamp quality, line-state logic, event trust, and ownership gaps.
+primaryKeyword: PLC data quality audit
+searchIntent: design
+decisionStage: implementation
+targetRoles:
+  - Plant engineers
+  - OT architects
+  - Controls engineers
+  - MES and OEE leads
+  - Industrial data teams
+keyQuestions:
+  - What makes PLC data unfit for OEE, MES, or AI?
+  - Which PLC data problems should be fixed before scaling collection?
+  - How should teams audit line-state, event, and timestamp quality?
+notFor:
+  - Greenfield systems where tag standards and event models are already enforced from design
+  - Teams only exporting a few troubleshooting tags for short-term diagnosis
+  - Projects where the upstream consumer has not been defined
+updateTriggers:
+  - New historian, MES, or OEE rollout patterns that change acceptance expectations
+  - New industrial AI projects using brownfield PLC data
+  - Repeated disputes over downtime, reject, or production-count accuracy
+---
+
+# PLC Data Quality Audit Before OEE, MES, and Industrial AI Projects
+
+Most failed brownfield data projects do not fail because the plant collected too little data. They fail because the team collected data that looked useful in a tag browser but could not survive operational use.
+
+Raw PLC tags are not the same thing as production evidence. A bit, counter, analog value, or status word may be true inside the control program and still be weak evidence for OEE, MES, analytics, or industrial AI. The gap is usually context:
+
+- What does the tag mean in the operating process?
+- When was the value sampled or triggered?
+- Does the state mean the same thing across shifts, products, machines, and fault conditions?
+- Can the site explain missing data, stale data, reset counters, and mode changes?
+- Who owns correction when the data disagrees with operator reality?
+
+A PLC data quality audit should happen before the plant expands collection across more assets. It is cheaper to fix meaning, timestamps, and event logic on one pilot line than to normalize confusion across 40 lines.
+
+## Quick answer
+
+Audit PLC data by proving five things before scale:
+
+1. The tag has a stable operating meaning.
+2. The value changes at the right moment for the business question.
+3. The timestamp is trustworthy enough for the metric being calculated.
+4. The data can explain exceptions, not only normal running.
+5. The support owner can fix quality defects after go-live.
+
+If those five tests fail, the problem is not a dashboard problem. It is a data evidence problem.
+
+## Why PLC data quality is different from PLC correctness
+
+A controls engineer may say, correctly, that the PLC program works. The machine runs. Interlocks behave. Alarms protect equipment. Counts increment. The line produces.
+
+That does not mean the data is ready for broader systems.
+
+Control logic is designed to operate a machine safely and predictably. OEE, MES, historian analytics, and industrial AI need a different kind of evidence. They need consistent semantics across time, machines, and business questions.
+
+The same tag can be technically correct and analytically dangerous:
+
+| PLC signal | Correct in control logic | Weak for operations data when |
+| --- | --- | --- |
+| `Running` bit | Motor or sequence is active | The line is blocked, starved, cleaning, or cycling without making good product |
+| Production count | Counter increments | Counter resets, double-counts, misses rejects, or changes point of measurement |
+| Fault bit | Machine has an internal fault | It does not explain upstream starvation, downstream blockage, operator pause, or utility loss |
+| Speed command | Drive speed is commanded | Actual throughput is limited by product flow, reject handling, or intermittent stops |
+| Mode status | Auto/manual/setup state is known | Recipe, changeover, sanitation, and engineering test modes are mixed together |
+
+The audit is not asking whether the PLC is wrong. It is asking whether the data can be used as evidence for a specific decision.
+
+## The first audit question: what decision will use this data?
+
+Do not start by auditing every tag. Start with the consumer.
+
+The audit should name the downstream use case:
+
+- OEE and downtime reporting.
+- MES production confirmation.
+- Scrap and reject analysis.
+- Energy or compressed-air baseline tracking.
+- Maintenance triggers from runtime, cycles, alarms, or condition data.
+- Industrial AI feature generation.
+- Shift handover and daily operations boards.
+
+Each use case has a different evidence bar.
+
+For example, a maintenance runtime counter can tolerate some delay if it is used for weekly PM planning. A microstoppage analysis cannot tolerate a slow polling interval that misses short stops. A reject-reason workflow cannot rely only on an output counter if the plant needs to separate upstream defects from machine-created rejects.
+
+Write the audit target as:
+
+> This data will be used to decide `{{decision}}` by `{{role}}` at `{{frequency}}`, and the wrong decision would cause `{{consequence}}`.
+
+If that sentence cannot be completed, the audit is premature.
+
+## Audit layer 1: tag meaning and ownership
+
+The first layer is semantic. The plant needs to know what each data point means outside the PLC program.
+
+For each critical tag, capture:
+
+- exact tag name or address;
+- plain-language meaning;
+- source PLC, machine, program block, or gateway mapping;
+- physical or logical event that changes the value;
+- allowed values and units;
+- reset behavior;
+- owner for interpretation;
+- owner for correction.
+
+The weak pattern is a spreadsheet full of names but no operational definition.
+
+Bad definition:
+
+> `Line_Run` means line running.
+
+Better definition:
+
+> `Line_Run` is true when the main packaging sequence is in automatic cycle and the discharge conveyor is allowed to move product. It may remain true during short downstream blockage. It does not prove good product is leaving the cell.
+
+That definition immediately tells the OEE team that `Line_Run` is not enough by itself.
+
+## Audit layer 2: line-state logic
+
+Most brownfield projects need a modeled line state before they need more tags.
+
+At minimum, define how the site distinguishes:
+
+- producing good product;
+- idle but available;
+- starved;
+- blocked;
+- faulted;
+- cleaning or sanitation;
+- changeover;
+- planned stop;
+- engineering or maintenance mode;
+- unknown or stale.
+
+The audit should run recent data through the proposed state model and compare it with operator logs, shift notes, and known events.
+
+Common failures:
+
+- `Running` is treated as producing even when the line is blocked.
+- Faulted time includes planned sanitation.
+- Changeover is invisible, so OEE appears worse than reality.
+- Starvation is blamed on the machine because upstream context is missing.
+- Unknown data is forced into a normal state instead of being flagged.
+
+Do not hide unknowns. Unknown state is a quality signal. It tells the team where more context or better event logic is needed.
+
+## Audit layer 3: timestamp quality
+
+Timestamp quality decides whether the data can support event analysis.
+
+Audit these questions:
+
+- Is the timestamp created at the PLC, gateway, historian, broker, or application?
+- Is the timestamp event-based or polling-based?
+- Are clocks synchronized across machines?
+- How much jitter is acceptable for the metric?
+- What happens during network loss?
+- Are buffered events replayed with original event time or received time?
+- Can the team identify stale values?
+
+For shift dashboards, a few seconds may not matter. For microstoppage capture, sequence-of-events, or root-cause analysis, a few seconds can completely invert the story.
+
+The audit should label each data point by timestamp trust:
+
+| Trust level | Meaning | Good fit |
+| --- | --- | --- |
+| Event-time reliable | Captured near the source with stable replay behavior | Events, sequence analysis, microstoppages |
+| Poll-time acceptable | Sampled often enough for the metric | Trends, runtime, slower states |
+| Received-time only | Shows when central system saw it | Basic visibility, not root cause |
+| Untrusted | Missing, stale, inconsistent, or unexplained | Do not use for decisions yet |
+
+## Audit layer 4: counters and reset behavior
+
+Production counts are often the most politically sensitive data in a plant. They also fail quietly.
+
+Audit:
+
+- where the count is measured;
+- whether it counts starts, completions, cases, units, pallets, rejects, or good product;
+- whether it resets by shift, recipe, power cycle, batch, or operator action;
+- whether rollover is handled;
+- whether manual adjustments are visible;
+- whether the counter double-counts during jams, rework, or reverse motion;
+- whether reject count and good count reconcile.
+
+Do not accept a count until it is reconciled against another trusted source for a defined period.
+
+The practical test is simple:
+
+1. Pick one product and one shift.
+2. Record PLC count, operator count, MES count, and physical shipment or pallet count if available.
+3. Explain every difference.
+4. Repeat across a changeover, a fault, and a short stop.
+
+If the team can only explain the normal case, the counter is not ready for scaled reporting.
+
+## Audit layer 5: alarm and event trust
+
+Alarms are not automatically good downtime reasons.
+
+Audit each high-value alarm or event:
+
+- Does it describe cause, symptom, or consequence?
+- Is it latched or momentary?
+- Does it fire once or chatter repeatedly?
+- Does it clear automatically or by operator action?
+- Does the same event mean the same thing across similar machines?
+- Is it actionable?
+- Does it identify the real owning team?
+
+Example: "Low pressure" may be a machine fault, utility issue, regulator problem, air leak, sensor issue, or startup transient. Treating it as one downtime category can hide the real improvement work.
+
+Good event models separate:
+
+- equipment-protective alarm;
+- operator response event;
+- production state change;
+- root-cause reason;
+- maintenance work trigger.
+
+Those are not always the same thing.
+
+## Audit layer 6: data freshness and stale-value handling
+
+Stale data is dangerous because it looks normal.
+
+Every critical value should have a freshness rule:
+
+- expected update interval;
+- maximum age before stale;
+- stale indicator;
+- fallback behavior;
+- display behavior;
+- alert behavior;
+- exclusion rule for analytics.
+
+For example:
+
+> A line-state tag should update at least once every 5 seconds during normal operation. If no update is received for 30 seconds, the dashboard should show stale state, the historian should mark the value quality as bad or uncertain, and OEE calculations should not silently continue using the last good state.
+
+This matters more as data moves into AI. A model trained on stale or unmarked values may learn false relationships that are hard to detect later.
+
+## Audit layer 7: exception coverage
+
+Do not validate only smooth production.
+
+Run the audit across:
+
+- start of shift;
+- end of shift;
+- changeover;
+- planned stop;
+- unplanned fault;
+- upstream starvation;
+- downstream blockage;
+- utility interruption;
+- network interruption;
+- maintenance mode;
+- recipe change;
+- rework or reject event.
+
+The page that only works during steady production is not a production data model. It is a demo.
+
+## Minimum acceptance checklist before scale
+
+Use this checklist before adding more lines, more tags, or more software layers.
+
+| Audit item | Pass condition |
+| --- | --- |
+| Consumer defined | Each critical data point maps to a specific decision or workflow |
+| Tag definitions | Critical tags have plain-language operating definitions |
+| Line-state model | Producing, idle, blocked, starved, faulted, planned, and unknown states are separated |
+| Timestamp trust | Event-time, poll-time, received-time, and stale values are labeled |
+| Counter reconciliation | Production and reject counts reconcile across normal and abnormal cases |
+| Alarm quality | Alarms are classified as symptom, cause, or action trigger |
+| Exception test | Data is validated during changeover, faults, stops, and network loss |
+| Ownership | Controls, OT, MES, operations, and maintenance correction owners are named |
+| Scaling rule | A line cannot be added until critical gaps are closed or explicitly accepted |
+
+## When to fix the PLC, gateway, historian, or application
+
+Not every data issue belongs in the PLC.
+
+Use this split:
+
+| Problem | Likely fix location |
+| --- | --- |
+| Missing source event | PLC or machine controller |
+| Tag naming confusion | Mapping layer, data model, or historian namespace |
+| Polling misses short events | Gateway event capture, PLC buffer, or faster local collection |
+| Counters reset unpredictably | PLC logic, gateway normalization, or application reconciliation |
+| Line-state logic requires several tags | Edge model, historian calculation, or operations layer |
+| Operator reason code needed | HMI, MES, lightweight reason-capture app |
+| Stale data is not visible | Gateway, historian quality flags, dashboard logic |
+| No owner for correction | Governance issue, not a technical issue |
+
+The best architecture is usually hybrid: keep machine-critical logic in the PLC, build operating meaning in the data layer, and put human reason capture where the operator can actually provide it.
+
+## The handoff packet every pilot should produce
+
+Before scaling beyond the first line, produce a handoff packet:
+
+- critical tag list with definitions;
+- line-state model and state transition rules;
+- timestamp source and freshness rules;
+- counter reconciliation notes;
+- alarm and event classification;
+- known data gaps;
+- accepted limitations;
+- owner list;
+- change-control rule;
+- next-line onboarding checklist.
+
+This packet is more valuable than another dashboard screenshot. It becomes the first reusable standard for the next line.
+
+## Related next steps
+
+- Use [PLC tag naming and context mapping](/comparisons/plc-tag-naming-and-context-mapping-before-historian-oee-and-industrial-ai/) if naming and context are the main bottlenecks.
+- Use [Historian tags vs event models](/comparisons/historian-tags-vs-event-models-for-brownfield-operations-data/) if the team keeps collecting tags but still cannot answer operating questions.
+- Use [Brownfield data acceptance criteria](/comparisons/brownfield-data-acceptance-criteria-before-scaling-machine-data-collection/) if the project needs a broader go/no-go standard before rollout.
+- Use [Polling rates vs event triggers](/comparisons/polling-rates-vs-event-triggers-for-brownfield-data-costs/) if short events, cost, or tag volume are the central concern.
