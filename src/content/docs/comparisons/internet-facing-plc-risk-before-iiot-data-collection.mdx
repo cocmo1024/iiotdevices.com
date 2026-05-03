@@ -1,0 +1,182 @@
+---
+title: Internet-Facing PLC Risk Before IIoT Data Collection
+description: How to evaluate and remove internet-facing PLC exposure before adding IIoT gateways, historians, MQTT brokers, remote access, or industrial AI data pipelines.
+referenceType: comparison
+adProfile: comparison
+commercialIntent: high
+reviewCadence: Quarterly review
+primaryKeyword: internet facing PLC risk
+searchIntent: design
+decisionStage: implementation
+targetRoles:
+  - OT cybersecurity engineers
+  - Controls engineers
+  - Plant engineers
+  - System integrators
+  - IT/OT architects
+contentStatus: cornerstone
+problemSolved: How to keep an IIoT data project from preserving or expanding unsafe PLC exposure while adding connectivity.
+readerTakeaway: You should leave with a practical pre-collection checklist for identifying public exposure, remote access shortcuts, protocol ports, logging gaps, and safer gateway boundaries.
+keyQuestions:
+  - Should a PLC ever be directly reachable from the internet?
+  - What should be checked before adding an IIoT gateway to a live control network?
+  - How should remote access and telemetry be separated in a brownfield retrofit?
+notFor:
+  - Air-gapped systems that will remain isolated and unmanaged
+  - Teams looking for incident response advice after a confirmed compromise
+updateTriggers:
+  - New CISA or NIST OT security guidance
+  - New public advisories involving internet-exposed PLCs, HMIs, routers, or remote access tools
+  - Changes in common gateway, VPN, and industrial remote access architectures
+lastReviewed: 2026-05-04
+---
+
+import { LinkCard } from '@astrojs/starlight/components';
+
+# Internet-Facing PLC Risk Before IIoT Data Collection
+
+IIoT projects often start with a practical need: collect machine data, push it to a historian, support OEE, feed MES, or prepare industrial AI data. The dangerous shortcut is to treat connectivity as a neutral improvement. If the existing PLC, HMI, programming workstation, modem, or remote access path is already exposed, adding an IIoT gateway can preserve the unsafe boundary or make it harder to see.
+
+The first rule is direct: a production PLC should not be directly reachable from the public internet. If a project discovers public exposure while planning data collection, the project should pause architecture work long enough to remove or contain that exposure.
+
+## Quick answer
+
+Before adding an IIoT gateway, historian connector, MQTT publisher, remote access router, or cloud data path, check whether any control asset is reachable from outside the intended OT boundary. Look for exposed engineering ports, web interfaces, default credentials, public IPs, cellular routers in passthrough mode, unmanaged VPNs, and vendor remote access shortcuts.
+
+The IIoT gateway should become a controlled boundary. It should not become a bridge that lets external traffic reach the PLC.
+
+## Why this belongs in IIoT planning
+
+Many plants separate "data collection" from "cybersecurity" too cleanly. In practice, brownfield data collection changes the network:
+
+- a gateway is added between PLC and upstream systems;
+- polling or subscription paths increase;
+- remote diagnostics become tempting;
+- vendor access may be bundled with telemetry hardware;
+- cloud publishing may introduce outbound paths;
+- new certificates, credentials, and firewall rules appear.
+
+That means an IIoT project can either improve the boundary or accidentally legitimize a bad one.
+
+## Exposure checklist
+
+Run this before finalizing the data architecture.
+
+| Check | Why it matters |
+| --- | --- |
+| Public IP on PLC, HMI, engineering workstation, or remote I/O | Direct exposure is the highest-priority architecture failure |
+| Public web login on router, gateway, or modem | Device admin interfaces are frequent weak points |
+| Exposed industrial protocol ports | Ports such as Modbus TCP, EtherNet/IP, S7, web HMI, or vendor engineering services can reveal unsafe reachability |
+| Cellular router passthrough to PLC | The SIM may hide that the PLC is reachable through carrier routing |
+| Port forwarding rules | Old maintenance shortcuts often outlive their original purpose |
+| Shared vendor credentials | Remote support convenience can become a broad access path |
+| No MFA on remote access | Credential compromise becomes easier to turn into OT access |
+| Flat network from gateway to controls | A gateway compromise can reach too much |
+| No logging at the boundary | The team cannot reconstruct who accessed what |
+| No asset owner | Nobody owns firmware, passwords, firewall rules, or certificate rotation |
+
+This is not a penetration test. It is the minimum boundary review before expanding connectivity.
+
+## Separate telemetry from maintenance access
+
+Telemetry and maintenance access are different jobs.
+
+| Job | Direction | Common access pattern | Approval posture |
+| --- | --- | --- | --- |
+| Telemetry | Mostly outbound from site to broker, historian, or data layer | Gateway publishes or forwards selected data | Should be continuously allowed if bounded |
+| Remote maintenance | Human or vendor reaches site tools for support | VPN, jump host, remote access service, session broker | Should be authenticated, logged, time-bound, and approved |
+| Engineering changes | Program, firmware, or configuration changes | Engineering workstation or vendor tool | Should be human-owned and tightly controlled |
+
+The mistake is using one router rule to do all three. A site can publish data without making PLC programming reachable.
+
+## Safer brownfield architecture
+
+A safer IIoT pattern has:
+
+1. PLCs and control devices on an internal OT segment.
+2. A gateway or edge device allowed to read specific data.
+3. Firewall rules that limit gateway-to-PLC access by protocol and destination.
+4. Outbound-only telemetry where possible.
+5. Remote maintenance through a separate authenticated path.
+6. Logging for gateway, remote access, and firewall events.
+7. No public inbound path to PLCs.
+8. A documented owner for credentials, firmware, and rules.
+
+This pattern still supports OEE, MES, historian, MQTT, and industrial AI data pipelines. It just refuses to make control devices the internet boundary.
+
+## What to do if exposure is found
+
+If a PLC or control device appears internet-facing:
+
+1. Do not add more upstream integrations until the exposure is understood.
+2. Identify whether the path is public IP, port forwarding, cellular passthrough, VPN misconfiguration, or remote access software.
+3. Document affected assets, ports, vendor tools, and business reason.
+4. Remove direct exposure or place it behind a controlled gateway/firewall.
+5. Change default or shared credentials.
+6. Add MFA and logging to remote access paths.
+7. Review project files and HMI/SCADA displays for suspicious manipulation if exposure was real.
+8. Re-test from outside the OT network.
+9. Only then resume IIoT data collection architecture.
+
+The goal is not to turn every data project into a security audit. The goal is to avoid scaling a known unsafe condition.
+
+## Gateway selection implications
+
+When exposure risk exists, gateway selection changes.
+
+Prefer devices and architectures that support:
+
+- firewallable interfaces;
+- role-based administration;
+- disabled unused services;
+- secure remote access separation;
+- certificate or key management where applicable;
+- local buffering without opening inbound access;
+- syslog or event export;
+- firmware lifecycle visibility;
+- clear configuration backup and restore;
+- vendor security documentation.
+
+Do not shortlist a gateway only because it speaks the right protocols. The support and security boundary matters after commissioning.
+
+## Data collection acceptance criteria
+
+Before the project scales beyond a pilot, require:
+
+| Criterion | Pass condition |
+| --- | --- |
+| No direct public PLC reachability | External scan and network review show no public path |
+| Telemetry path documented | Direction, destination, port, protocol, and owner are recorded |
+| Remote access path separated | Maintenance access does not reuse telemetry blindly |
+| Credentials reviewed | Defaults and shared vendor passwords are removed or controlled |
+| Firewall rules named | Rules describe business purpose and owner |
+| Logs available | Boundary access can be reviewed after an incident |
+| PLC write path controlled | Read-only collection is separated from programming authority |
+| Recovery plan exists | Gateway replacement, config restore, and credential reset are documented |
+
+These criteria make the data path defensible before more lines are added.
+
+## Source notes
+
+This page is informed by NIST [SP 800-82 Rev. 3 Guide to Operational Technology Security](https://csrc.nist.gov/pubs/sp/800/82/r3/final), CISA's industrial control systems guidance and advisories, including CISA's page on [Industrial Control Systems](https://www.cisa.gov/ics/), and the 2026 joint advisory PDF [Iranian-Affiliated Cyber Actors Exploit Programmable Logic Controllers Across US Critical Infrastructure](https://media.defense.gov/2026/Apr/07/2003907538/-1/-1/0/AA26-097A-IRANIAN-AFFILIATED-CYBER-ACTORS-EXPLOIT-PROGRAMMABLE-LOGIC-CONTROLLERS-ACROSS-US-CRITICAL-INFRASTRUCTURE_508C.PDF).
+
+## Related paths
+
+<div class="portal-links">
+	<LinkCard
+		title="PLC data quality audit before OEE, MES, and AI"
+		href="/comparisons/plc-data-quality-audit-before-oee-mes-and-ai-projects/"
+		description="Data quality and security boundary review should happen before scaling brownfield data collection."
+	/>
+	<LinkCard
+		title="Retrofit gateway shortlist criteria"
+		href="/comparisons/retrofit-gateway-shortlist-criteria/"
+		description="Use security and support ownership as shortlist filters, not only protocol checkboxes."
+	/>
+	<LinkCard
+		title="OPC UA, MQTT, and Sparkplug boundaries"
+		href="/protocols/opc-ua-fx-mqtt-and-sparkplug-boundaries-for-brownfield-lines/"
+		description="Separate protocol layers from the security boundary before scaling connectivity."
+	/>
+</div>
+
