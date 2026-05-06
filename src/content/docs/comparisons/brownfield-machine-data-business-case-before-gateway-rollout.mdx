@@ -1,0 +1,213 @@
+---
+title: Brownfield Machine Data Business Case Before Gateway Rollout
+description: Build a practical business case for brownfield machine data before buying gateways, historians, dashboards, or AI infrastructure.
+referenceType: comparison
+adProfile: comparison
+commercialIntent: high
+reviewCadence: Quarterly review
+contentStatus: cornerstone
+problemSolved: Helps plant and OT teams decide whether a machine-data rollout has enough operational value, support ownership, and data evidence before the project expands beyond a pilot.
+readerTakeaway: You should leave with a business-case model that ties brownfield data collection to decisions, labor, downtime, quality, energy, maintenance, and support cost.
+primaryKeyword: brownfield machine data business case
+searchIntent: design
+decisionStage: implementation
+targetRoles:
+  - Plant managers
+  - OT architects
+  - Manufacturing engineers
+  - Controls engineers
+  - Industrial data teams
+keyQuestions:
+  - What should a brownfield machine data business case include?
+  - When does a gateway rollout create value instead of only more tags?
+  - How should teams estimate cost, benefit, and support burden before scaling data collection?
+notFor:
+  - Greenfield plants where machine connectivity, MES, historian, and data standards are already specified in the equipment purchase
+  - Teams buying a fixed platform before defining the operating decisions the data must support
+  - Short-term troubleshooting jobs where the data will not become a standing operational system
+updateTriggers:
+  - New public hardware or cloud pricing that changes gateway, historian, or edge-device cost assumptions
+  - New plant examples where brownfield data is used for downtime, quality, energy, or maintenance decisions
+  - Changes in common OEE, MES, historian, or industrial AI deployment patterns
+---
+
+import { LinkCard } from '@astrojs/starlight/components';
+
+# Brownfield Machine Data Business Case Before Gateway Rollout
+
+A brownfield machine data project should not start with a gateway count. It should start with a value argument that the plant can defend after the pilot stops being interesting.
+
+Many projects begin with a reasonable technical idea: connect old machines, collect PLC tags, move data into a historian or dashboard, and create better visibility. The problem is that "visibility" is not a business case. Visibility becomes valuable only when it changes a decision, reduces a delay, prevents a dispute, improves a maintenance action, or removes manual work that the site can actually stop doing.
+
+This page gives a practical model for deciding whether a brownfield machine data rollout deserves budget before the team buys gateways, edge computers, historian licenses, cloud ingestion, or reporting tools at scale.
+
+## Quick answer
+
+A brownfield machine data business case should prove five things before rollout:
+
+1. The plant knows which operating decisions the data will improve.
+2. The pilot data is trustworthy enough for those decisions.
+3. The expected benefit is tied to downtime, quality, labor, energy, maintenance, compliance, or capacity.
+4. The cost model includes devices, engineering, commissioning, data modeling, software, support, and long-term ownership.
+5. The rollout scope can be expanded without multiplying exceptions faster than value.
+
+If the business case cannot connect data to decisions, the project is still a connectivity experiment.
+
+## Start with the decision, not the tag list
+
+The most common weak business case says the plant will "collect all important machine data." That sounds practical, but it hides the real question: important for what?
+
+Start by naming the decision that will change:
+
+| Decision area | Weak data goal | Strong business-case question |
+| --- | --- | --- |
+| Downtime | Collect machine status | Which stops are currently misclassified or found too late? |
+| OEE | Calculate availability | Which production meetings will use the number, and what action changes? |
+| Maintenance | Read runtime and alarms | Which service triggers will replace calendar work or emergency response? |
+| Quality | Capture reject count | Which scrap disputes or root-cause delays will be reduced? |
+| Energy | Trend utilities | Which leaks, idle loads, or baselines will trigger action? |
+| Operations | Build dashboards | Which manual reports, shift calls, or supervisor walks become unnecessary? |
+
+The business case becomes clearer when the data has a job.
+
+## Separate data collection cost from data usefulness cost
+
+Hardware cost is only one part of the project. A gateway or edge device may be visible on the purchase order, but the expensive work is usually in the translation between machine signals and plant decisions.
+
+Budget the project in layers:
+
+| Cost layer | What belongs here | Typical mistake |
+| --- | --- | --- |
+| Device and cabinet | Gateway, edge PC, protocol converter, power, network, enclosure work | Comparing only device list price |
+| Connectivity engineering | PLC access, protocol mapping, firewall rules, network path, credentials | Assuming every machine exposes useful data the same way |
+| Data modeling | Tag naming, line-state logic, event definitions, unit context, timestamps | Treating raw tags as finished data |
+| Commissioning | Point checks, forced states, event tests, exception tests, acceptance evidence | Accepting a live dashboard without proving edge cases |
+| Software and storage | Historian, dashboard, broker, MES connector, cloud ingestion, retention | Ignoring growth from polling, tag count, and retention |
+| Support | Backups, documentation, troubleshooting, version control, owner training | Assuming the integrator remains the owner forever |
+
+The business case is weak if it includes gateways but excludes the work needed to make data believable.
+
+## The benefit categories that usually survive scrutiny
+
+The strongest brownfield data business cases usually fall into a few categories.
+
+### Downtime clarity
+
+Downtime visibility has value when the site currently wastes time arguing about causes, discovering stops late, or relying on operator memory. The business case should estimate:
+
+- how many hours of downtime are currently unclear;
+- how much time supervisors and engineers spend reconstructing events;
+- which delay categories can be acted on within the shift;
+- whether line-state data can separate running, blocked, starved, faulted, cleaning, setup, and no-schedule time.
+
+If the plant will only receive a prettier version of an already trusted downtime report, the value may be smaller than expected.
+
+Related page: <LinkCard title="Line State Modeling for Brownfield Machine Data" href="/applications/line-state-modeling-for-brownfield-machine-data/" />
+
+### Maintenance timing
+
+Runtime, cycle counts, alarm patterns, and condition signals can support maintenance value when they change work timing. The business case should not claim value from "more maintenance data" alone. It should say which work changes:
+
+- calendar PM becomes runtime-based PM;
+- repeated alarms become work-order candidates;
+- utility or motion signals expose mechanical degradation;
+- abnormal run patterns trigger inspection before a breakdown.
+
+Related page: <LinkCard title="Maintenance Work Orders from PLC Alarms and Runtime Counters" href="/applications/maintenance-work-orders-from-plc-alarms-and-runtime-counters-without-full-scada/" />
+
+### Quality and scrap evidence
+
+Quality value appears when machine data shortens root-cause work, improves traceability, or separates process causes from material, operator, or downstream causes. The business case should identify:
+
+- which reject or scrap categories need machine context;
+- whether the line can timestamp reject events accurately;
+- how product, recipe, shift, and batch context will be attached;
+- who will trust the data when it disagrees with manual logs.
+
+### Energy and utility waste
+
+Energy and compressed-air projects can produce value when data creates an action loop. A dashboard that shows consumption but does not assign response ownership is not enough.
+
+Useful questions:
+
+- Which baselines will be tracked by line, shift, product, or operating mode?
+- What condition counts as abnormal?
+- Who receives the exception?
+- What action is expected within the same week?
+
+Related page: <LinkCard title="Utility Consumption Baselines for Compressed Air, Steam, and Power" href="/applications/utility-consumption-baselines-for-compressed-air-steam-and-power/" />
+
+## A practical business-case worksheet
+
+Use this worksheet before approving a multi-line rollout:
+
+| Question | Evidence needed | Pass condition |
+| --- | --- | --- |
+| What decision changes? | Named meeting, workflow, alarm, work order, or report | A real owner will use it |
+| What signal proves the condition? | PLC tag, event, meter, counter, or derived state | The signal survives forced testing |
+| What is the value mechanism? | Downtime, labor, quality, energy, maintenance, compliance, or capacity | The benefit can be estimated conservatively |
+| What is the support burden? | Owner, documentation, backup, troubleshooting path | The plant can maintain it after commissioning |
+| What makes rollout harder? | Machine variation, protocols, old PLCs, cabinets, network limits | Exceptions are known before scale |
+| What stops the project? | Acceptance criteria and kill conditions | Weak pilots do not automatically become rollouts |
+
+This is intentionally stricter than a normal project justification. Brownfield data systems create recurring support obligations, so the value should be explicit.
+
+## Estimate benefit without overclaiming
+
+Use conservative benefit bands instead of perfect numbers.
+
+For downtime:
+
+- identify the machines or lines where lost time is material;
+- estimate the portion of downtime that is currently unclear or found too late;
+- estimate the share of that unclear time that better data can realistically influence;
+- avoid counting downtime that is known but not fixable.
+
+For maintenance:
+
+- count current emergency calls, repeated alarms, or early/late PM work;
+- estimate how many can be moved to condition or runtime triggers;
+- include technician time saved only if the work process actually changes.
+
+For labor:
+
+- count manual report preparation, line walks, data entry, and investigation time;
+- count only the portion that disappears or is materially reduced.
+
+For quality:
+
+- estimate investigation time, containment delay, scrap classification disputes, or rework tracing;
+- avoid claiming full scrap reduction unless the project directly changes control, inspection, or response behavior.
+
+## The rollout gate
+
+Do not approve the next group of machines until the pilot has passed these gates:
+
+1. The first use case is used in a recurring operating review.
+2. Operators or supervisors trust the output enough to challenge old manual assumptions.
+3. Data quality exceptions are logged and corrected through a named owner.
+4. The support team can restore or troubleshoot the data path without the original project engineer.
+5. The rollout estimate includes machine variation, not just repeated copy-paste assumptions.
+
+The pilot should prove the operating model, not only the connector.
+
+## When the business case is premature
+
+The business case is not ready when:
+
+- the team cannot name the first decision that will use the data;
+- the project assumes every PLC tag is already meaningful;
+- the cost estimate excludes data modeling and commissioning;
+- the support owner is "the integrator" with no internal handoff;
+- the benefit depends on future AI, MES, or analytics work that is not funded;
+- the pilot cannot define what failure would look like.
+
+Those are not reasons to abandon the project. They are reasons to narrow the pilot until the value logic is visible.
+
+## Next-step references
+
+<LinkCard title="PLC Data Quality Audit Before OEE, MES, and Industrial AI Projects" href="/comparisons/plc-data-quality-audit-before-oee-mes-and-ai-projects/" />
+
+<LinkCard title="Gateway vs Edge Computer for Retrofit Data Projects" href="/comparisons/gateway-vs-edge-computer-for-retrofit-data-projects/" />
+
+<LinkCard title="Polling Rates vs Event Triggers for Brownfield Data Costs" href="/comparisons/polling-rates-vs-event-triggers-for-brownfield-data-costs/" />
