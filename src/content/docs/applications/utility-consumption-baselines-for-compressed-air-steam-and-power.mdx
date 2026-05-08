@@ -96,3 +96,67 @@ Start by tying utility measurements to:
 - and one or two meaningful production signals.
 
 That usually creates enough context to detect leaks, drift, and abnormal idle consumption without overengineering the first phase.
+
+## A practical baseline worksheet
+
+For each utility stream, define the baseline at the level where action is possible. A plant does not always need perfect machine-level allocation on day one. It usually needs a believable area, line, or utility-system baseline that operations can use.
+
+| Baseline field | What to define | Why it matters |
+| --- | --- | --- |
+| Utility boundary | Compressor room, boiler header, line meter, feeder, or area panel | Prevents teams from comparing signals that do not describe the same system |
+| Operating state | Running, idle, blocked, sanitation, startup, changeover, shutdown | Explains why a draw changed before calling it abnormal |
+| Production denominator | Units, batches, run hours, air demand class, or throughput band | Keeps energy review from punishing high-output periods |
+| Normal range | Expected minimum, expected maximum, and confidence level | Turns a dashboard into an exception-detection tool |
+| Review owner | Energy manager, maintenance, process engineer, or line owner | Prevents baseline exceptions from becoming orphan alerts |
+
+This worksheet is intentionally simple. The first credible baseline should survive a weekly operations review before the site invests in a more complex allocation model.
+
+## Example: compressed air leak hunting
+
+Compressed air is a strong first utility target because abnormal idle demand is often visible if the data is organized correctly. A useful first model compares:
+
+- air demand during normal production;
+- air demand during planned idle;
+- overnight or weekend baseline demand;
+- compressor starts, unload time, and pressure behavior;
+- known maintenance events that could explain a step change.
+
+If idle demand rises but production did not, the signal points toward leaks, failed valves, improper blow-off use, or equipment left energized. The key is that the baseline must distinguish idle from running. A single daily consumption number hides the exact condition that makes leak detection practical.
+
+## Example: steam and thermal load review
+
+Steam baselines are usually more context-sensitive. Startup, sanitation, warm-up, ambient conditions, and product mix can all change demand. For steam, the better first baseline is often a state-based comparison:
+
+- startup demand by line or area;
+- steady running demand by product family;
+- idle or hold demand when the process should be quiet;
+- condensate return or trap-related indicators if available;
+- boiler or header events that explain plant-wide shifts.
+
+The goal is not to accuse a line of waste from one chart. The goal is to create a repeatable review path that separates expected process behavior from drift worth investigating.
+
+## Example: power baselines for production review
+
+Power baselines become useful when they connect load to production context. A line drawing more power may be normal if throughput increased, but suspicious if the line was blocked, idling, or running the same product family at the same rate.
+
+Useful first checks include:
+
+- kW or kWh by shift and line state;
+- load during planned non-production windows;
+- power per unit or per run hour where the denominator is trusted;
+- demand spikes tied to startup, compressor behavior, ovens, pumps, or conveyors;
+- abnormal load after maintenance or controls changes.
+
+This is where the IIoT layer matters. Utility data without [line-state context](/applications/line-state-models-for-brownfield-oee-and-utility-data/) can look precise while still being weak evidence.
+
+## When the baseline is not ready for automation
+
+Do not automate alerts from a baseline until the team can explain:
+
+- which operating state the baseline applies to;
+- how missing production context is handled;
+- what amount of deviation should create action;
+- who reviews the exception;
+- whether the signal has calibration, timestamp, or communications quality issues.
+
+If those answers are missing, the next step is not more alarms. It is better signal context, usually starting with [data quality rules](/applications/plc-data-quality-rules-before-historian-or-cloud-ingestion/) and clearer ownership between plant engineering, maintenance, and OT.

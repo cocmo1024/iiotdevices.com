@@ -14,6 +14,18 @@ targetRoles:
   - Plant engineers
   - Data infrastructure leads
 contentStatus: seed
+problemSolved: Helps retrofit teams decide where polling is still the safest collection pattern and where publish or event-style delivery reduces upstream cost and operational confusion.
+readerTakeaway: You should leave with a practical split between polling, change events, and publish-style forwarding that respects source-device limits and downstream data use.
+keyQuestions:
+  - Which legacy signals should still be polled?
+  - Which events should be published only when state changes?
+  - What test proves that a publish-style gateway is not hiding missed machine context?
+notFor:
+  - Greenfield systems where native event models can be designed from the start
+  - Projects that have not yet defined the historian, MES, or analytics consumer
+updateTriggers:
+  - New gateway buffering and publish features in common brownfield devices
+  - Changes in historian, MQTT broker, and UNS ingestion patterns
 ---
 
 import { LinkCard } from '@astrojs/starlight/components';
@@ -43,6 +55,16 @@ Polling is often the right fit when:
 
 Polling can be a perfectly good brownfield answer when used with discipline.
 
+The discipline matters. A one-second poll on every available register is rarely the right design just because the gateway can do it. For legacy devices, start by separating the signal inventory into three groups:
+
+| Signal group | Better default | Practical reason |
+| --- | --- | --- |
+| Slow analog values | Poll at a coarse, justified interval | Temperature, pressure, utility, and level values often need trend context, not millisecond noise |
+| Operating state | Poll or derive state with explicit transition rules | Some older controllers cannot emit clean events, so state may need conservative sampling |
+| Alarm, fault, and changeover transitions | Capture as events when trustworthy | These signals are most valuable when the order and timestamp are preserved |
+
+The important design habit is to assign a reason to every polling rate. If no one can explain why a value needs to be sampled at that interval, the interval is probably inherited rather than engineered.
+
 ## When publish-style behavior helps
 
 Publish or event-driven patterns become more useful when:
@@ -53,6 +75,51 @@ Publish or event-driven patterns become more useful when:
 - the team wants to reduce the burden of constant line-side queries.
 
 The important point is that publish usually becomes useful after a reliable boundary device is already in place.
+
+Publish-style behavior is strongest when the gateway or edge layer can own three responsibilities:
+
+- detect meaningful changes instead of forwarding every small movement;
+- preserve local timestamps and event order during link loss;
+- expose enough metadata that downstream users know what changed, where it came from, and whether the value is trustworthy.
+
+Without those responsibilities, "publish" can become only a prettier transport label. The plant still gets ambiguous data, just through a newer interface.
+
+## The decision test that prevents bad architecture
+
+Before choosing the pattern, write down the decision the data must support.
+
+If the user needs to see a trend, calculate a baseline, or compare behavior over a shift, polling is usually part of the answer. If the user needs to know that a fault occurred, a state changed, a batch started, or a machine stopped, event capture is usually part of the answer. If the user needs multiple systems to consume the same normalized machine story, publish-style forwarding becomes more useful.
+
+That creates a more reliable decision flow:
+
+1. define the consumer and use case;
+2. classify each signal as trend, state, or event;
+3. choose the lowest collection burden that preserves the needed context;
+4. test missed-transition behavior during startup, fault, link loss, and recovery;
+5. document the boundary so future teams do not silently add high-rate polling again.
+
+## What to test before standardizing
+
+A retrofit team should not standardize the pattern until it has tested realistic failure modes:
+
+- source device restart while the gateway is connected;
+- network outage while events occur locally;
+- machine state changes faster than the polling interval;
+- duplicate event delivery after reconnect;
+- downstream consumer outage while the gateway buffer fills;
+- daylight-saving or clock drift issues if timestamps are generated in different places.
+
+These tests catch the problems that a normal demo hides. A design that looks clean during steady production may still lose the exact transition sequence that operations needs during an abnormal stop.
+
+## Practical rule for brownfield programs
+
+For most legacy lines, use a hybrid model:
+
+- poll slow values that need trend context;
+- capture discrete transitions as events where the source and gateway can do it reliably;
+- publish normalized payloads upstream only after signal naming, timestamps, units, quality, and ownership are clear.
+
+That hybrid is less fashionable than an event-only architecture, but it is usually more honest. Brownfield data value depends on preserving the operational story, not on making every tag conform to one collection style.
 
 ## Compare next
 

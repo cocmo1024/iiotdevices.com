@@ -102,3 +102,48 @@ The safest rollout is:
 5. review the false-assignment cases every week.
 
 That creates a dataset people trust enough to improve over time.
+
+## A starter reason hierarchy
+
+Start with a small hierarchy that operators can apply under shift pressure:
+
+| Top-level class | Examples | Likely source |
+| --- | --- | --- |
+| Equipment fault | drive fault, jam, sensor fault, machine alarm | machine event plus operator confirmation |
+| Material issue | missing material, wrong part, poor feed, packaging shortage | operator or upstream system |
+| Changeover / setup | planned changeover, tool change, recipe adjustment | schedule plus operator confirmation |
+| Quality hold | inspection hold, rework, reject investigation | operator, quality system, or manual review |
+| Starved / blocked | upstream starved, downstream blocked, buffer full | machine state plus line context |
+| Planned stop | break, cleaning, maintenance, meeting, sanitation | schedule or operator |
+
+Do not begin with fifty reason codes. Begin with categories that can survive a shift review. Add detail only where the improvement team will actually use it.
+
+## Auto-classification rules that are safe enough
+
+Automatic reason assignment is safest when the signal evidence is strong:
+
+- a machine fault code maps to a known equipment category;
+- a scheduled break overlaps the stop window;
+- downstream blocked and upstream running indicate a likely downstream constraint;
+- a planned maintenance window is active;
+- a safety circuit or guard event is explicitly logged.
+
+When evidence is weak, the system should suggest a reason and ask for operator confirmation. Bad automatic reasons are worse than missing reasons because they create false confidence.
+
+## Weekly review loop
+
+The data becomes valuable when the plant reviews it:
+
+1. rank top downtime categories by lost minutes, not only event count;
+2. inspect unassigned and corrected reasons;
+3. identify codes operators avoid or misuse;
+4. compare machine-derived events with operator-confirmed reasons;
+5. remove or merge reason codes that do not lead to action.
+
+This loop is what turns a lightweight downtime system into a credible MES precursor. Without it, the plant only creates another database of questionable loss codes.
+
+## Related pages
+
+- [OEE and downtime data from legacy lines](/applications/oee-and-downtime-data-from-legacy-lines/)
+- [Polling rates vs event triggers for brownfield data costs](/comparisons/polling-rates-vs-event-triggers-for-brownfield-data-costs/)
+- [Line-state models for brownfield OEE and utility data](/applications/line-state-models-for-brownfield-oee-and-utility-data/)

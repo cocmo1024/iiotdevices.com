@@ -78,6 +78,37 @@ Before comparing brands, answer:
 
 Those four questions usually eliminate more bad options than a feature sheet ever will.
 
+## Remote I/O acceptance checklist
+
+A remote I/O installation is not proven when the points appear online. It should prove:
+
+| Acceptance item | Why it matters |
+| --- | --- |
+| Module replacement procedure | Maintenance needs repeatable recovery after a failed slice or block |
+| Network-loss behavior | The system must define safe state, alarm behavior, and recovery |
+| Diagnostics visibility | Technicians need to distinguish wiring, module, network, and controller faults |
+| Environmental protection | Washdown, vibration, heat, dust, and connector strain decide field survival |
+| Spare strategy | Standard module families reduce downtime during failures |
+| Naming and documentation | Future teams need to understand which physical point maps to which logic point |
+
+This checklist is especially important when remote I/O is installed far from the main controls cabinet. Distance makes weak diagnostics more expensive.
+
+## Common mistakes after installation
+
+The most common failures are:
+
+- no one documents what should happen if communications drop;
+- maintenance can replace hardware but not restore addressing or configuration;
+- field connectors and cable strain are treated as commodity details;
+- expansion modules are added until power, network, or enclosure assumptions are wrong;
+- the remote I/O node gradually accumulates logic expectations that belong in a controller.
+
+These mistakes turn a clean distributed I/O architecture into a hard-to-support control boundary.
+
+## Buying rule
+
+Buy remote I/O when it simplifies the control system. Do not buy it when it merely moves complexity into a field box. If the field location will need local sequencing, fallback decisions, or recipe behavior within the next phase, compare a compact PLC before locking the architecture.
+
 ## Compare next
 
 <div class="portal-links">

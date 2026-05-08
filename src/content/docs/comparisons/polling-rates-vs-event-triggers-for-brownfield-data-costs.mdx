@@ -79,3 +79,46 @@ The real cost is not just bytes. It is:
 - and human trust in what the data means.
 
 A cheap collection pattern that produces weak context is often more expensive in practice than a cleaner hybrid design.
+
+## How to set the first polling budget
+
+The first polling budget should be tied to the operational question, not to the maximum rate the device can tolerate. A practical starting model is:
+
+| Signal type | First-pass interval | When to tighten |
+| --- | --- | --- |
+| Utility load or consumption | 30 seconds to 5 minutes | Tighten only when short events materially change decisions |
+| Slowly changing process analog | 5 to 60 seconds | Tighten when control behavior or troubleshooting needs the shape |
+| Machine run / idle / fault state | 1 to 5 seconds if no reliable event exists | Tighten when short stops are being missed |
+| Alarm transitions | Event-first where possible | Add polling only as a safety check |
+| Counters and totals | Based on production reporting window | Tighten when rollover or reset behavior creates ambiguity |
+
+Those intervals are not universal rules. They are a pressure test. If a team cannot explain why it needs faster collection than this first-pass model, it may be buying infrastructure cost before proving value.
+
+## Where event triggers pay back fastest
+
+Event triggers usually pay back fastest in three places:
+
+1. downtime reason capture, where the order and duration of state transitions matter more than constant sampling;
+2. alarm and fault analysis, where repeated assertion and clear events need to survive link or platform interruptions;
+3. changeover and batch boundaries, where the transition itself is the meaningful data point.
+
+The common trap is to use events only to save storage. The better reason is to preserve the shape of the production story. A correctly captured fault sequence is more valuable than thousands of evenly spaced samples that still fail to explain what happened.
+
+## Where polling remains defensible
+
+Polling remains defensible when the value is in the trend, not the transition. Compressed air baselines, steam demand, power load, tank level, temperature drift, and throughput rate often need enough continuous context to compare periods. Event-only collection can make those questions harder because the absence of an event does not always prove stable behavior.
+
+That is why utility and condition-monitoring pages should be linked back to the polling design. For example, [utility consumption baselines](/applications/utility-consumption-baselines-for-compressed-air-steam-and-power/) need regular context, while [downtime reason capture](/applications/downtime-reason-capture-from-legacy-lines-without-full-mes/) needs cleaner transition evidence.
+
+## Acceptance criteria for the hybrid design
+
+A hybrid design is ready to scale when it can prove:
+
+- the plant can explain every fast polling interval;
+- event timestamps are generated close enough to the source to be trusted;
+- local buffering preserves order during upstream outage;
+- data quality flags separate stale, substituted, and live values;
+- downstream users can tell whether a missing event means "nothing happened" or "collection failed";
+- total retained data volume is known before the rollout expands.
+
+If those criteria are missing, the project is still in experimentation. Expanding tag count at that point usually increases cost faster than insight.

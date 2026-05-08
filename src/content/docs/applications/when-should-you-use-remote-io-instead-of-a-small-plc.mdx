@@ -66,6 +66,50 @@ Projects often start with simple signals and gradually add more local logic. If 
 
 If the field location needs local judgment, buy a controller. If it mainly needs local terminations and signal extension, buy remote I/O.
 
+## Decision checklist
+
+Use this checklist before shortlisting hardware:
+
+| Question | Remote I/O answer | Small PLC answer |
+| --- | --- | --- |
+| Who owns the logic? | Existing upstream PLC or controller | Local field panel or machine area |
+| What happens during network loss? | Outputs and inputs must fail to a defined safe state | Local control can continue or execute fallback |
+| Who troubleshoots it? | Maintenance replaces slices/modules and checks comms | Controls support may need program access and backups |
+| How will it expand? | More points near the same control domain | More local sequences, recipes, or state rules |
+| What is the safety boundary? | Safety is handled elsewhere or with defined safety I/O | Local logic or safety integration may be part of the cell |
+
+If most answers land in the small PLC column, remote I/O is probably being used to avoid admitting that the location needs a controller.
+
+## Common brownfield examples
+
+Remote I/O usually fits:
+
+- adding sensors around an existing line without changing the control architecture;
+- reducing long home-run wiring to a crowded cabinet;
+- expanding a skid or machine area where logic already lives upstream;
+- creating modular I/O blocks for repeat machine sections.
+
+A small PLC usually fits:
+
+- pump or utility skids that need local sequencing;
+- remote assets that must survive communication loss;
+- packaging or material-handling zones with local state machines;
+- cells where maintenance needs a clear standalone control boundary.
+
+These examples prevent the discussion from becoming only a hardware-price comparison.
+
+## What to document after the decision
+
+Document the decision boundary in the design package:
+
+- why the field node does or does not need local control;
+- what the node should do during upstream communications loss;
+- replacement procedure and spare module strategy;
+- diagnostics available to maintenance;
+- who owns future logic changes if the scope expands.
+
+That documentation matters because remote I/O projects often drift. A simple signal-extension node can slowly become a control island unless the ownership boundary is explicit.
+
 ## Compare next
 
 <div class="portal-links">

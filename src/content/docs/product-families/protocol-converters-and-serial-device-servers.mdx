@@ -14,6 +14,18 @@ targetRoles:
   - Integrators
   - Technical buyers
 contentStatus: seed
+problemSolved: Helps retrofit teams decide when a protocol converter or serial device server is enough and when the project needs a broader gateway or edge layer.
+readerTakeaway: You should leave with a selection checklist tied to legacy device behavior, protocol ownership, buffering needs, diagnostics, and support burden.
+keyQuestions:
+  - When is a protocol converter enough?
+  - When does a serial device server become a fragile point solution?
+  - What should be tested before using converters across many legacy assets?
+notFor:
+  - Projects that require local analytics, application hosting, or complex store-and-forward logic
+  - Greenfield systems where native Ethernet devices can be specified from the start
+updateTriggers:
+  - New product families in serial-to-Ethernet and protocol conversion
+  - Changes in brownfield gateway and device-server deployment patterns
 ---
 
 import { LinkCard } from '@astrojs/starlight/components';
@@ -65,6 +77,46 @@ This category becomes attractive when the project priority is:
 - keeping the support model simple enough for plant personnel.
 
 The best purchase decisions here are usually about operational fit, not spec-sheet density.
+
+## Selection checklist
+
+Before buying, verify:
+
+| Criterion | What to check |
+| --- | --- |
+| Exact serial behavior | RS-232/RS-485, baud rate, parity, multidrop behavior, termination, timing |
+| Protocol role | Whether the device is only tunneling serial or actually translating protocol semantics |
+| Polling burden | Whether upstream polling will overload a fragile legacy device |
+| Diagnostics | Whether the team can see serial errors, connection state, and transaction failures |
+| Security boundary | Whether the converter exposes a legacy asset too broadly on the network |
+| Replacement model | Whether maintenance can swap and reconfigure it without recreating integration knowledge |
+
+These checks matter because a converter can be cheap per device while expensive across a plant if every install becomes a one-off troubleshooting exercise.
+
+## When to move up to a gateway
+
+Choose a broader [industrial gateway](/product-families/industrial-gateways/) when the project needs:
+
+- local buffering during upstream outage;
+- data shaping, naming, quality flags, or timestamp rules;
+- many assets at one boundary;
+- remote diagnostics and fleet management;
+- cleaner cybersecurity and segmentation controls;
+- a documented handoff into historians, MQTT brokers, or cloud ingestion.
+
+The converter is strongest as a narrow bridge. The gateway is stronger as an owned data boundary.
+
+## Field test before scaling
+
+Run a small field test with the oldest and least forgiving device in the target population. Confirm:
+
+1. stable serial communication over the expected cable path;
+2. predictable recovery after device restart;
+3. no unexpected load from polling;
+4. clear error visibility when the source device is disconnected;
+5. repeatable configuration backup and replacement.
+
+If the hardest asset passes, the rollout is more likely to scale. If only the easiest asset passes, the project has not learned enough.
 
 ## Related paths
 

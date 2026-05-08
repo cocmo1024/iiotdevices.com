@@ -14,6 +14,18 @@ targetRoles:
   - IIoT buyers
   - System integrators
 contentStatus: cornerstone
+problemSolved: Helps teams place Modbus, OPC UA, and MQTT at the right layers of an IIoT architecture instead of treating them as one protocol contest.
+readerTakeaway: You should leave with a practical protocol-placement model for field access, industrial context, and upstream publish-subscribe transport.
+keyQuestions:
+  - When should Modbus stay close to the device layer?
+  - When does OPC UA provide enough context to justify its complexity?
+  - When should MQTT be treated as upstream transport rather than field semantics?
+notFor:
+  - Readers looking for a full protocol specification
+  - Greenfield teams that can mandate one vendor-native stack across every layer
+updateTriggers:
+  - Changes in common IIoT protocol patterns
+  - Major gateway, broker, or OPC UA/MQTT ecosystem shifts
 ---
 
 import { LinkCard } from '@astrojs/starlight/components';
@@ -70,6 +82,40 @@ Instead of asking "which protocol wins," ask:
 - which protocol choice will be easiest to support in production.
 
 That is the question that changes hardware selection, gateway role, and long-term operating burden.
+
+## Layered architecture pattern
+
+A common brownfield pattern looks like this:
+
+| Layer | Common protocol fit | What the layer should own |
+| --- | --- | --- |
+| Device or controller access | Modbus or vendor protocol | Practical access to installed equipment |
+| Local industrial context | OPC UA or gateway data model | Names, structure, quality, units, and browseable context |
+| Upstream distribution | MQTT or broker-centered payloads | Decoupled delivery to analytics, cloud, MES, or data platforms |
+
+The exact stack can vary, but the principle is stable: keep each protocol close to the job it does well.
+
+## Common misapplications
+
+Teams get into trouble when they:
+
+- push raw Modbus-style thinking all the way into analytics and make every downstream team decode register meaning;
+- use OPC UA where a simpler transport and stable payload contract would be easier to operate;
+- publish MQTT payloads with weak naming, missing units, no quality, and no owner;
+- assume a gateway fixes protocol decisions without defining the data contract.
+
+Protocol choice is only as strong as the boundary definition around it.
+
+## Practical selection rule
+
+Use this rule during design review:
+
+1. keep installed device access as simple and reliable as possible;
+2. add context at the layer that can maintain it;
+3. publish upstream only after timestamp, quality, unit, and naming rules are explicit;
+4. test outage, restart, and bad-value behavior before standardizing the pattern.
+
+That rule connects protocol choice to [industrial data contracts](/comparisons/industrial-data-contracts-between-ot-it-and-analytics-teams/) and keeps the architecture from becoming a stack of transport decisions with no shared meaning.
 
 ## Compare next
 

@@ -14,6 +14,18 @@ targetRoles:
   - Technical buyers
   - System integrators
 contentStatus: cornerstone
+problemSolved: Helps buyers decide whether an industrial gateway is the right boundary device before comparing vendors or buying unnecessary edge compute.
+readerTakeaway: You should leave with a gateway selection model tied to protocol fit, buffering, support ownership, cybersecurity, and commissioning evidence.
+keyQuestions:
+  - When is an industrial gateway the right category?
+  - What should be checked before comparing gateway vendors?
+  - What makes a gateway supportable after commissioning?
+notFor:
+  - Buyers who already need full local application hosting rather than translation and transport
+  - Greenfield architectures where the PLC, network, and data layer can be designed together
+updateTriggers:
+  - New public gateway product releases
+  - Changes in common industrial protocol, store-and-forward, and remote-management capabilities
 ---
 
 import { LinkCard } from '@astrojs/starlight/components';
@@ -65,6 +77,35 @@ The most important evaluation criteria usually include:
 
 In real IIoT programs, those questions matter more than generic processing specs.
 
+## A better shortlist scorecard
+
+Use the shortlist to remove devices, not to admire feature lists. A practical gateway scorecard should include:
+
+| Criterion | What to verify | Why it matters after install |
+| --- | --- | --- |
+| Field protocol fit | Exact drivers, serial/Ethernet variants, tag limits, and polling behavior | Prevents the gateway from becoming a custom integration project |
+| Upstream protocol fit | MQTT, OPC UA, historian connector, REST, or broker requirements | Keeps the boundary aligned with the real data consumer |
+| Local buffering | Store-and-forward behavior, queue limits, timestamp preservation | Determines whether outages create data gaps or recoverable history |
+| Data shaping | Units, names, quality, deadbands, event rules, payload structure | Reduces downstream cleanup and analytics ambiguity |
+| Diagnostics | Logs, connection state, tag status, remote visibility | Cuts troubleshooting time when the site is not physically accessible |
+| Security and updates | Auth model, certificates, patch process, network segmentation | Decides whether the device can live inside a governed plant network |
+| Lifecycle and support | Vendor availability, firmware cadence, replacement path | Matters more in year three than in the demo |
+
+This scorecard is more useful than comparing CPU, memory, and marketing protocol counts first. A gateway with fewer features but clearer boundary ownership can be the better production choice.
+
+## What commissioning should prove
+
+A gateway selection is not proven when the first values appear on a dashboard. It is proven when the commissioning team can show:
+
+- what happens when the source device restarts;
+- what happens when the upstream broker, historian, or network is unavailable;
+- whether timestamps remain meaningful after reconnect;
+- how bad values, stale values, and missing values are represented;
+- how the site will update credentials, firmware, and configuration later;
+- who owns the gateway when production says "the data is wrong."
+
+These tests are where many category mistakes become visible. If the project needs heavier local logic, application orchestration, or database responsibility, the correct answer may be an edge computer. If the project only needs simple serial bridging, a smaller protocol converter may be enough.
+
 ## Gateway vs edge computer vs RTU
 
 A simple working model is:
@@ -74,6 +115,19 @@ A simple working model is:
 - choose an `RTU` when remote-site autonomy, sparse communications, or control-oriented field behavior dominates.
 
 That framing is more useful than shopping from spec sheets alone.
+
+## Common buyer mistakes
+
+The most common gateway buying mistakes are:
+
+- buying by the largest protocol list without confirming the exact driver behavior;
+- ignoring serial timing, legacy device limits, and polling load;
+- assuming MQTT output automatically means clean IIoT architecture;
+- skipping local buffer tests because the demo network was stable;
+- placing the gateway in a network zone that operations cannot support;
+- treating firmware updates as an IT problem after OT has already commissioned the site.
+
+The safer route is to define the gateway's job in one sentence. For example: "This gateway reads defined tags from three legacy PLCs, preserves quality and timestamps through short outages, and publishes normalized payloads to the plant broker." If the team cannot write that sentence, the shortlist is premature.
 
 ## Compare next
 
