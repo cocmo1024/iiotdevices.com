@@ -1,0 +1,257 @@
+---
+title: Industrial Data Contracts Between OT, IT, and Analytics Teams
+description: How to define industrial data contracts for brownfield machine data so OT, IT, MES, historian, and analytics teams trust the same signals.
+referenceType: comparison
+adProfile: comparison
+commercialIntent: high
+reviewCadence: Quarterly review
+contentStatus: cornerstone
+problemSolved: Helps teams stop brownfield data projects from failing after connectivity works but nobody agrees what the data means, who owns it, or when it is good enough to use.
+readerTakeaway: You should leave with a practical industrial data contract model covering signal meaning, timestamps, units, line states, quality flags, ownership, change control, and acceptance evidence.
+primaryKeyword: industrial data contract
+searchIntent: design
+decisionStage: implementation
+targetRoles:
+  - OT architects
+  - Industrial data engineers
+  - MES owners
+  - Controls engineers
+  - Manufacturing analytics teams
+keyQuestions:
+  - What should an industrial data contract include?
+  - How do OT and IT teams agree on brownfield machine data meaning?
+  - Which data contract fields prevent unreliable OEE, MES, historian, and AI projects?
+notFor:
+  - Temporary troubleshooting captures that will not feed an ongoing system
+  - Greenfield programs where the machine builder already provides a complete data model and ownership model
+  - Teams that have not selected the decisions or consumers the data must support
+updateTriggers:
+  - New plant examples where weak data ownership causes OEE, MES, historian, or AI rollout problems
+  - New common practices for industrial data modeling, event streams, or data quality flags
+  - Changes in data governance expectations between OT, IT, operations, and analytics teams
+---
+
+import { LinkCard } from '@astrojs/starlight/components';
+
+# Industrial Data Contracts Between OT, IT, and Analytics Teams
+
+Brownfield machine data does not become useful just because a gateway can read it. It becomes useful when every downstream user understands what the signal means, when it is valid, how it is timestamped, who owns changes, and what the plant should do when the value looks wrong.
+
+That agreement is the industrial data contract.
+
+In software teams, a data contract often means a schema between systems. In a plant, the contract has to be more practical. It must connect PLC signals, operator behavior, machine states, historian tags, MES events, dashboard logic, and analytics assumptions. Without that contract, the project can pass connectivity testing and still fail when operations, IT, and analytics interpret the same signal differently.
+
+## Quick answer
+
+An industrial data contract should define the meaning, unit, timestamp rule, valid states, quality flag, owner, change process, consumer, and acceptance evidence for each signal or event that matters. It should also say what the data must not be used for. The contract is not a paperwork exercise. It is the boundary that prevents a successful gateway project from becoming an unreliable reporting system.
+
+## Why industrial data contracts matter
+
+The common failure pattern looks like this:
+
+1. OT connects the machine and exposes tags.
+2. IT moves the tags into a historian, broker, lakehouse, or dashboard.
+3. Operations starts using the numbers.
+4. Analytics builds OEE, downtime, energy, quality, or AI models.
+5. Someone discovers that a tag changed meaning, a timestamp is late, an alarm was reused, or a state is not what the report assumed.
+
+At that point the argument is no longer technical. It is about trust.
+
+The contract prevents that trust gap by making assumptions explicit before the data is scaled.
+
+Related page: <LinkCard title="PLC Data Quality Audit Before OEE, MES, and AI Projects" href="/comparisons/plc-data-quality-audit-before-oee-mes-and-ai-projects/" />
+
+## The minimum contract fields
+
+A useful contract can be short. It only needs to capture the fields that prevent downstream confusion.
+
+| Field | Why it matters | Weak version | Strong version |
+| --- | --- | --- | --- |
+| Signal or event name | Identifies the data item | `Run` | `Line running confirmed by main drive permissive` |
+| Source | Shows where the value comes from | PLC | PLC 12, DB 41, bit 7, read through gateway A |
+| Meaning | Prevents interpretation drift | Machine status | True only when production is possible, not during warmup |
+| Unit and scale | Prevents wrong math | Speed | Cases per minute, integer, zero during blocked state |
+| Timestamp rule | Defines event order | Historian time | PLC event timestamp preferred; gateway receive time if unavailable |
+| Valid states | Defines allowed values | 0 or 1 | Running, blocked, starved, faulted, changeover, idle |
+| Quality flag | Exposes trust level | None | Good, stale, estimated, forced, missing, manually corrected |
+| Owner | Names who can change it | Controls | Packaging line controls owner plus MES data owner |
+| Consumer | Shows who depends on it | Dashboard | OEE model, shift board, maintenance trigger, downtime review |
+| Acceptance test | Proves it works | Looks correct | Ten forced-state checks with operator confirmation |
+
+The contract should be readable by a controls engineer and by the person who owns the operational report.
+
+## Contract by decision, not by every tag
+
+Do not try to contract every PLC tag at the start. That creates a governance project before the plant has value.
+
+Start with the signals that affect decisions:
+
+- line state;
+- good count;
+- reject or scrap count;
+- changeover start and end;
+- critical alarms;
+- downtime reason;
+- batch, recipe, SKU, or product code;
+- energy or utility consumption;
+- machine speed or cycle time;
+- maintenance counters;
+- quality hold or release states.
+
+If a tag is only used for troubleshooting, it may need documentation but not a full contract. If a tag affects a dashboard, MES transaction, maintenance trigger, cost model, or AI feature, it needs a contract.
+
+Related page: <LinkCard title="Line State Modeling for Brownfield Machine Data" href="/applications/line-state-modeling-for-brownfield-machine-data/" />
+
+## The line-state contract
+
+Line state is usually the first contract that matters because many other calculations depend on it.
+
+A weak line-state model says:
+
+> If `Run` is true, the line is running.
+
+A stronger contract says:
+
+| State | Source rule | Operational meaning | Common mistake |
+| --- | --- | --- | --- |
+| Running | Main cycle active and product flow confirmed | Producing or able to produce | Counting warmup or jog mode as running |
+| Starved | Machine ready but no upstream product | Upstream constraint | Calling every zero-speed period downtime |
+| Blocked | Machine ready but downstream unavailable | Downstream constraint | Blaming the local machine |
+| Faulted | Machine fault prevents production | Local technical loss | Merging faulted and stopped |
+| Changeover | Product, recipe, tooling, or material transition | Planned transition | Treating as unplanned downtime |
+| Idle | No active production demand | Not necessarily a loss | Penalizing scheduled idle time |
+| Manual override | Operator or maintenance override active | Data needs caution | Hiding forced states |
+
+This contract lets the plant separate machine performance from flow problems. That is where many OEE and downtime arguments are won or lost.
+
+## Timestamp rules
+
+Timestamp assumptions can quietly destroy event analysis.
+
+Define:
+
+- whether the PLC, gateway, historian, or cloud system is the timestamp authority;
+- how clock drift is detected;
+- whether events use event time or receive time;
+- how late-arriving data is handled;
+- whether repeated values are stored as samples or state changes;
+- how outages and backfilled events are marked;
+- how milliseconds, seconds, and time zones are normalized.
+
+For slow dashboard trends, receive time may be acceptable. For downtime sequence analysis, alarm order, reject attribution, or microstoppage work, timestamp rules are part of the data contract.
+
+Related page: <LinkCard title="PLC Timestamps, Clock Sync, and Event Order for Brownfield Data" href="/comparisons/plc-timestamps-clock-sync-and-event-order-for-brownfield-data/" />
+
+## Quality flags belong in the contract
+
+A value without a quality flag can look more reliable than it is.
+
+Use flags that operations can understand:
+
+| Quality flag | Meaning | What downstream systems should do |
+| --- | --- | --- |
+| Good | Source is live and value is within expected behavior | Use normally |
+| Stale | Source has not updated within the expected window | Display with warning or exclude from live decisions |
+| Missing | Source is unavailable | Do not calculate misleading totals |
+| Forced | Value is manually overridden or simulated | Exclude from KPI trust metrics |
+| Estimated | Value is inferred from another signal | Use only where estimation is allowed |
+| Corrected | Value was manually corrected after review | Keep audit trail |
+| Unmapped | Value exists but has no approved meaning | Do not use for decision logic |
+
+The important point is not the exact labels. It is that downstream consumers can tell the difference between a real value and a value that only looks real.
+
+## Ownership and change control
+
+The data contract should answer who is allowed to change each layer:
+
+| Layer | Typical owner | Contract risk |
+| --- | --- | --- |
+| PLC logic | Controls or machine builder | Tag meaning changes without notifying data consumers |
+| Gateway mapping | OT or integrator | Address or scale changes silently |
+| Broker topic or historian tag | OT/IT data owner | Names are stable but meaning drifts |
+| MES or dashboard model | MES or operations owner | State logic diverges from the source |
+| Analytics feature | Data science or analytics owner | Model assumes values that operations does not trust |
+| Review process | Plant data steward | Nobody owns cross-layer disputes |
+
+Any change to a contracted signal should answer:
+
+- What changed?
+- Why did it change?
+- Which consumers are affected?
+- Was historical data reinterpreted?
+- What test proved the new meaning?
+- Who accepted the change?
+
+This does not need to be heavy. A change log in the same repository or documentation system is enough for many plants.
+
+## A practical contract template
+
+Use a simple template before scaling a data item:
+
+```text
+Data item:
+Business question:
+Source machine or line:
+Source address or topic:
+Operational meaning:
+Unit and scale:
+Expected update pattern:
+Timestamp authority:
+Valid states or ranges:
+Quality flags:
+Known exceptions:
+Downstream consumers:
+Owner:
+Change approval:
+Acceptance evidence:
+Review cadence:
+Do not use for:
+```
+
+The final field matters. Some data is good enough for daily review but not good enough for automated settlement, customer reporting, or maintenance dispatch.
+
+## Acceptance tests
+
+Do not accept a contract because the dashboard looks plausible. Test the signal against real conditions.
+
+Good acceptance tests include:
+
+- force or observe each state and confirm upstream display;
+- compare counters against machine HMI, physical count, or production record;
+- test stale-data behavior by disconnecting the source or simulating outage;
+- verify timestamp order during a short fault or stop sequence;
+- compare unit scaling against known values;
+- review at least one shift of data with operators;
+- confirm that the report explains exceptions rather than hiding them;
+- record what the data is not trusted to decide.
+
+Related page: <LinkCard title="Brownfield Data Acceptance Criteria Before Scaling Machine Data Collection" href="/comparisons/brownfield-data-acceptance-criteria-before-scaling-machine-data-collection/" />
+
+## When the contract is too weak
+
+Warning signs:
+
+- people argue about whether a line was really down;
+- a dashboard number changes after a PLC update and nobody knows why;
+- data scientists create features that operations rejects;
+- reports use tags that controls engineers describe as "not meant for that";
+- gateway mappings live only in an integrator file;
+- historian tags have stable names but unstable meaning;
+- timestamps are treated as precise when they are only receive times;
+- manual overrides are invisible downstream;
+- a pilot works on one line but cannot be copied without re-discovery.
+
+These are not reasons to stop the project. They are signs that the contract should be tightened before rollout.
+
+## What to do next
+
+Start with one operating decision and five to ten data items. Write the contract, test it, and use it in a real review meeting. If the meeting can make a decision faster and with fewer arguments, expand the pattern.
+
+Do not make the first contract perfect. Make it explicit, testable, owned, and connected to a decision.
+
+Next-step references:
+
+- <LinkCard title="PLC Tag Naming and Context Mapping Before Historian, OEE, and Industrial AI" href="/comparisons/plc-tag-naming-and-context-mapping-before-historian-oee-and-industrial-ai/" />
+- <LinkCard title="Historian Tags vs Event Models for Brownfield Operations Data" href="/comparisons/historian-tags-vs-event-models-for-brownfield-operations-data/" />
+- <LinkCard title="Preparing Brownfield Machine Data for Industrial AI" href="/applications/preparing-brownfield-machine-data-for-industrial-ai/" />
+
