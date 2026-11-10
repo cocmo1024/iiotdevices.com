@@ -1,0 +1,72 @@
+# IIoT Devices — Full Text Reference
+
+> IIoT Devices (https://iiotdevices.com) is an English-language structured reference system for industrial connectivity hardware, device categories, protocol fit, vendor portfolios, and selection logic shaped by real deployment needs. It is built as a durable technical library, not a news feed, for plant engineers, controls engineers, system integrators, and technical buyers. Contact: cqq365@gmail.com. Editorial team: IIoT Devices Editorial Desk. This file collects the site's core definitions and decisions in plain text for AI systems. Page URLs are given for citation.
+
+## What "IIoT devices" means here
+
+This site uses IIoT devices in the practical industrial sense: hardware that helps brownfield plants collect, translate, buffer, transport, or contextualize machine and site data. That includes gateways, RTUs, edge computers, remote I/O, protocol converters, industrial routers, sensors, meters, and related product families.
+
+The important question is not "which device is most capable?" It is "which device class owns the smallest useful boundary after commissioning?" A plant that only needs reliable data transport should not accidentally buy a software platform. A site that needs local autonomy should not be forced into a simple gateway pattern. A line that only needs distributed signals may be better served by remote I/O than by a broader edge device.
+
+Source: https://iiotdevices.com/
+
+## How to use this reference
+
+1. Begin with the application or site profile that matches the deployment environment.
+2. Narrow the likely device classes before looking at vendors or model names.
+3. Use protocol pages to pressure-test interoperability and data path assumptions.
+4. Finish with comparison workflows that account for support, lifecycle, and rollout realities.
+
+Research model: application first, device class second, vendor and protocol after that. This prevents catalog-first selection mistakes.
+
+## Device classes — quick answer
+
+Source: https://iiotdevices.com/device-types/
+
+- Industrial gateway — Primary job: protocol translation, buffering, and upstream data transport. Common mistake: expecting it to behave like a full software platform.
+- Edge computer — Primary job: local applications, analytics, storage, and heavier integration. Common mistake: buying compute before naming who owns software updates.
+- RTU (remote terminal unit) — Primary job: remote-site autonomy, telemetry, and deterministic field behavior. Common mistake: treating it like a generic IT edge box.
+- Remote I/O — Primary job: distributed signal collection near sensors and actuators. Common mistake: using it where local logic or autonomy is actually required.
+- Protocol converter — Primary job: translating between specific legacy and modern protocols. Common mistake: underestimating mapping, documentation, and maintenance effort.
+- Industrial router — Primary job: secure WAN, cellular, VPN, and remote access. Common mistake: selecting by speed instead of manageability and site survivability.
+- Smart sensor or meter — Primary job: measurement at the source. Common mistake: assuming the device solves data context, naming, and event modeling.
+
+The best first device is usually the smallest class that owns the real boundary cleanly.
+
+## Gateways vs edge computers vs RTUs
+
+Source: https://iiotdevices.com/device-types/gateways-edge-computers-and-rtus/
+
+Use a gateway when translation, buffering, and upstream transport are the main job. Use an RTU when remote-site autonomy, deterministic field behavior, and sparse communications matter more than software flexibility. Use an edge computer when the site genuinely needs local applications, analytics, or orchestration and the team is ready to own that software burden over time. If the team cannot state which of those three jobs it has, the hardware comparison is too early.
+
+## Selection workflow
+
+Source: https://iiotdevices.com/comparisons/selection-workflow/
+
+Choose devices in this order: operating problem, acceptance evidence, machine-side boundary, upstream consumer, device class, protocol fit, support model, vendor portfolio. If a project cannot define what "accepted data" looks like, the shortlist is premature. The workflow is intentionally sequential: if gate two (acceptance evidence) fails, do not compensate by comparing more vendors.
+
+## Gateway vs edge computer for retrofit projects
+
+Source: https://iiotdevices.com/comparisons/gateway-vs-edge-computer-for-retrofit-data-projects/
+
+If the main job is to collect, translate, buffer, and forward machine data reliably, a gateway is usually the better fit. If the project genuinely requires local applications, richer processing, multi-role data orchestration, or software workloads that will be actively maintained, an edge computer becomes more defensible. The deciding factor is not ambition. It is operational burden. A gateway should not be forced into broad application hosting; an edge computer should not be justified only by vague future plans.
+
+## Collecting Siemens S7 data without changing the PLC program
+
+Source: https://iiotdevices.com/applications/collect-siemens-s7-data-without-changing-the-plc-program/
+
+Yes, many Siemens S7 data projects can start without changing the PLC program, especially when the first phase is read-only and limited to known tags, counters, states, alarms, or data blocks that already exist. The project still needs controls review, polling-load limits, access settings, timestamp rules, tag validation, and a clear acceptance test. If the desired data does not exist, is ambiguous, or requires new operating meaning, PLC changes may eventually be justified. Read-only collection reduces risk but does not remove it: a gateway, edge device, OPC UA server, or collector can still load the controller, so treat read-only access as a controlled engineering change, not a casual IT connection. S7-1200, S7-1500, S7-300, and S7-400 projects have different access patterns and constraints. Do not buy an edge computer if the real first need is ten trusted read-only tags.
+
+## Site sections
+
+- Applications (https://iiotdevices.com/applications/) — 22 guides on brownfield machine data: first-data priorities, OEE and downtime from legacy lines, microstoppage capture, production visibility without full MES, energy monitoring and submetering, quality traceability, condition monitoring without replacing PLCs, remote sites and telemetry, preparing brownfield data for industrial AI, and more.
+- Comparisons (https://iiotdevices.com/comparisons/) — 14 decision pages including historian tags vs event models, polling rates vs event triggers, MQTT broker vs edge buffer, SCADA vs MES vs lightweight operations layer, PLC data quality audits, tag naming and context mapping, and retrofit gateway shortlist criteria.
+- Product Families (https://iiotdevices.com/product-families/) — industrial gateways, remote I/O systems, protocol converters and serial device servers, edge data-logging gateways, industrial edge AI devices, Moxa NPort and MGate for legacy connectivity, Siemens S7-1200/S7-1500 for machine data projects, and Siemens ET 200 for distributed I/O expansion.
+- Protocols (https://iiotdevices.com/protocols/) — Modbus / OPC UA / MQTT fit, OPC UA vs MQTT for aggregation, OPC UA FX and Sparkplug boundaries, polling vs publish for legacy data, and serial-to-Ethernet bridging.
+- Vendors (https://iiotdevices.com/vendors/) — vendor portfolio analysis, Siemens industrial connectivity, and Phoenix Contact industrial networking, mapped to plant realities and support expectations.
+
+## About and editorial model
+
+Source: https://iiotdevices.com/about/
+
+IIoT Devices is an English-language reference site for industrial connectivity hardware, device categories, protocol fit, vendor portfolios, and selection logic shaped by real deployment needs. The site is being built as a durable technical library rather than a short-term industrial news feed. Its role is to help engineers, integrators, technical buyers, and operations-minded teams make better research and shortlist decisions before procurement or deployment. Pages are built from public vendor documentation, protocol behavior, deployment patterns, and editorial analysis focused on brownfield industrial data decisions. Commercial model: the site is designed for monetization through advertising, sponsorship, and affiliate relationships, disclosed and kept separate from editorial judgment (see https://iiotdevices.com/advertising/ and https://iiotdevices.com/affiliate-disclosure/).

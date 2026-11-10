@@ -1,0 +1,35 @@
+# IIoT Devices
+
+> Structured reference system for industrial connectivity, machine data problems, retrofit architecture, and durable implementation decisions. IIoT Devices (iiotdevices.com) helps plant engineers, controls engineers, system integrators, and technical buyers choose IIoT hardware by application first, device class second, and vendor and protocol after that.
+
+IIoT devices, in the practical industrial sense used on this site, are hardware that helps brownfield plants collect, translate, buffer, transport, or contextualize machine and site data. That includes industrial gateways, RTUs, edge computers, remote I/O, protocol converters, industrial routers, sensors, and meters. The core selection principle: choose the smallest device class that owns the real boundary cleanly after commissioning, rather than the most capable device in a vendor catalog.
+
+## Hubs
+
+- [Home](https://iiotdevices.com/): What IIoT devices means here, the research paths, and the current priority clusters.
+- [Applications](https://iiotdevices.com/applications/): Research device decisions from the deployment environment outward, not from a vendor catalog inward.
+- [Device Types](https://iiotdevices.com/device-types/): Gateways, edge computers, RTUs, remote I/O, switches, and related hardware families in practical context.
+- [Product Families](https://iiotdevices.com/product-families/): Category pages for industrial gateways, remote I/O, and adjacent product groups used in recurring hardware research.
+- [Vendors](https://iiotdevices.com/vendors/): Portfolio mapping, positioning, and vendor fit by environment, architecture, and service expectations.
+- [Protocols](https://iiotdevices.com/protocols/): Protocol fit, interoperability boundaries, and data transport choices tied to real equipment decisions.
+- [Comparisons](https://iiotdevices.com/comparisons/): Comparison and selection-workflow pages used after the problem, data path, and support boundary are already clear.
+
+## Key reference pages
+
+- [Gateways, Edge Computers, and RTUs](https://iiotdevices.com/device-types/gateways-edge-computers-and-rtus/): Use a gateway for protocol translation, buffering, and upstream transport; an RTU for remote-site autonomy and deterministic field behavior; an edge computer only when the site genuinely needs local applications or analytics and can own that software burden.
+- [Collect Siemens S7 Data Without Changing the PLC Program](https://iiotdevices.com/applications/collect-siemens-s7-data-without-changing-the-plc-program/): Many S7 data projects can start read-only without PLC changes, with controls review, polling limits, and a clear acceptance test.
+- [What Machine Data Should You Collect First on a Brownfield Line?](https://iiotdevices.com/applications/what-machine-data-should-you-collect-first-on-a-brownfield-line/): First-data priorities, tag discipline, and avoiding low-value data collection.
+- [Gateway vs Edge Computer for Retrofit Data Projects](https://iiotdevices.com/comparisons/gateway-vs-edge-computer-for-retrofit-data-projects/): If the job is collect, translate, buffer, and forward, a gateway usually fits; an edge computer needs a real local workload to justify its operational burden.
+- [Modbus, OPC UA, and MQTT Fit](https://iiotdevices.com/protocols/modbus-opc-ua-and-mqtt-fit/): Which layer each protocol decision belongs to and what each protocol solves well.
+- [OPC UA vs MQTT for Machine Data Aggregation](https://iiotdevices.com/protocols/opc-ua-vs-mqtt-for-machine-data-aggregation/): Information modeling versus lightweight publish transport for brownfield aggregation.
+- [Sparkplug vs Plain MQTT](https://iiotdevices.com/comparisons/sparkplug-vs-plain-mqtt-for-industrial-data-architecture/): When Sparkplug's state and topic discipline earns its overhead over plain MQTT.
+- [Industrial Gateways](https://iiotdevices.com/product-families/industrial-gateways/): What the gateway category is for, best-fit conditions, and overbuy risks.
+- [Remote I/O Systems](https://iiotdevices.com/product-families/remote-io-systems/): When distributed signal collection beats a small PLC or a broader edge device.
+- [Selection Workflow](https://iiotdevices.com/comparisons/selection-workflow/): Choose in order: operating problem, acceptance evidence, machine-side boundary, upstream consumer, device class, protocol fit, support model, vendor portfolio.
+
+## Site information
+
+- [About](https://iiotdevices.com/about/): How IIoT Devices is positioned and how it approaches hardware, protocol, and vendor reference content.
+- [Editorial Policy](https://iiotdevices.com/editorial-policy/): How pages are built and reviewed.
+- [Contact](https://iiotdevices.com/contact/): Editorial and business contact. Email: cqq365@gmail.com.
+- Full text for AI systems: https://iiotdevices.com/llms-full.txt
