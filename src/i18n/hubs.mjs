@@ -5,8 +5,8 @@ export const LOCALE_NAMES = { en: 'English', de: 'Deutsch', es: 'Español', pt: 
 export const hubStrings = {
 	de: {
 		homeTitle: 'IIoT Devices',
-		homeH1: 'Industrielle Konnektivitäts-Hardware, geordnet für Entscheidungen.',
-		homeLede: 'Referenz zuerst: Geräteklassen, Protokoll-Fit und Auswahl-Logik — mit einer strukturierten Geräte-Datenbank und Engineering-Rechnern auf denselben Daten.',
+		homeH1: 'Die Branche, die Fabriken verbindet — berichtet und katalogisiert.',
+		homeLede: 'Die Handelsplattform für industrielle Konnektivität: Branchenberichte und Analysen unserer Redaktion, Hersteller- und Produkt-Ökosystem, Messeberichte — darunter eine Geräte-Datenbank und Engineering-Tools, die nur auf Herstellerquellen bauen.',
 		stats: { pages: 'Referenzseiten', protocols: 'Protokoll-Referenzen', applications: 'Anwendungs-Guides', comparisons: 'Vergleiche', latest: 'Letzte Prüfung', devices: 'Geräte-Datensätze' },
 		sectionsTitle: 'Bereiche',
 		startTitle: 'Mit einer Entscheidung starten',
@@ -41,8 +41,8 @@ export const hubStrings = {
 	},
 	es: {
 		homeTitle: 'IIoT Devices',
-		homeH1: 'Hardware de conectividad industrial, organizado para decidir.',
-		homeLede: 'Referencia primero: clases de dispositivos, encaje de protocolos y lógica de selección, con una base de datos estructurada de dispositivos y calculadoras de ingeniería sobre los mismos datos.',
+		homeH1: 'El sector que conecta las fábricas, cubierto y catalogado.',
+		homeLede: 'La plataforma del sector de la conectividad industrial: cobertura y análisis de nuestra redacción, el ecosistema de fabricantes y productos, cobertura de ferias — y debajo, una base de datos de dispositivos y herramientas de ingeniería basadas solo en fuentes del fabricante.',
 		stats: { pages: 'Páginas de referencia', protocols: 'Referencias de protocolos', applications: 'Guías de aplicación', comparisons: 'Comparativas', latest: 'Última revisión', devices: 'Registros de dispositivos' },
 		sectionsTitle: 'Áreas',
 		startTitle: 'Empiece por una decisión',
@@ -77,8 +77,8 @@ export const hubStrings = {
 	},
 	pt: {
 		homeTitle: 'IIoT Devices',
-		homeH1: 'Hardware de conectividade industrial, organizado para decisões.',
-		homeLede: 'Referência primeiro: classes de dispositivos, encaixe de protocolos e lógica de seleção, com uma base de dados estruturada de dispositivos e calculadoras de engenharia sobre os mesmos dados.',
+		homeH1: 'O setor que liga as fábricas, coberto e catalogado.',
+		homeLede: 'A plataforma do setor da conectividade industrial: cobertura e análise da nossa redação, o ecossistema de fabricantes e produtos, cobertura de feiras — e, por baixo, uma base de dados de dispositivos e ferramentas de engenharia baseadas apenas em fontes do fabricante.',
 		stats: { pages: 'Páginas de referência', protocols: 'Referências de protocolos', applications: 'Guias de aplicação', comparisons: 'Comparações', latest: 'Última revisão', devices: 'Registos de dispositivos' },
 		sectionsTitle: 'Áreas',
 		startTitle: 'Comece por uma decisão',

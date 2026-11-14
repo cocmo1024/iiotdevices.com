@@ -1,0 +1,59 @@
+---
+title: The Protocol-Mapping Question No Gateway Datasheet Answers
+description: "Building the IIoT Devices database meant checking 13 current gateway and protocol-converter\
+  \ models across 9 brands for one field: can the protocol mapping be exported, with\
+  \ documentation? Every single one was undeclared. Here is what that silence costs,\
+  \ and how buyers should treat it."
+referenceType: analysis
+adProfile: neutral
+commercialIntent: medium
+reviewCadence: Monthly review
+searchIntent: learn
+decisionStage: problem-aware
+targetRoles:
+  - OT architects
+  - Plant data engineers
+  - System integrators
+contentStatus: growing
+authorKey: editorial-desk
+editorKey: review-desk
+lastReviewed: 2026-11-14
+---
+
+import { LinkCard, CardGrid } from '@astrojs/starlight/components';
+
+# The protocol-mapping question no gateway datasheet answers
+
+Ask a gateway vendor what protocols a box speaks and you get a table. Ask what happens to the protocol mapping you build in their tool — whether it can be exported, documented, and carried to a different box when this one is discontinued — and the public documentation goes quiet.
+
+We know, because we went looking. Building the first release of the IIoT Devices database meant opening the manufacturer documentation for 13 current gateway and protocol-converter models — Moxa, Advantech, HMS Anybus, Siemens, Phoenix Contact, Digi, Red Lion, ICP DAS and MikroTik — and recording, for each one, whether the maker states that the mapping configuration is exportable with documentation.
+
+## The result: 13 out of 13 undeclared
+
+| Finding | Count |
+| --- | --- |
+| Models checked against manufacturer documentation | 13 |
+| Brands covered | 9 |
+| Models whose documentation states the mapping can be exported | 0 |
+| Models whose documentation states it cannot | 0 |
+| Models where the documentation simply does not say | 13 |
+
+This is not an accusation that the mappings are locked. Some of these tools almost certainly export something. It is a finding about what a buyer can verify before a purchase order: nothing. The portability of the single most labor-intensive artifact in a gateway project — the mapping table, built tag by tag — is undocumented across an entire product class.
+
+## Why this is the lock-in that matters
+
+Hardware is replaceable; configuration labor is not. A gateway that fails in year six can be swapped in an afternoon. A mapping that exists only inside one vendor's engineering tool, in a format nothing else reads, has to be rebuilt by hand — during an outage, from whatever documentation the original integrator left behind. The industry talks about protocol lock-in at the wire level, where standards have largely solved it. The live lock-in sits one layer up, in the tooling.
+
+It also distorts competition. A vendor whose mapping exports cleanly, with documentation, should be able to win shortlists on that fact alone. Today they cannot, because the claim is unverifiable from anything they publish — so nobody publishes it.
+
+## What buyers can do with an undocumented field
+
+- **Make it a written question.** "Can the protocol mapping be exported, in what format, and where is that documented?" — asked before the PO, answered in writing, filed with the project record. Our SPS 2026 checklist turns this into booth-level questions.
+- **Price the rebuild.** If the answer is silence, the honest project budget includes one full mapping rebuild at end of life. Compare totals, not box prices.
+- **Keep your own mapping register.** A tag-level mapping spreadsheet maintained by the plant, outside the vendor tool, is cheap insurance whichever way the answer eventually lands.
+
+## What happens next
+
+The field stays in the database, marked undeclared, until a manufacturer's documentation says otherwise — the first vendor to document mapping export becomes the first "yes" in the index, and this page will say so. The desk also takes the question to the show floor: SPS 2026 booth answers, checked against published documentation afterwards, are reported on 1 December 2026.
+
+Related: the [SPS 2026 lock-in checklist](/protocols/sps-2026-gateway-lock-in-checks/), the [device database](/devices/) where the field is tracked per model, and [gateway vs edge computer](/comparisons/gateway-vs-edge-computer-for-retrofit-data-projects/) for the wider architecture decision.

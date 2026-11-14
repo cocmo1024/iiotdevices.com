@@ -6,9 +6,9 @@ export const siteMeta = {
 	domain: 'iiotdevices.com',
 	siteUrl: 'https://iiotdevices.com',
 	description:
-		'Structured reference system for industrial connectivity hardware, protocol fit, device categories, and comparison workflows.',
+		'The trade platform for industrial IoT connectivity: industry coverage, market and technology analysis, a sourced device database, and engineering references for the hardware that connects factories.',
 	tagline:
-		'Industrial connectivity hardware organized around application fit, device classes, protocol choices, and buying decisions.',
+		'Industrial IoT connectivity, covered like an industry: news and analysis, vendor and product ecosystem, and the device data to decide with.',
 	email: 'cqq365@gmail.com',
 	languageTag: 'en-US',
 	ogLocale: 'en_US',
@@ -98,6 +98,8 @@ export const siteMeta = {
 		'machine data collection',
 	],
 	sectionLabels: {
+		industry: 'Industry',
+		events: 'Events',
 		applications: 'Applications',
 		'device-types': 'Device Types',
 		'product-families': 'Product Families',

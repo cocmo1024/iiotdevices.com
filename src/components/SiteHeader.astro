@@ -7,12 +7,13 @@ const isLocal = HUB_LOCALES.includes(lang);
 const labels = isLocal ? (hubStrings as any)[lang].nav : null;
 const prefix = isLocal ? `/${lang}` : '';
 const nav = [
+	{ label: 'Industry', href: '/industry/' },
+	{ label: labels?.applications ?? 'Applications', href: '/applications/' },
+	{ label: labels?.vendors ?? 'Vendors', href: '/vendors/' },
 	{ label: labels?.devices ?? 'Devices', href: `${prefix}/devices/` },
 	{ label: labels?.protocols ?? 'Protocols', href: `${prefix}/protocols/` },
 	{ label: labels?.tools ?? 'Tools', href: `${prefix}/tools/` },
-	{ label: labels?.applications ?? 'Applications', href: '/applications/' },
-	{ label: labels?.deviceTypes ?? 'Device Types', href: '/device-types/' },
-	{ label: labels?.vendors ?? 'Vendors', href: '/vendors/' },
+	{ label: 'Events', href: '/events/' },
 	{ label: labels?.compare ?? 'Compare', href: '/comparisons/' },
 ];
 const path = Astro.url.pathname;
@@ -22,7 +23,7 @@ const path = Astro.url.pathname;
 	<div class="wrap site-header__inner">
 		<a class="brand" href={isLocal ? `${prefix}/` : '/'}>
 			<span class="brand__name">{siteMeta.name}</span>
-			<span class="brand__tag">SPEC / REF / TOOLS</span>
+			<span class="brand__tag">INDUSTRY / DATA / TOOLS</span>
 		</a>
 		<nav class="main-nav" aria-label="Primary">
 			{nav.map((item: any) => (

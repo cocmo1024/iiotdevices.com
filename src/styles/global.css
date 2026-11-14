@@ -177,3 +177,19 @@ code, pre, .mono { font-family: var(--font-mono); }
 .result-table th, .result-table td { border: 1px solid var(--line); padding: var(--sp-2) var(--sp-3); text-align: left; }
 .result-table td.v { font-family: var(--font-mono); text-align: right; white-space: nowrap; }
 .verdict { border-left: 3px solid var(--signal); background: var(--surface-2); padding: var(--sp-3) var(--sp-4); margin-top: var(--sp-4); }
+
+/* Portal front page */
+.band { background: var(--surface-2); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.lead-story { padding: var(--sp-8) 0 var(--sp-6); }
+.lead-story .kicker { font-family: var(--font-mono); font-size: var(--fs-0); letter-spacing: 0.08em; text-transform: uppercase; color: var(--signal-ink); }
+.lead-story h2 { font-size: var(--fs-6); margin: var(--sp-2) 0; max-width: 24ch; }
+.lead-grid { display: grid; gap: var(--sp-6); grid-template-columns: 1fr; }
+@media (min-width: 60rem) { .lead-grid { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); } }
+.story-list { list-style: none; margin: 0; padding: 0; }
+.story-list li { padding: var(--sp-4) 0; border-top: 1px solid var(--line); }
+.story-list li:first-child { border-top: 0; padding-top: 0; }
+.story-list .kicker { font-family: var(--font-mono); font-size: var(--fs-0); letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-2); }
+.story-list h3 { margin: var(--sp-1) 0; font-size: var(--fs-3); }
+.brand-strip { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
+.brand-chip { border: 1px solid var(--line-strong); border-radius: var(--r-1); padding: var(--sp-2) var(--sp-3); background: var(--surface); font-size: var(--fs-1); }
+.brand-chip b { font-family: var(--font-mono); }
