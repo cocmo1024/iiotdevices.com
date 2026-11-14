@@ -5,6 +5,7 @@ import { buildSeo } from '../utils/seo.mjs';
 import { siteMeta } from '../utils/site-meta.mjs';
 
 const docs = await getCollection('docs');
+const deviceCount = (await getCollection('devices')).length;
 const routed = docs.filter(
 	(entry) => entry.id !== 'index' && !entry.id.startsWith('product-families'),
 );
@@ -69,8 +70,9 @@ const seo = buildSeo(
 					<a class="obj-card" href={s.href}>
 						<h2>{s.label}</h2>
 						<p>{s.note}</p>
-						{!s.live && <p style="margin-top:0.5rem"><span class="num">{count(s.slug)}</span> pages</p>}
-						{s.live && <p style="margin-top:0.5rem"><span class="tag">New in the rebuild</span></p>}
+						{s.slug === 'devices' && <p style="margin-top:0.5rem"><span class="num">{deviceCount}</span> device records</p>}
+					{!s.live && <p style="margin-top:0.5rem"><span class="num">{count(s.slug)}</span> pages</p>}
+						{s.live && s.slug !== 'devices' && <p style="margin-top:0.5rem"><span class="tag">New in the rebuild</span></p>}
 					</a>
 				))}
 			</div>

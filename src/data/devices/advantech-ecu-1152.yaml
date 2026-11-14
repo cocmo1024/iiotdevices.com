@@ -1,0 +1,22 @@
+slug: advantech-ecu-1152
+brand: Advantech
+model: ECU-1152
+category: gateway
+southbound:
+- Modbus RTU
+- IEC 60870-5-101
+northbound:
+- Modbus TCP
+- IEC 60870-5-104
+specs:
+  serialPorts: 6 x RS-232/485 isolated (3000 VDC)
+  ethernetPorts: 2 x 10/100 Base-T RJ-45
+  powerInput: 10 ~ 30 VDC
+  operatingTemp: -40 ~ 70 °C
+  mounting: Wall / DIN rail
+mappingExport: undeclared
+mappingSource: null
+sources:
+- label: Advantech ECU-1152 datasheet (official Advantech download)
+  url: https://advdownload.advantech.com.cn/productfile/PIS/ECU-1152/file/ECU-1152_DS(031326)20260313112639.pdf
+checked: '2026-11-14'

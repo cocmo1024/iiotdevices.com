@@ -1,0 +1,22 @@
+slug: icp-das-tgw-715-ul
+brand: ICP DAS
+model: tGW-715-UL
+category: gateway
+southbound:
+- Modbus RTU
+- Modbus ASCII
+northbound:
+- Modbus TCP
+- Modbus UDP
+specs:
+  serialPorts: 1 x RS-422/485 (non-isolated)
+  ethernetPorts: 1 x 10/100 Base-TX RJ-45
+  powerInput: PoE IEEE 802.3af Class 1, or +12 ~ 48 VDC (DC jack)
+  operatingTemp: -25 ~ +70 °C
+  mounting: DIN-rail
+mappingExport: undeclared
+mappingSource: null
+sources:
+- label: ICP DAS tGW-715-UL datasheet (official ICP DAS download)
+  url: https://www.icpdas.com/web/product/download/industrial_communication/uart/ethernet/tgw-700/document/data_sheet/tGW-715-UL_en.pdf
+checked: '2026-11-14'

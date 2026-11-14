@@ -1,0 +1,23 @@
+slug: siemens-simatic-iot2050
+brand: Siemens
+model: SIMATIC IOT2050 (6ES7647-0BA00-0YA2)
+category: gateway
+southbound:
+- PROFINET
+- Serial RS-232/422/485 (application-programmed)
+northbound:
+- OPC UA (via user applications)
+- MQTT (via user applications)
+specs:
+  serialPorts: 1 x COM (RS-232/422/485)
+  ethernetPorts: 2 x Gigabit Ethernet RJ45 (Industrial Ethernet / PROFINET)
+  powerInput: 12/24 V DC
+  operatingTemp: 0 to 50 °C
+  mounting: undeclared
+mappingExport: undeclared
+mappingSource: null
+sources:
+- label: Siemens SIMATIC IOT2050 datasheet 6ES7647-0BA00-0YA2 (Siemens Industry Online
+    Support)
+  url: https://support.industry.siemens.com/teddatasheet/?format=pdf&mlfbs=6ES7647-0BA00-0YA2&language=en&caller=SIOS
+checked: '2026-11-14'

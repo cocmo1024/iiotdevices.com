@@ -32,7 +32,25 @@ const pageSchema = z
 	})
 	.passthrough();
 
+const deviceSchema = z.object({
+	slug: z.string(),
+	brand: z.string(),
+	model: z.string(),
+	category: z.enum(['gateway', 'protocol-converter']),
+	southbound: z.array(z.string()),
+	northbound: z.array(z.string()),
+	specs: z.record(z.string(), z.string()),
+	mappingExport: z.enum(['yes', 'no', 'undeclared']),
+	mappingSource: z.string().nullable().optional(),
+	sources: z.array(z.object({ label: z.string(), url: z.string() })),
+	checked: z.coerce.date(),
+});
+
 export const collections = {
+	devices: defineCollection({
+		loader: glob({ pattern: '**/*.yaml', base: './src/data/devices' }),
+		schema: deviceSchema,
+	}),
 	docs: defineCollection({
 		loader: glob({ pattern: '**/*.mdx', base: './src/content/docs' }),
 		schema: pageSchema,

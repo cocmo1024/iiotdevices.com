@@ -1,16 +1,21 @@
 ---
+import { getCollection } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import { buildSeo } from '../../utils/seo.mjs';
+import { siteMeta } from '../../utils/site-meta.mjs';
+import { CATEGORIES, deviceTitle, mappingLabel } from '../../utils/devices.mjs';
 
-const categories = [
-	{ name: 'Industrial gateways', scope: 'Protocol translation and data concentration between PLCs, machines and northbound systems (OPC UA, MQTT).', guide: '/device-types/gateways-edge-computers-and-rtus/' },
-	{ name: 'Protocol converters & serial device servers', scope: 'Modbus RTU/TCP conversion, serial-to-Ethernet bridging and legacy interface rescue.', guide: '/protocols/serial-to-ethernet-bridging/' },
-	{ name: 'Remote I/O', scope: 'Distributed signal collection over Ethernet fieldbuses and IP networks.', guide: '/applications/when-should-you-use-remote-io-instead-of-a-small-plc/' },
+const devices = (await getCollection('devices'))
+	.map((d) => d.data)
+	.sort((a, b) => deviceTitle(a).localeCompare(deviceTitle(b)));
+const checkedFmt = (d: any) => new Date(d).toISOString().slice(0, 10);
+const guides = [
+	{ name: 'Remote I/O', scope: 'Distributed signal collection over Ethernet fieldbuses and IP networks. Records enter after the gateway and converter classes.', guide: '/applications/when-should-you-use-remote-io-instead-of-a-small-plc/' },
 	{ name: 'RTUs', scope: 'Low-power telemetry units for remote sites, utilities and unmanned stations.', guide: '/device-types/gateways-edge-computers-and-rtus/' },
-	{ name: 'Industrial routers & cellular', scope: 'WAN connectivity for machines and sites: LTE/5G routers, VPN and remote access.', guide: '/applications/remote-sites-and-telemetry-over-cellular-lorawan-and-satellite-links/' },
+	{ name: 'Industrial routers & cellular', scope: 'WAN connectivity for machines and sites: LTE/5G routers, VPN and remote access. The MikroTik KNOT record below is the first entry in this class.', guide: '/applications/remote-sites-and-telemetry-over-cellular-lorawan-and-satellite-links/' },
 	{ name: 'Edge computers', scope: 'On-premise compute for aggregation, buffering, analytics and local applications.', guide: '/comparisons/gateway-vs-edge-computer-for-retrofit-data-projects/' },
 ];
-const seo = buildSeo(
+const seo: any = buildSeo(
 	{
 		id: 'devices/index',
 		entry: {
@@ -22,6 +27,22 @@ const seo = buildSeo(
 	},
 	Astro.url,
 );
+seo.structuredData = [
+	...seo.structuredData,
+	{
+		'@context': 'https://schema.org',
+		'@type': 'Dataset',
+		name: 'IIoT Devices — industrial connectivity hardware specifications database',
+		description: `Structured specifications for ${devices.length} industrial gateway and protocol-converter records. Every specification is taken from a manufacturer primary source (official product page or datasheet) listed on the record page; fields a manufacturer does not state are published as undeclared, never estimated. Includes the protocol-mapping export field: whether the mapping configuration can be exported and is documented, judged only from manufacturer manuals.`,
+		url: `${siteMeta.siteUrl}/devices/`,
+		keywords: ['industrial gateways', 'protocol converters', 'device specifications', 'protocol mapping export'],
+		creator: { '@id': `${siteMeta.siteUrl}/#organization` },
+		publisher: { '@id': `${siteMeta.siteUrl}/#organization` },
+		isAccessibleForFree: true,
+		dateModified: devices.length ? checkedFmt(Math.max(...devices.map((r: any) => new Date(r.checked).getTime()))) : undefined,
+		variableMeasured: ['Southbound protocols', 'Northbound protocols', 'Serial ports', 'Ethernet ports', 'Power input', 'Operating temperature', 'Mounting', 'Protocol mapping exportable and documented'],
+	},
+];
 ---
 
 <Base seo={seo}>
@@ -29,19 +50,39 @@ const seo = buildSeo(
 		<nav class="crumbs" aria-label="Breadcrumb"><span><a href="/">Home</a></span><span> / Devices</span></nav>
 		<header class="article-head">
 			<h1>Device database</h1>
-			<p class="lede">One record per device model. Every specification is published only with a manufacturer primary source and a review date; the protocol-mapping export field follows the rule set at SPS 2026 — documented by the manufacturer, or marked undeclared.</p>
-			<div class="meta-row"><span>Status <b>Build in progress — gateway records first</b></span></div>
+			<p class="lede">One record per device model. Every specification is published only with a manufacturer primary source and a review date; the protocol-mapping export field follows the rule set at SPS 2026 — documented by the manufacturer, or marked as not stated.</p>
+			<div class="meta-row"><span>Records <b>{devices.length}</b></span><span>Classes live <b>{Object.keys(CATEGORIES).length}</b></span></div>
 		</header>
 		<div style="padding:1.5rem 0 3rem">
+			{Object.values(CATEGORIES).map((cat) => (
+				<section>
+					<h2 class="section-title"><a href={`/devices/${cat.slug}/`}>{cat.label}</a></h2>
+					<table class="spec-table">
+						<thead><tr><th>Model</th><th>Southbound</th><th>Northbound</th><th>Mapping export</th><th>Checked</th></tr></thead>
+						<tbody>
+							{devices.filter((r) => r.category === cat.recordCategory).map((r) => (
+								<tr>
+									<td><a href={`/devices/${r.slug}/`}><b>{deviceTitle(r)}</b></a></td>
+									<td>{r.southbound.join(', ')}</td>
+									<td>{r.northbound.join(', ')}</td>
+									<td>{mappingLabel(r.mappingExport)}</td>
+									<td class="num">{checkedFmt(r.checked)}</td>
+								</tr>
+							))}
+						</tbody>
+					</table>
+				</section>
+			))}
+			<h2 class="section-title">Classes in preparation</h2>
 			<table class="spec-table">
-				<thead><tr><th>Category</th><th>What the database covers</th><th>Selection guide</th></tr></thead>
+				<thead><tr><th>Category</th><th>Scope</th><th>Selection guide</th></tr></thead>
 				<tbody>
-					{categories.map((c) => (
+					{guides.map((c) => (
 						<tr><td><b>{c.name}</b></td><td>{c.scope}</td><td><a href={c.guide}>Open guide</a></td></tr>
 					))}
 				</tbody>
 			</table>
-			<p style="color:var(--ink-2);max-width:68ch">Category records are being entered against manufacturer datasheets now. Until a category has sourced records, its selection guide above is the reference — the database does not publish placeholder specification rows.</p>
+			<p style="color:var(--ink-2);max-width:68ch">The database does not publish placeholder specification rows: a class opens only when its records have been checked against manufacturer datasheets.</p>
 		</div>
 	</div>
 </Base>

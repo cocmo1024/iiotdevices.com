@@ -1,0 +1,29 @@
+slug: mikrotik-knot-hl9
+brand: MikroTik
+model: KNOT Gateway HL9 (L14G-2ax-BT5-HL9&EG800Q)
+category: gateway
+southbound:
+- Wi-Fi HaLow 915 MHz (IEEE 802.11ah)
+- Bluetooth 5.1 (BLE)
+- 2.4 GHz Wi-Fi 6 (802.11b/g/n/ax)
+northbound:
+- MQTT
+- HTTP
+- Gigabit Ethernet
+- LTE Cat 1 bis
+- 2.4 GHz Wi-Fi
+specs:
+  serialPorts: none
+  ethernetPorts: 1 x 1 GbE RJ45 (PoE-in 802.3af/at)
+  radio: 915 MHz Wi-Fi HaLow (IEEE 802.11ah) — not LoRa
+  powerInput: PoE-in 18-57 V, or 2-pin terminal 12-57 V DC
+  operatingTemp: -40 to +50 °C
+  mounting: Wall or pole (outdoor, IP66)
+mappingExport: undeclared
+mappingSource: null
+sources:
+- label: MikroTik KNOT Gateway HL9 product page
+  url: https://mikrotik.com/product/knot_gateway_hl
+- label: MikroTik RouterOS manual — KNOT Gateway HL9 (L14G-2ax-BT5-HL9&EG800Q) specifications
+  url: https://manual.mikrotik.com/hardware/l14g-2ax-bt5-hl9-and-eg800q/
+checked: '2026-11-14'

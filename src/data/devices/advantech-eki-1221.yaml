@@ -1,0 +1,21 @@
+slug: advantech-eki-1221
+brand: Advantech
+model: EKI-1221
+category: gateway
+southbound:
+- Modbus RTU
+- Modbus ASCII
+northbound:
+- Modbus TCP
+specs:
+  serialPorts: 1 x RS-232/422/485-2w/485-4w (software selectable), DB9 male
+  ethernetPorts: 2 x 10/100 Mbps RJ45
+  powerInput: 12 ~ 48 VDC, redundant dual inputs
+  operatingTemp: Base model -10 ~ 60 °C; I/CI wide-temp models -40 ~ 80 °C
+  mounting: DIN-rail, wall
+mappingExport: undeclared
+mappingSource: null
+sources:
+- label: Advantech EKI-1221/1222/1224 datasheet (official Advantech download)
+  url: https://advdownload.advantech.com/productfile/PIS/EKI-1221/file/EKI-122x_CI_I_DS%28072722%292022072718584220230209040650.pdf
+checked: '2026-11-14'

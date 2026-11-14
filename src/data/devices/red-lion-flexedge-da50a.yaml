@@ -1,0 +1,22 @@
+slug: red-lion-flexedge-da50a
+brand: Red Lion (HMS Networks)
+model: FlexEdge DA50A
+category: gateway
+southbound:
+- 300+ industrial drivers via Crimson 3.2 (up to 10 simultaneous protocol conversions)
+northbound:
+- OPC UA
+- IIoT cloud connectors (Crimson, software Groups 2-4)
+specs:
+  serialPorts: 2 (1 x RS-232 RJ12, 1 x RS-485/422 RJ45), individually isolated
+  ethernetPorts: 2 x 10Base-T/100Base-TX RJ45
+  powerInput: 12-24 VDC +/-15%, Class 2 source
+  operatingTemp: -40 to 75 °C (without HDMI); -20 to 75 °C (with HDMI)
+  mounting: DIN rail (EN 50022, 35 x 7.5 and 35 x 15)
+mappingExport: undeclared
+mappingSource: null
+sources:
+- label: Red Lion FlexEdge DA50A datasheet LD1008F (official HMS Networks document
+    hosting)
+  url: https://hmsnetworks.blob.core.windows.net/nlw/docs/default-source/products/redlion/brochures-and-datasheets/ld1008f.pdf?sfvrsn=86607c1b_2
+checked: '2026-11-14'

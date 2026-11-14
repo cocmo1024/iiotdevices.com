@@ -1,0 +1,23 @@
+slug: phoenix-contact-gw-pl-eth-uni-bus
+brand: Phoenix Contact
+model: GW PL ETH/UNI-BUS (2702233)
+category: gateway
+southbound:
+- HART (via GW PL HART-BUS expansion modules, up to 40 HART devices)
+northbound:
+- Modbus TCP
+- OPC UA
+- PROFINET
+- HART IP
+specs:
+  serialPorts: none on head station (HART channels via expansion modules)
+  ethernetPorts: undeclared
+  powerInput: 19.2-30 V DC
+  operatingTemp: -40 to 70 °C
+  mounting: DIN rail NS 35 (EN 60715)
+mappingExport: undeclared
+mappingSource: null
+sources:
+- label: Phoenix Contact GW PL ETH/UNI-BUS product page (2702233)
+  url: https://www.phoenixcontact.com/us/products/2702233
+checked: '2026-11-14'

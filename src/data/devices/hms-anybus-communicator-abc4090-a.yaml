@@ -1,0 +1,27 @@
+slug: hms-anybus-communicator-abc4090-a
+brand: HMS Networks (Anybus)
+model: Anybus Communicator Common Ethernet to Common Ethernet (ABC4090-A)
+category: protocol-converter
+southbound:
+- PROFINET
+- EtherCAT
+- EtherNet/IP
+- Modbus TCP
+northbound:
+- PROFINET
+- EtherCAT
+- EtherNet/IP
+- Modbus TCP
+specs:
+  serialPorts: none
+  ethernetPorts: 2 x RJ45 per network side (dual 10/100 Mbit, integrated switch) +
+    1 x RJ45 config port
+  powerInput: 12-30 V DC
+  operatingTemp: -25 to 70 °C
+  mounting: DIN-rail (EN 50022)
+mappingExport: undeclared
+mappingSource: null
+sources:
+- label: HMS Anybus Communicator ABC4090-A generated datasheet (official HMS media)
+  url: https://media.hms-networks.com/image/upload/v1734515787/Documents/Generated_Datasheets/Production/en/hms-ABC4090-A-en-Anybus-Communicator-Common-Ethernet-to-Common-Ethernet.pdf
+checked: '2026-11-14'

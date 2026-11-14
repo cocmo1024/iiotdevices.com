@@ -1,0 +1,24 @@
+slug: hms-anybus-communicator-abc3190-a
+brand: HMS Networks (Anybus)
+model: Anybus Communicator EtherCAT MainDevice to Common Ethernet (ABC3190-A)
+category: protocol-converter
+southbound:
+- EtherCAT (MainDevice/Master, up to 24 SubDevices)
+northbound:
+- PROFINET
+- EtherNet/IP
+- Modbus TCP
+- EtherCAT
+specs:
+  serialPorts: none
+  ethernetPorts: 2 x RJ45 EtherCAT + 2 x RJ45 Common Ethernet (dual 10/100 Mbit) +
+    1 x RJ45 config port
+  powerInput: 12-30 V DC
+  operatingTemp: -25 to 70 °C
+  mounting: DIN-rail (EN 50022)
+mappingExport: undeclared
+mappingSource: null
+sources:
+- label: HMS Anybus Communicator ABC3190-A generated datasheet (official HMS media)
+  url: https://media.hms-networks.com/image/upload/v1785314746/Documents/Generated_Datasheets/Production/en/hms-ABC3190-A-en-Anybus-Communicator-%E2%80%93-EtherCAT-MainDevice-to-Common-Ethernet.pdf
+checked: '2026-11-14'

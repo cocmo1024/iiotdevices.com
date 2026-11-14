@@ -1,0 +1,194 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { buildSeo } from '../../utils/seo.mjs';
+import { siteMeta } from '../../utils/site-meta.mjs';
+import { CATEGORIES, deviceTitle, mappingLabel } from '../../utils/devices.mjs';
+
+export async function getStaticPaths() {
+	const devices = await getCollection('devices');
+	const paths = [];
+	for (const cat of Object.values(CATEGORIES)) {
+		const records = devices
+			.filter((d) => d.data.category === cat.recordCategory)
+			.map((d) => d.data)
+			.sort((a, b) => deviceTitle(a).localeCompare(deviceTitle(b)));
+		paths.push({ params: { slug: cat.slug }, props: { kind: 'category', cat, records } });
+	}
+	for (const entry of devices) {
+		paths.push({
+			params: { slug: entry.data.slug },
+			props: { kind: 'device', device: entry.data },
+		});
+	}
+	return paths;
+}
+
+const { kind, cat, records, device } = Astro.props as any;
+const checkedFmt = (d: any) => new Date(d).toISOString().slice(0, 10);
+
+let seo: any;
+let extraNodes: any[] = [];
+if (kind === 'category') {
+	seo = buildSeo(
+		{
+			id: `devices/${cat.slug}`,
+			entry: {
+				data: {
+					title: cat.label,
+					description: `${cat.blurb} Records are published only with manufacturer primary sources and review dates.`,
+				},
+			},
+		},
+		Astro.url,
+	);
+	extraNodes = [
+		{
+			'@context': 'https://schema.org',
+			'@type': 'Dataset',
+			name: `${cat.label} — specifications database`,
+			description: `Structured specifications for ${records.length} ${cat.label.toLowerCase()} records. Every specification is taken from a manufacturer primary source (official product page or datasheet) listed on the record page; fields a manufacturer does not state are published as undeclared, never estimated. Includes the protocol-mapping export field: whether the mapping configuration can be exported and is documented, judged only from manufacturer manuals.`,
+			url: `${siteMeta.siteUrl}/devices/${cat.slug}/`,
+			keywords: [cat.label, 'industrial gateway specifications', 'protocol mapping export'],
+			creator: { '@id': `${siteMeta.siteUrl}/#organization` },
+			publisher: { '@id': `${siteMeta.siteUrl}/#organization` },
+			isAccessibleForFree: true,
+			dateModified: records.length
+				? checkedFmt(Math.max(...records.map((r: any) => new Date(r.checked).getTime())))
+				: undefined,
+			variableMeasured: [
+				'Southbound protocols',
+				'Northbound protocols',
+				'Serial ports',
+				'Ethernet ports',
+				'Power input',
+				'Operating temperature',
+				'Mounting',
+				'Protocol mapping exportable and documented (yes / no / manufacturer has not stated)',
+			],
+		},
+	];
+} else {
+	const title = deviceTitle(device);
+	seo = buildSeo(
+		{
+			id: `devices/${device.slug}`,
+			entry: {
+				data: {
+					title: `${title} — specifications`,
+					description: `${title} specifications from manufacturer primary sources: ${device.southbound.join(', ')} to ${device.northbound.join(', ')}. Protocol-mapping export status, sources and review date on the record.`,
+					lastReviewed: device.checked,
+				},
+			},
+		},
+		Astro.url,
+	);
+	extraNodes = [
+		{
+			'@context': 'https://schema.org',
+			'@type': 'Product',
+			name: title,
+			brand: { '@type': 'Brand', name: device.brand },
+			model: device.model,
+			category: device.category === 'gateway' ? 'Industrial gateway' : 'Protocol converter',
+			url: `${siteMeta.siteUrl}/devices/${device.slug}/`,
+			additionalProperty: [
+				...Object.entries(device.specs).map(([name, value]) => ({
+					'@type': 'PropertyValue',
+					name,
+					value,
+				})),
+				{
+					'@type': 'PropertyValue',
+					name: 'Protocol mapping exportable and documented',
+					value: mappingLabel(device.mappingExport),
+				},
+			],
+		},
+	];
+}
+seo.structuredData = [...seo.structuredData, ...extraNodes];
+const specRows =
+	kind === 'device'
+		? Object.entries(device.specs).map(([k, v]) => ({
+				label: ({ serialPorts: 'Serial ports', ethernetPorts: 'Ethernet ports', powerInput: 'Power input', operatingTemp: 'Operating temperature', mounting: 'Mounting' } as Record<string, string>)[k] ?? k,
+				value: v as string,
+			}))
+		: [];
+const specLabels = {
+	serialPorts: 'Serial ports',
+	ethernetPorts: 'Ethernet ports',
+	powerInput: 'Power input',
+	operatingTemp: 'Operating temperature',
+	mounting: 'Mounting',
+};
+---
+
+<Base seo={seo}>
+	<div class="wrap">
+		{kind === 'category' ? (
+			<>
+				<nav class="crumbs" aria-label="Breadcrumb"><span><a href="/">Home</a></span><span> / <a href="/devices/">Devices</a></span><span> / {cat.label}</span></nav>
+				<header class="article-head">
+					<h1>{cat.label}</h1>
+					<p class="lede">{cat.blurb}</p>
+					<div class="meta-row"><span>Records <b>{records.length}</b></span><span>Source rule <b>Manufacturer primary sources only</b></span></div>
+				</header>
+				<div style="padding:1.5rem 0 3rem">
+					<table class="spec-table">
+						<thead><tr><th>Model</th><th>Southbound</th><th>Northbound</th><th>Mapping export</th><th>Checked</th></tr></thead>
+						<tbody>
+							{records.map((r: any) => (
+								<tr>
+									<td><a href={`/devices/${r.slug}/`}><b>{deviceTitle(r)}</b></a></td>
+									<td>{r.southbound.join(', ')}</td>
+									<td>{r.northbound.join(', ')}</td>
+									<td>{mappingLabel(r.mappingExport)}</td>
+									<td class="num">{checkedFmt(r.checked)}</td>
+								</tr>
+							))}
+						</tbody>
+					</table>
+				</div>
+			</>
+		) : (
+			<>
+				<nav class="crumbs" aria-label="Breadcrumb"><span><a href="/">Home</a></span><span> / <a href="/devices/">Devices</a></span><span> / <a href={`/devices/${device.category === 'gateway' ? 'gateways' : 'protocol-converters'}/`}>{device.category === 'gateway' ? 'Industrial gateways' : 'Protocol converters'}</a></span><span> / {deviceTitle(device)}</span></nav>
+				<header class="article-head">
+					<h1>{deviceTitle(device)}</h1>
+					<p class="lede">{device.southbound.join(', ')} → {device.northbound.join(', ')}</p>
+					<div class="meta-row">
+						<span>Brand <b>{device.brand}</b></span>
+						<span>Class <b>{device.category === 'gateway' ? 'Industrial gateway' : 'Protocol converter'}</b></span>
+						<span>Checked <b>{checkedFmt(device.checked)}</b></span>
+					</div>
+				</header>
+				<div style="padding:1.5rem 0 3rem;max-width:68rem">
+					<table class="spec-table">
+						<tbody>
+							{specRows.map((row: any) => (
+								<tr><th style="width:12rem">{row.label}</th><td>{row.value === 'undeclared' ? 'Manufacturer has not stated' : row.value}</td></tr>
+							))}
+							<tr>
+								<th>Protocol mapping export</th>
+								<td>
+									{mappingLabel(device.mappingExport)}
+									{device.mappingSource && <> — <a href={device.mappingSource}>manufacturer documentation</a></>}
+									<br /><span style="color:var(--ink-2)">Judged only from manufacturer manuals and official documentation, per the rule set in the <a href="/protocols/sps-2026-gateway-lock-in-checks/">SPS 2026 gateway lock-in checks</a>. Vendor statements at trade shows do not count.</span>
+								</td>
+							</tr>
+							<tr><th>Southbound</th><td>{device.southbound.join(', ')}</td></tr>
+							<tr><th>Northbound</th><td>{device.northbound.join(', ')}</td></tr>
+						</tbody>
+					</table>
+					<h2 class="section-title">Sources</h2>
+					<ul class="plain-list">
+						{device.sources.map((s: any) => (
+							<li><a href={s.url} rel="noopener">{s.label}</a><span class="when">checked {checkedFmt(device.checked)}</span></li>
+						))}
+					</ul>
+				</div>
+			</>
+		)}
+	</div>
+</Base>

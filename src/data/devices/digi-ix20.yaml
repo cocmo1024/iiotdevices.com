@@ -1,0 +1,23 @@
+slug: digi-ix20
+brand: Digi International
+model: Digi IX20
+category: gateway
+southbound:
+- Serial RS-232
+- Ethernet (LAN)
+northbound:
+- LTE Cat 4 / LTE-A Cat 7 (Digi CORE plug-in modem, variant-dependent)
+- Wi-Fi 802.11a/b/g/n/ac
+- Ethernet (WAN)
+specs:
+  serialPorts: 1 x DB9M RS-232 DTE
+  ethernetPorts: 2 x RJ-45 10/100 Mbps
+  powerInput: 9-30 VDC
+  operatingTemp: Wi-Fi models -20 to 70 °C; models without Wi-Fi -40 to 70 °C
+  mounting: undeclared
+mappingExport: undeclared
+mappingSource: null
+sources:
+- label: Digi IX20 product page with full specifications
+  url: https://www.digi.com/products/networking/cellular-routers/industrial/digi-ix20?aliaspath=%2FProducts%2Fnetworking%2FCellular-Routers%2FIndustrial%2FDigi-IX20
+checked: '2026-11-14'

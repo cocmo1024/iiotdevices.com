@@ -1,0 +1,22 @@
+slug: moxa-mgate-mb3270-g2
+brand: Moxa
+model: MGate MB3270-G2
+category: gateway
+southbound:
+- Modbus RTU
+- Modbus ASCII
+- Proprietary Modbus serial
+northbound:
+- Modbus TCP
+specs:
+  serialPorts: 2 x RS-232/422/485 (software-selectable), DB9 male
+  ethernetPorts: 2 x 10/100BaseT(X) RJ45 (Ethernet cascade or dual subnet)
+  powerInput: 12 to 48 VDC, redundant dual inputs
+  operatingTemp: Standard models -10 to 60 °C; wide-temp (-T) models -40 to 75 °C
+  mounting: undeclared
+mappingExport: undeclared
+mappingSource: null
+sources:
+- label: Moxa MGate MB3170-G2/MB3270-G2/MB3470-G2 Series product page
+  url: https://www.moxa.com/en/products/industrial-edge-connectivity/protocol-gateways/modbus-tcp-gateways/mgate-mb3170-g2-mb3270-g2-mb3470-g2-series
+checked: '2026-11-14'
