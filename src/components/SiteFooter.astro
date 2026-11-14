@@ -1,0 +1,24 @@
+---
+import { siteMeta } from '../utils/site-meta.mjs';
+---
+
+<footer class="site-footer">
+	<div class="wrap site-footer__inner">
+		<nav aria-label="Footer">
+			<a href="/about/">About</a>
+			<a href="/contact/">Contact</a>
+			<a href="/editorial-policy/">Editorial policy</a>
+			<a href="/editorial-desk/">Editorial desk</a>
+			<a href="/review-desk/">Review desk</a>
+			<a href="/privacy/">Privacy</a>
+			<a href="/terms-of-use/">Terms</a>
+			<a href="/disclaimer/">Disclaimer</a>
+		</nav>
+		<p>
+			Editorial and commercial transparency: sponsorships, affiliate relationships, and display
+			inventory remain clearly disclosed and separate from editorial judgment. Specifications are
+			published only with a manufacturer primary source and a review date.
+		</p>
+		<p>Maintained by <strong>{siteMeta.editorialTeamName}</strong> · {siteMeta.email}</p>
+	</div>
+</footer>

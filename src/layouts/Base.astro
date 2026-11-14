@@ -1,0 +1,22 @@
+---
+import SiteHead from '../components/SiteHead.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import '../styles/global.css';
+
+const { seo } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<SiteHead seo={seo} />
+	</head>
+	<body>
+		<SiteHeader />
+		<main>
+			<slot />
+		</main>
+		<SiteFooter />
+	</body>
+</html>

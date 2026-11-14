@@ -33,7 +33,7 @@ function toPublicUrl(id: string) {
 export async function GET() {
 	const docs = await getCollection('docs');
 	const entries = docs
-		.filter((entry) => !SITE_PAGE_IDS.has(entry.id) && !entry.id.endsWith('/index'))
+		.filter((entry) => !SITE_PAGE_IDS.has(entry.id) && !entry.id.endsWith('/index') && entry.id !== 'index' && !entry.id.startsWith('product-families'))
 		.sort((left, right) => left.id.localeCompare(right.id));
 
 	const items = entries

@@ -1,0 +1,28 @@
+---
+import { siteMeta } from '../utils/site-meta.mjs';
+
+const nav = [
+	{ label: 'Devices', href: '/devices/' },
+	{ label: 'Protocols', href: '/protocols/' },
+	{ label: 'Tools', href: '/tools/' },
+	{ label: 'Applications', href: '/applications/' },
+	{ label: 'Device Types', href: '/device-types/' },
+	{ label: 'Vendors', href: '/vendors/' },
+	{ label: 'Compare', href: '/comparisons/' },
+];
+const path = Astro.url.pathname;
+---
+
+<header class="site-header">
+	<div class="wrap site-header__inner">
+		<a class="brand" href="/">
+			<span class="brand__name">{siteMeta.name}</span>
+			<span class="brand__tag">SPEC / REF / TOOLS</span>
+		</a>
+		<nav class="main-nav" aria-label="Primary">
+			{nav.map((item) => (
+				<a href={item.href} aria-current={path.startsWith(item.href) ? 'page' : undefined}>{item.label}</a>
+			))}
+		</nav>
+	</div>
+</header>

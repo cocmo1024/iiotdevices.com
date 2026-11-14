@@ -1,0 +1,84 @@
+---
+import Base from './Base.astro';
+import { siteMeta } from '../utils/site-meta.mjs';
+
+interface Crumb { name: string; href: string | null }
+interface RelatedItem { title: string; description?: string; href: string }
+interface HeadingItem { depth: number; slug: string; text: string }
+const { seo, entry, headings = [], related = [] } = Astro.props as any;
+const headingsTyped = headings as HeadingItem[];
+const relatedTyped = related as RelatedItem[];
+const segments = entry.id.split('/').filter(Boolean);
+const isIndex = segments.at(-1) === 'index';
+const pathSegs = isIndex ? segments.slice(0, -1) : segments;
+function titleize(s: string) {
+	return s.split('-').map((p: string) => p.charAt(0).toUpperCase() + p.slice(1)).join(' ');
+}
+const crumbs: Crumb[] = [{ name: 'Home', href: '/' }];
+let acc = '';
+pathSegs.slice(0, -1).forEach((seg: string) => {
+	acc += `/${seg}`;
+	crumbs.push({ name: (siteMeta.sectionLabels as Record<string, string>)[seg] ?? titleize(seg), href: `${acc}/` });
+});
+if (pathSegs.length) {
+	crumbs.push({ name: entry.data.title, href: null });
+}
+const toc = headingsTyped.filter((h: HeadingItem) => h.depth === 2 || h.depth === 3);
+const fmt = (iso?: string) => (iso ? new Date(iso).toISOString().slice(0, 10) : null);
+const published = fmt(seo.publishedTime);
+const reviewed = fmt(seo.modifiedTime);
+const sectionLabel = seo.articleSection;
+---
+
+<Base seo={seo}>
+	<div class="wrap">
+		<nav class="crumbs" aria-label="Breadcrumb">
+			{crumbs.map((c: Crumb, i: number) => (
+				<span>{i > 0 && ' / '}{c.href ? <a href={c.href}>{c.name}</a> : c.name}</span>
+			))}
+		</nav>
+		<header class="article-head">
+			<h1>{entry.data.title}</h1>
+			{entry.data.description && <p class="lede">{entry.data.description}</p>}
+			<div class="meta-row">
+				{sectionLabel && <span>Section <b>{sectionLabel}</b></span>}
+				{published && <span>Published <b>{published}</b></span>}
+				{reviewed && <span>Last reviewed <b>{reviewed}</b></span>}
+				<span>By <b>{seo.authorName}</b></span>
+				{seo.editorName && <span>Reviewed by <b>{seo.editorName}</b></span>}
+			</div>
+		</header>
+		<div class="article-grid">
+			<article class="article-body">
+				<slot />
+				{related.length > 0 && (
+					<section class="related">
+						<h2>Related in this section</h2>
+						<div class="mdx-cardgrid">
+							{relatedTyped.map((r: RelatedItem) => (
+								<a class="link-card" href={r.href}>
+									<span class="link-card__title">{r.title}</span>
+									{r.description && <span class="link-card__desc">{r.description}</span>}
+								</a>
+							))}
+						</div>
+					</section>
+				)}
+			</article>
+			<aside class="rail">
+				{toc.length > 0 && (
+					<div class="rail__panel">
+						<h2>On this page</h2>
+						<ul>
+							{toc.map((h: HeadingItem) => (
+								<li style={h.depth === 3 ? 'padding-left:0.75rem' : undefined}>
+									<a href={`#${h.slug}`}>{h.text}</a>
+								</li>
+							))}
+						</ul>
+					</div>
+				)}
+			</aside>
+		</div>
+	</div>
+</Base>

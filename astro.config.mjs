@@ -1,8 +1,8 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
-import starlight from '@astrojs/starlight';
-import tailwindcss from '@tailwindcss/vite';
+import mdx from '@astrojs/mdx';
+import { fileURLToPath } from 'node:url';
 import { siteMeta } from './src/utils/site-meta.mjs';
 
 const noindexSitemapPaths = new Set([
@@ -21,63 +21,29 @@ function shouldIncludeInSitemap(page) {
 export default defineConfig({
 	site: siteMeta.siteUrl,
 	trailingSlash: 'always',
+	i18n: {
+		defaultLocale: 'en',
+		locales: ['en', 'de', 'es', 'pt', 'zh', 'ja', 'fr'],
+		routing: {
+			prefixDefaultLocale: false,
+			redirectToDefaultLocale: false,
+			fallbackType: 'rewrite',
+		},
+	},
 	integrations: [
-		starlight({
-			title: siteMeta.name,
-			description: siteMeta.description,
-			tagline: siteMeta.tagline,
-			lastUpdated: true,
-			social: [
-				{
-					icon: 'x.com',
-					label: 'X',
-					href: 'https://x.com/oocxx_com',
-				},
-			],
-			sidebar: [
-				{
-					label: 'Reference Areas',
-					items: [
-						'applications',
-						'device-types',
-						'product-families',
-						'vendors',
-						'protocols',
-						'comparisons',
-					],
-				},
-				{
-					label: 'Site',
-					collapsed: true,
-					items: [
-						'about',
-						'contact',
-						'editorial-desk',
-						'review-desk',
-						'privacy',
-						'terms-of-use',
-						'disclaimer',
-						'editorial-policy',
-						'advertising',
-						'affiliate-disclosure',
-					],
-				},
-			],
-			customCss: ['./src/styles/global.css'],
-			pagefind: true,
-			favicon: siteMeta.faviconPath,
-			credits: false,
-			components: {
-				Head: './src/components/Head.astro',
-				PageSidebar: './src/components/PageSidebar.astro',
-				Footer: './src/components/Footer.astro',
-			},
-		}),
+		mdx(),
 		sitemap({
 			filter: shouldIncludeInSitemap,
 		}),
 	],
 	vite: {
-		plugins: [tailwindcss()],
+		resolve: {
+			alias: [
+				{
+					find: '@astrojs/starlight/components',
+					replacement: fileURLToPath(new URL('./src/components/mdx/index.ts', import.meta.url)),
+				},
+			],
+		},
 	},
 });

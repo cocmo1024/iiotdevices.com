@@ -1,0 +1,97 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import { buildSeo } from '../utils/seo.mjs';
+import { siteMeta } from '../utils/site-meta.mjs';
+
+const docs = await getCollection('docs');
+const routed = docs.filter(
+	(entry) => entry.id !== 'index' && !entry.id.startsWith('product-families'),
+);
+const count = (section: string) => routed.filter((e) => e.id.startsWith(`${section}/`)).length;
+const sections = [
+	{ slug: 'devices', label: 'Devices', href: '/devices/', note: 'Structured device database: gateways, converters, remote I/O, RTUs, routers, edge computers. Every specification carries a manufacturer source and a review date.', live: true },
+	{ slug: 'protocols', label: 'Protocols & Architecture', href: '/protocols/', note: 'OPC UA, Modbus, MQTT and Sparkplug reference: what each layer does, where it fits, and where it stops working.', live: false },
+	{ slug: 'tools', label: 'Engineering Tools', href: '/tools/', note: 'Calculators for polling load, bandwidth, edge storage and link budgets, with the formulas shown on the page.', live: true },
+	{ slug: 'applications', label: 'Applications', href: '/applications/', note: 'Brownfield machine-data projects: S7 collection without PLC changes, OEE from legacy lines, remote-site telemetry.', live: false },
+	{ slug: 'device-types', label: 'Device Types', href: '/device-types/', note: 'Class-level selection guides: gateway vs edge computer vs RTU, and what each class is actually for.', live: false },
+	{ slug: 'comparisons', label: 'Comparisons', href: '/comparisons/', note: 'Head-to-head decision pages with verdict blocks: protocols, architectures and shortlist criteria.', live: false },
+	{ slug: 'vendors', label: 'Vendors', href: '/vendors/', note: 'Vendor portfolio reference for the hardware brands that recur in retrofit projects.', live: false },
+];
+const latest = [...routed]
+	.filter((e) => e.data.lastReviewed)
+	.sort((a, b) => (b.data.lastReviewed as Date).getTime() - (a.data.lastReviewed as Date).getTime())
+	.slice(0, 6)
+	.map((e) => ({
+		title: e.data.title,
+		href: `/${e.id.endsWith('/index') ? e.id.slice(0, -'/index'.length) : e.id}/`,
+		when: (e.data.lastReviewed as Date).toISOString().slice(0, 10),
+	}));
+const lastReview = latest.length ? latest[0].when : '—';
+const startHere = [
+	{ title: 'Collect Siemens S7 data without changing the PLC program', href: '/applications/collect-siemens-s7-data-without-changing-the-plc-program/' },
+	{ title: 'Gateways, edge computers and RTUs', href: '/device-types/gateways-edge-computers-and-rtus/' },
+	{ title: 'OPC UA FX, MQTT and Sparkplug boundaries for brownfield lines', href: '/protocols/opc-ua-fx-mqtt-and-sparkplug-boundaries-for-brownfield-lines/' },
+	{ title: 'OEE and downtime data from legacy lines', href: '/applications/oee-and-downtime-data-from-legacy-lines/' },
+	{ title: 'SPS 2026: gateway lock-in checks', href: '/protocols/sps-2026-gateway-lock-in-checks/' },
+];
+const seo = buildSeo(
+	{
+		id: 'index',
+		entry: {
+			data: {
+				title: 'IIoT Devices',
+				description: siteMeta.description,
+			},
+		},
+	},
+	Astro.url,
+);
+---
+
+<Base seo={seo}>
+	<div class="wrap">
+		<section class="dash-head">
+			<h1>Industrial connectivity hardware, organized for decisions.</h1>
+			<p class="lede">{siteMeta.tagline} Reference first: device classes, protocol fit and selection logic, with a structured device database and engineering calculators being built on the same data.</p>
+			<div class="stat-strip" role="group" aria-label="Reference coverage">
+				<div class="stat"><span class="stat__value num">{routed.length}</span><span class="stat__label">Reference pages</span></div>
+				<div class="stat"><span class="stat__value num">{count('protocols')}</span><span class="stat__label">Protocol references</span></div>
+				<div class="stat"><span class="stat__value num">{count('applications')}</span><span class="stat__label">Application guides</span></div>
+				<div class="stat"><span class="stat__value num">{count('comparisons')}</span><span class="stat__label">Comparisons</span></div>
+				<div class="stat"><span class="stat__value num">{lastReview}</span><span class="stat__label">Latest review</span></div>
+			</div>
+		</section>
+
+		<section>
+			<div class="obj-grid">
+				{sections.map((s) => (
+					<a class="obj-card" href={s.href}>
+						<h2>{s.label}</h2>
+						<p>{s.note}</p>
+						{!s.live && <p style="margin-top:0.5rem"><span class="num">{count(s.slug)}</span> pages</p>}
+						{s.live && <p style="margin-top:0.5rem"><span class="tag">New in the rebuild</span></p>}
+					</a>
+				))}
+			</div>
+		</section>
+
+		<section>
+			<h2 class="section-title">Start with a decision</h2>
+			<ul class="plain-list">
+				{startHere.map((item) => (
+					<li><a href={item.href}>{item.title}</a></li>
+				))}
+			</ul>
+		</section>
+
+		<section>
+			<h2 class="section-title">Recently reviewed</h2>
+			<ul class="plain-list">
+				{latest.map((item) => (
+					<li><a href={item.href}>{item.title}</a><span class="when">reviewed {item.when}</span></li>
+				))}
+			</ul>
+		</section>
+	</div>
+</Base>

@@ -1,0 +1,14 @@
+---
+import Base from '../layouts/Base.astro';
+import { buildSeo } from '../utils/seo.mjs';
+
+const seo = buildSeo({ id: '404', entry: { data: { title: 'Page not found' } } }, Astro.url);
+---
+
+<Base seo={seo}>
+	<div class="wrap" style="padding:3rem 1rem">
+		<h1>Page not found</h1>
+		<p>The page you asked for is not here. It may have moved into the device database or a protocol hub during the site rebuild.</p>
+		<p><a href="/">Go to the reference hub</a> · <a href="/devices/">Browse devices</a> · <a href="/protocols/">Protocol reference</a></p>
+	</div>
+</Base>

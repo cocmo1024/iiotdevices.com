@@ -20,7 +20,9 @@ function cleanBody(body: string) {
 }
 
 export async function GET() {
-	const docs = await getCollection('docs');
+	const docs = (await getCollection('docs')).filter(
+		(entry) => entry.id !== 'index' && !entry.id.startsWith('product-families'),
+	);
 	const entries = [...docs].sort((left, right) => left.id.localeCompare(right.id));
 
 	const sections = entries.map((entry) => {
