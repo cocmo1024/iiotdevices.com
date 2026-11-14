@@ -20,6 +20,7 @@ General depth targets:
 
 Do not publish:
 
+- images captioned or labelled as AI-generated (no "AI-generated illustration" or equivalent wording in any language — images carry descriptive captions only)
 - glossary-only pages without deployment relevance
 - vendor pages that read like catalog summaries
 - comparison pages without concrete decision criteria

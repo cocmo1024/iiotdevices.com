@@ -1,0 +1,178 @@
+---
+title: SPS 2026 Preview — Gateway Lock-In Checks for Nuremberg
+description: A pre-show checklist for SPS 2026 (24–26 November, Nuremberg) — what to verify at gateway and protocol-converter booths so protocol mappings stay exportable, documented, and portable after the purchase.
+referenceType: protocol
+adProfile: protocol
+commercialIntent: high
+reviewCadence: Monthly review
+primaryKeyword: SPS 2026 gateway lock-in protocol mapping
+searchIntent: compare
+decisionStage: solution-aware
+targetRoles:
+  - OT architects
+  - Controls engineers
+  - System integrators
+  - Plant data engineers
+contentStatus: growing
+problemSolved: How to use three days at SPS 2026 to test whether a gateway or protocol converter will lock the plant into one vendor's mapping tooling, before any purchase order is signed.
+readerTakeaway: You should leave with the verified SPS 2026 facts, a booth-level protocol mapping checklist, and a clear rule for separating documented vendor answers from show-floor claims.
+keyQuestions:
+  - When and where is SPS 2026, and what are its confirmed focus topics?
+  - What should a buyer ask gateway vendors about protocol mapping at SPS 2026?
+  - Why does the EU Cyber Resilience Act change gateway purchasing questions?
+  - What will be verified after the show, and where will the results be published?
+notFor:
+  - Visitors whose SPS trip is only about drives, motion, or machine safety with no data-collection scope
+  - Teams looking for a ranked list of gateway products before any requirements exist
+updateTriggers:
+  - Post-show verification on 2026-12-01 (results are added to this page)
+  - Mesago program changes before the show opens
+lastReviewed: 2026-11-14
+contentCluster: industrial-protocol-fit
+canonicalCluster: industrial-protocol-fit
+pageType: protocol-guide
+lifecycle: evergreen
+refreshPriority: high
+authorKey: editorial-desk
+editorKey: review-desk
+---
+
+import { LinkCard } from '@astrojs/starlight/components';
+
+# SPS 2026 Preview: Gateway Lock-In Checks for Nuremberg
+
+SPS — Smart Production Solutions is the automation industry's main autumn meeting point, and the 2026 edition lands at a useful moment for anyone buying connectivity hardware. Open standards such as OPC UA and MQTT/Sparkplug have reduced protocol lock-in at the wire level. They have not removed lock-in. It has moved one layer up, into the edge gateway: the protocol mapping rules, tag naming, scaling, and northbound models that a single vendor's configuration tool creates — and that often only that tool can read back.
+
+That is the lens this preview uses. If your SPS 2026 trip includes gateways, protocol converters, or edge devices for brownfield data collection, the valuable output is not a bag of datasheets. It is a set of verified answers to one question per vendor: **if we replace this gateway in five years, what happens to the mapping work we did on day one?**
+
+## Quick answer
+
+Go to SPS 2026 with a mapping checklist, not a protocol checklist. Almost every gateway on the floor will claim Modbus, OPC UA, and MQTT support. The differences that decide long-term cost are whether the protocol mapping configuration can be **exported in a readable form**, whether the mapping rules are **documented**, whether the configuration survives a **vendor change or a tool change**, and how the vendor handles **firmware updates and vulnerability reporting** under the EU Cyber Resilience Act (CRA). Ask those four things at every booth, write the answers down, and treat anything that is not later confirmed in a manual or official document as unverified.
+
+## SPS 2026 facts, verified against the organizer
+
+Everything in this table comes from Mesago Messe Frankfurt, the show organizer, checked on 2026-11-14.
+
+| Fact | Verified value | Source |
+| --- | --- | --- |
+| Dates | 24–26 November 2026 | Mesago press release, 5 November 2026 |
+| Venue | Nuremberg, Germany | Mesago press release |
+| Edition | 35th SPS — Smart Production Solutions | Mesago press release |
+| Exhibitors | Around 1,180, nearly half from abroad | Mesago press release |
+| Lead topics | Industrial AI in practice, and implementation of the EU Cyber Resilience Act (CRA) | Mesago press release |
+| Industrial AI program | Around 30 expert presentations and panel discussions; Industrial AI thematic block on day two, Technology Stage (VDMA/ZVEI) | Mesago press release |
+| CRA sessions to note | 25 November, Technology Stage, Hall 3: "CRA: The end of your current digital products?" (HEITEC AG, 4:05 p.m.) and "CRA: From legal requirement to successful implementation" (@-yet GmbH, 4:25 p.m.) | Mesago press release and SPS CRA program page |
+| CRA timeline that matters for buyers | Vulnerability and incident reporting duties have applied since 11 September 2026; the CRA becomes fully applicable on 11 December 2027 | SPS CRA program page (Mesago) |
+
+Two of those facts shape the gateway conversation directly. First, the CRA is not a future topic: reporting duties are already live, and full applicability lands at the end of 2027, inside the service life of anything bought at this show. A gateway is a product with digital elements, so its update mechanism, support period, and vulnerability handling are now purchasing criteria, not fine print. Second, the industrial AI program matters to gateway buyers for a less obvious reason: AI and analytics projects consume modeled, documented data. A gateway whose mappings are undocumented exports that documentation debt into every downstream project.
+
+## Why gateway lock-in is the right SPS 2026 question
+
+A protocol converter used to be a dumb pipe: registers in, registers out. A modern IIoT gateway is where brownfield meaning is created. It decides tag names, engineering units, scaling, deadbands, timestamps, store-and-forward behavior, and how southbound Modbus, serial, or PLC data becomes a northbound OPC UA model or MQTT/Sparkplug topic tree.
+
+That makes the gateway the new lock-in point in three specific ways:
+
+1. **Mapping lock-in.** The translation rules live in a proprietary project file or a vendor cloud account. Export, if it exists, may be a binary backup that only the same tool — sometimes only the same version — can restore.
+2. **Semantic lock-in.** Even when raw data can be re-read by a replacement device, the naming, units, and state logic built on top of the first gateway's tooling have to be rebuilt and re-validated by hand.
+3. **Lifecycle lock-in.** Firmware updates, security patches, certificate handling, and license terms decide whether the device can stay in service through the CRA era. A gateway that cannot be patched economically is a scheduled replacement, not an asset.
+
+None of this is visible in a protocol support matrix. It is visible in answers to the checklist below — which is why a trade show, where engineering staff are on the booth, is a good place to ask.
+
+## The booth checklist: protocol mapping questions that separate vendors
+
+Ask these in order. The first two are the decisive ones; the rest price the risk.
+
+| # | Ask at the booth | A strong answer sounds like | A weak answer sounds like |
+| --- | --- | --- | --- |
+| 1 | Can the full protocol mapping configuration be exported from the device or tool — in what format? | A readable, documented export (for example structured text/XML/JSON/CSV) that a replacement workflow can consume | "You can back up the project" with no readable format, or export only into the vendor's cloud |
+| 2 | Is the mapping format documented — publicly, or only under NDA/support contract? | A public manual or document describes the export format and the mapping model | The format is "internal"; documentation is promised after purchase |
+| 3 | If we replace this gateway with another brand, what exactly must be rebuilt? | A concrete list: mappings re-entered or imported, certificates re-issued, topics renamed — with effort the vendor can describe | "That never happens" or a migration offer priced later |
+| 4 | Can the device be configured fully offline, without a vendor cloud account? | Yes, local tool or web interface, no account dependency for core configuration | Configuration, licensing, or backups require the vendor's portal |
+| 5 | How are tag names, units, scaling, and timestamps represented in the export? | Semantics travel with the export, not only raw addresses | The export holds addresses; meaning lives in a separate, manual document the plant must maintain |
+| 6 | Northbound: can the same mapping feed OPC UA and MQTT/Sparkplug without duplicate configuration? | One mapping model, multiple publishers | Each northbound protocol is a separate hand-built configuration |
+| 7 | CRA readiness: what is the committed firmware support period, and how are vulnerabilities reported and patched? | A stated support period, a published vulnerability disclosure channel, signed updates | "We take security seriously" with no period, no channel, no update mechanism |
+| 8 | What happens to configuration and licenses if the vendor discontinues the product line? | Documented end-of-life and migration policy | No policy the booth team can point to |
+
+Score the answers immediately, on the floor. Booth memory degrades fast across three days and around 1,180 exhibitors.
+
+## How this site will score the answers: the December device database rule
+
+This checklist is not only show advice. From its first build batch on 2026-12-05, the device database on this site records a fixed field for every gateway and protocol converter:
+
+**Protocol mapping exportable and documented? — yes / no / vendor undeclared.**
+
+The field is judged only from vendor manuals and official documentation, never from booth conversations, sales material, or this preview. A vendor whose SPS answers sound strong will still be recorded as "vendor undeclared" until the export format appears in their own documentation. That gap — between what is said in Nuremberg and what is documented afterwards — is itself useful buying information, and it is exactly what the post-show update below is for.
+
+## What to watch beyond the gateway halls
+
+- **The CRA sessions on 25 November (Technology Stage, Hall 3).** The two back-to-back talks at 4:05 p.m. and 4:25 p.m. cover the impact on existing digital products and a practical implementation path for machine and plant builders. Gateway vendors' CRA answers at booths can be checked against what these sessions say manufacturers should already be doing.
+- **The Industrial AI block on day two.** Listen for what speakers assume about data quality: modeled tags, documented semantics, reliable timestamps. Those assumptions are the downstream cost of an undocumented gateway mapping.
+- **Your own installed base.** The most useful SPS comparison is not booth against booth. It is each answer against the migration pain you already have from the gateways installed today.
+
+## Post-show update — to be completed 2026-12-01
+
+This section is the holding point for verified results after the show closes. It will be filled in on 2026-12-01, and until then nothing in it should be read as a finding.
+
+Verification list:
+
+1. **OPC UA FX conformance material.** Whether OPC Foundation has published FX-specific conformance test specification material by show close. As of this preview (2026-11-14), OPC Foundation's public test-tools listing covers the OPC UA Compliance Test Tool (UACTT) versions, and no standalone FX conformance test specification had been confirmed there. Status after the show: *pending verification*.
+2. **Field-level interoperability on the show floor.** Which vendors demonstrated multi-vendor OPC UA FX or controller-to-controller interoperability, and whether demonstrations were live equipment or slideware. Status: *pending verification*.
+3. **Booth answers vs documentation.** For gateway vendors asked the mapping questions above, which answers are confirmed in manuals or official documents published by 2026-12-01, and which remain show-floor claims. Confirmed answers feed the December device database field; unconfirmed answers do not.
+4. **CRA specifics.** Any concrete dates, support-period commitments, or guidance from the 25 November CRA sessions that change the purchasing checklist above. Status: *pending verification*.
+
+## FAQ
+
+**When and where is SPS 2026?**
+24–26 November 2026 in Nuremberg, Germany — the 35th edition of SPS — Smart Production Solutions, organized by Mesago Messe Frankfurt, with around 1,180 exhibitors expected.
+
+**What are the main topics at SPS 2026?**
+According to the organizer, the agenda focuses on industrial AI in practical use and on implementing the EU Cyber Resilience Act (CRA), including around 30 expert presentations and panel discussions on industrial AI.
+
+**What is gateway lock-in?**
+It is the dependence created when a gateway's protocol mapping rules, naming, and configuration live in one vendor's tooling or cloud, in formats that cannot be exported readably or are not documented. The protocols may be open while the mapping work is not portable.
+
+**What is the single most useful question to ask a gateway vendor at SPS 2026?**
+"Can the full protocol mapping configuration be exported in a readable, documented format?" Followed by: "Show me where that format is documented." Those two answers predict replacement cost better than any protocol support matrix.
+
+**Why does the CRA belong in a gateway purchasing checklist?**
+Because reporting duties already apply (since 11 September 2026) and the CRA becomes fully applicable on 11 December 2027. A connected gateway's firmware support period, update mechanism, and vulnerability handling decide whether it can stay in service compliantly — so they are selection criteria now, not afterthoughts.
+
+**Will this page name the best gateway from SPS 2026?**
+No. This preview sets the checks. Product-level findings belong in the device database from December, where the mapping field is recorded only from vendor documentation.
+
+## Sources
+
+- Mesago Messe Frankfurt press release, 5 November 2026: [SPS 2026 Showcases Strategies for Boosting Cybersecurity and Industrial AI in Manufacturing](https://corporate.mesago.com/events/en/press/press-releases/press-releases-events/Cybersecurity_and_Industrial_AI.html) — dates, edition, exhibitor count, lead topics, AI program, CRA session times.
+- Mesago Messe Frankfurt, SPS program highlight: [Cyber Resilience Act (CRA): Requirements, deadlines and practical guidance at the SPS](https://sps.mesago.com/nuernberg/en/expo/program-highlights/cyber-resilience.html) — CRA reporting duties since 11 September 2026, full applicability on 11 December 2027, session program.
+- Mesago Messe Frankfurt, SPS main topics: [Main topics](https://sps.mesago.com/nuernberg/en/expo/exhibitor-search/topics.html) — industrial AI as a core SPS topic area.
+- OPC Foundation: [OPC UA Compliance Test Tool (UACTT) test tools listing](https://opcfoundation.org/developer-tools/certification-test-tools/opc-ua-compliance-test-tool-uactt/) — state of public conformance tooling as of the 2026-11-14 preview check.
+
+## Related paths
+
+<div className="portal-links">
+	<LinkCard
+		title="OPC UA FX, MQTT, and Sparkplug boundaries"
+		href="/protocols/opc-ua-fx-mqtt-and-sparkplug-boundaries-for-brownfield-lines/"
+		description="The boundary model behind this preview: field-level interoperability, plant-side modeling, and publish-subscribe transport are different jobs."
+	/>
+	<LinkCard
+		title="Retrofit gateway shortlist criteria"
+		href="/comparisons/retrofit-gateway-shortlist-criteria/"
+		description="Turn booth answers into shortlist criteria once the show is over and the documentation check begins."
+	/>
+	<LinkCard
+		title="Gateway vs edge computer for retrofit data projects"
+		href="/comparisons/gateway-vs-edge-computer-for-retrofit-data-projects/"
+		description="Decide which device class should own the mapping before comparing vendors inside that class."
+	/>
+	<LinkCard
+		title="Industrial gateways"
+		href="/product-families/industrial-gateways/"
+		description="The gateway product-family view that the December device database will extend with per-model mapping records."
+	/>
+	<LinkCard
+		title="Modbus, OPC UA, and MQTT fit"
+		href="/protocols/modbus-opc-ua-and-mqtt-fit/"
+		description="Where each protocol belongs at the boundary — the baseline the mapping checklist builds on."
+	/>
+</div>
