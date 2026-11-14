@@ -1,7 +1,7 @@
 ---
 import { siteMeta } from '../utils/site-meta.mjs';
 
-const { seo } = Astro.props;
+const { seo, alternates = [] } = Astro.props;
 const imageType = seo.imageType;
 ---
 
@@ -9,6 +9,9 @@ const imageType = seo.imageType;
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="description" content={seo.description} />
+{alternates.map((a: any) => (
+	<link rel="alternate" hreflang={a.hreflang} href={new URL(a.href, siteMeta.siteUrl).toString()} />
+))}
 <link rel="canonical" href={seo.canonicalUrl} />
 <link rel="manifest" href="/site.webmanifest" />
 <link rel="alternate" type="application/rss+xml" title={`${seo.siteName} RSS Feed`} href="/rss.xml" />

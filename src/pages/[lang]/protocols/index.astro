@@ -1,0 +1,44 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../../layouts/Base.astro';
+import { buildSeo } from '../../../utils/seo.mjs';
+import { hubStrings, HUB_LOCALES, hubAlternates } from '../../../i18n/hubs.mjs';
+
+export async function getStaticPaths() {
+	return HUB_LOCALES.map((lang) => ({ params: { lang }, props: { lang } }));
+}
+
+const { lang } = Astro.props as any;
+const s: any = (hubStrings as any)[lang];
+const docs = await getCollection('docs');
+const protocols = docs
+	.filter((e) => e.id.startsWith('protocols/') && e.id !== 'protocols/index')
+	.sort((a, b) => a.data.title.localeCompare(b.data.title));
+const seo: any = buildSeo(
+	{
+		id: 'protocols/index',
+		entry: { data: { title: s.protocolsTitle, description: s.protocolsLede } },
+	},
+	Astro.url,
+);
+---
+
+<Base seo={seo} lang={lang} alternates={hubAlternates('protocols/')}>
+	<div class="wrap">
+		<nav class="crumbs" aria-label="Breadcrumb"><span><a href={`/${lang}/`}>Home</a></span><span> / {s.protocolsTitle}</span></nav>
+		<header class="article-head">
+			<h1>{s.protocolsTitle}</h1>
+			<p class="lede">{s.protocolsLede}</p>
+		</header>
+		<div style="padding:1.5rem 0 3rem">
+			<div class="mdx-cardgrid">
+				{protocols.map((e: any) => (
+					<a class="link-card" href={`/${e.id}/`}>
+						<span class="link-card__title">{e.data.title} <span class="tag">{s.englishTag}</span></span>
+						{e.data.description && <span class="link-card__desc">{e.data.description}</span>}
+					</a>
+				))}
+			</div>
+		</div>
+	</div>
+</Base>

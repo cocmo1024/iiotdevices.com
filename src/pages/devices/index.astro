@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import Base from '../../layouts/Base.astro';
+import { hubAlternates } from '../../i18n/hubs.mjs';
 import { buildSeo } from '../../utils/seo.mjs';
 import { siteMeta } from '../../utils/site-meta.mjs';
 import { CATEGORIES, deviceTitle, mappingLabel } from '../../utils/devices.mjs';
@@ -45,7 +46,7 @@ seo.structuredData = [
 ];
 ---
 
-<Base seo={seo}>
+<Base seo={seo} alternates={hubAlternates('devices/')}>
 	<div class="wrap">
 		<nav class="crumbs" aria-label="Breadcrumb"><span><a href="/">Home</a></span><span> / Devices</span></nav>
 		<header class="article-head">

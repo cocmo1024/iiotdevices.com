@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
+import { hubAlternates } from '../i18n/hubs.mjs';
 import { buildSeo } from '../utils/seo.mjs';
 import { siteMeta } from '../utils/site-meta.mjs';
 
@@ -50,7 +51,7 @@ const seo = buildSeo(
 );
 ---
 
-<Base seo={seo}>
+<Base seo={seo} alternates={hubAlternates('')}>
 	<div class="wrap">
 		<section class="dash-head">
 			<h1>Industrial connectivity hardware, organized for decisions.</h1>

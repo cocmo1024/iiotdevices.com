@@ -1,26 +1,31 @@
 ---
 import { siteMeta } from '../utils/site-meta.mjs';
+import { hubStrings, HUB_LOCALES } from '../i18n/hubs.mjs';
 
+const { lang = 'en' } = Astro.props;
+const isLocal = HUB_LOCALES.includes(lang);
+const labels = isLocal ? (hubStrings as any)[lang].nav : null;
+const prefix = isLocal ? `/${lang}` : '';
 const nav = [
-	{ label: 'Devices', href: '/devices/' },
-	{ label: 'Protocols', href: '/protocols/' },
-	{ label: 'Tools', href: '/tools/' },
-	{ label: 'Applications', href: '/applications/' },
-	{ label: 'Device Types', href: '/device-types/' },
-	{ label: 'Vendors', href: '/vendors/' },
-	{ label: 'Compare', href: '/comparisons/' },
+	{ label: labels?.devices ?? 'Devices', href: `${prefix}/devices/` },
+	{ label: labels?.protocols ?? 'Protocols', href: `${prefix}/protocols/` },
+	{ label: labels?.tools ?? 'Tools', href: `${prefix}/tools/` },
+	{ label: labels?.applications ?? 'Applications', href: '/applications/' },
+	{ label: labels?.deviceTypes ?? 'Device Types', href: '/device-types/' },
+	{ label: labels?.vendors ?? 'Vendors', href: '/vendors/' },
+	{ label: labels?.compare ?? 'Compare', href: '/comparisons/' },
 ];
 const path = Astro.url.pathname;
 ---
 
 <header class="site-header">
 	<div class="wrap site-header__inner">
-		<a class="brand" href="/">
+		<a class="brand" href={isLocal ? `${prefix}/` : '/'}>
 			<span class="brand__name">{siteMeta.name}</span>
 			<span class="brand__tag">SPEC / REF / TOOLS</span>
 		</a>
 		<nav class="main-nav" aria-label="Primary">
-			{nav.map((item) => (
+			{nav.map((item: any) => (
 				<a href={item.href} aria-current={path.startsWith(item.href) ? 'page' : undefined}>{item.label}</a>
 			))}
 		</nav>

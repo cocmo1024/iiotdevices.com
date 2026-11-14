@@ -1,5 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
+import { hubAlternates } from '../../i18n/hubs.mjs';
 import { buildSeo } from '../../utils/seo.mjs';
 
 const liveTools = [
@@ -27,7 +28,7 @@ const seo = buildSeo(
 );
 ---
 
-<Base seo={seo}>
+<Base seo={seo} alternates={hubAlternates('tools/')}>
 	<div class="wrap">
 		<nav class="crumbs" aria-label="Breadcrumb"><span><a href="/">Home</a></span><span> / Tools</span></nav>
 		<header class="article-head">

@@ -1,0 +1,58 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../../layouts/Base.astro';
+import { buildSeo } from '../../../utils/seo.mjs';
+import { hubStrings, HUB_LOCALES, hubAlternates } from '../../../i18n/hubs.mjs';
+import { CATEGORIES, deviceTitle, mappingLabel } from '../../../utils/devices.mjs';
+
+export async function getStaticPaths() {
+	return HUB_LOCALES.map((lang) => ({ params: { lang }, props: { lang } }));
+}
+
+const { lang } = Astro.props as any;
+const s: any = (hubStrings as any)[lang];
+const devices = (await getCollection('devices'))
+	.map((d) => d.data)
+	.sort((a, b) => deviceTitle(a).localeCompare(deviceTitle(b)));
+const checkedFmt = (d: any) => new Date(d).toISOString().slice(0, 10);
+const seo: any = buildSeo(
+	{
+		id: 'devices/index',
+		entry: { data: { title: s.devicesTitle, description: s.devicesLede } },
+	},
+	Astro.url,
+);
+---
+
+<Base seo={seo} lang={lang} alternates={hubAlternates('devices/')}>
+	<div class="wrap">
+		<nav class="crumbs" aria-label="Breadcrumb"><span><a href={`/${lang}/`}>Home</a></span><span> / {s.devicesTitle}</span></nav>
+		<header class="article-head">
+			<h1>{s.devicesTitle}</h1>
+			<p class="lede">{s.devicesLede}</p>
+			<div class="meta-row"><span>{s.records} <b>{devices.length}</b></span><span>{s.classesLive} <b>{Object.keys(CATEGORIES).length}</b></span><span>{s.sourceRule}</span></div>
+		</header>
+		<div style="padding:1.5rem 0 3rem">
+			{Object.values(CATEGORIES).map((cat: any) => (
+				<section>
+					<h2 class="section-title">{cat.label} <span class="tag">EN</span></h2>
+					<table class="spec-table">
+						<thead><tr><th>{s.model}</th><th>Southbound</th><th>Northbound</th><th>{s.mappingExport}</th><th>{s.checked}</th></tr></thead>
+						<tbody>
+							{devices.filter((r: any) => r.category === cat.recordCategory).map((r: any) => (
+								<tr>
+									<td><a href={`/devices/${r.slug}/`}><b>{deviceTitle(r)}</b></a></td>
+									<td>{r.southbound.join(', ')}</td>
+									<td>{r.northbound.join(', ')}</td>
+									<td>{mappingLabel(r.mappingExport)}</td>
+									<td class="num">{checkedFmt(r.checked)}</td>
+								</tr>
+							))}
+						</tbody>
+					</table>
+				</section>
+			))}
+			<p style="color:var(--ink-2);max-width:68ch">{s.noPlaceholder}</p>
+		</div>
+	</div>
+</Base>

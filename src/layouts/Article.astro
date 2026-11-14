@@ -5,7 +5,7 @@ import { siteMeta } from '../utils/site-meta.mjs';
 interface Crumb { name: string; href: string | null }
 interface RelatedItem { title: string; description?: string; href: string }
 interface HeadingItem { depth: number; slug: string; text: string }
-const { seo, entry, headings = [], related = [] } = Astro.props as any;
+const { seo, entry, headings = [], related = [], alternates = [] } = Astro.props as any;
 const headingsTyped = headings as HeadingItem[];
 const relatedTyped = related as RelatedItem[];
 const segments = entry.id.split('/').filter(Boolean);
@@ -30,7 +30,7 @@ const reviewed = fmt(seo.modifiedTime);
 const sectionLabel = seo.articleSection;
 ---
 
-<Base seo={seo}>
+<Base seo={seo} alternates={alternates}>
 	<div class="wrap">
 		<nav class="crumbs" aria-label="Breadcrumb">
 			{crumbs.map((c: Crumb, i: number) => (

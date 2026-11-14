@@ -1,0 +1,55 @@
+---
+import Base from '../../../layouts/Base.astro';
+import { buildSeo } from '../../../utils/seo.mjs';
+import { hubStrings, HUB_LOCALES, hubAlternates } from '../../../i18n/hubs.mjs';
+
+export async function getStaticPaths() {
+	return HUB_LOCALES.map((lang) => ({ params: { lang }, props: { lang } }));
+}
+
+const { lang } = Astro.props as any;
+const s: any = (hubStrings as any)[lang];
+const live = [
+	{ name: 'Modbus polling cycle calculator', href: '/tools/modbus-polling-cycle/' },
+	{ name: 'Machine-data bandwidth estimator', href: '/tools/bandwidth-estimator/' },
+];
+const planned = [
+	'Edge buffer storage calculator',
+	'MQTT throughput & cost estimator',
+	'LoRaWAN link budget checker',
+	'Battery life estimator for remote units',
+	'Subnet & address planner',
+];
+const seo: any = buildSeo(
+	{
+		id: 'tools/index',
+		entry: { data: { title: s.toolsTitle, description: s.toolsLede } },
+	},
+	Astro.url,
+);
+---
+
+<Base seo={seo} lang={lang} alternates={hubAlternates('tools/')}>
+	<div class="wrap">
+		<nav class="crumbs" aria-label="Breadcrumb"><span><a href={`/${lang}/`}>Home</a></span><span> / {s.toolsTitle}</span></nav>
+		<header class="article-head">
+			<h1>{s.toolsTitle}</h1>
+			<p class="lede">{s.toolsLede}</p>
+			<div class="meta-row"><span>{s.live} <b>2</b></span><span>{s.inBuild} <b>{planned.length}</b></span></div>
+		</header>
+		<div style="padding:1.5rem 0 3rem">
+			<h2 class="section-title" style="margin-top:0">{s.live}</h2>
+			<ul class="plain-list">
+				{live.map((t: any) => (
+					<li><a href={t.href}>{t.name}</a><span class="when">EN</span></li>
+				))}
+			</ul>
+			<h2 class="section-title">{s.inBuild}</h2>
+			<ul class="plain-list">
+				{planned.map((t: string) => (
+					<li><span>{t}</span><span class="when">EN</span></li>
+				))}
+			</ul>
+		</div>
+	</div>
+</Base>

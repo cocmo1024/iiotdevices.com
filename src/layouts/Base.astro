@@ -4,16 +4,16 @@ import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 import '../styles/global.css';
 
-const { seo } = Astro.props;
+const { seo, lang = 'en', alternates = [] } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={lang}>
 	<head>
-		<SiteHead seo={seo} />
+		<SiteHead seo={seo} alternates={alternates} />
 	</head>
 	<body>
-		<SiteHeader />
+		<SiteHeader lang={lang} />
 		<main>
 			<slot />
 		</main>

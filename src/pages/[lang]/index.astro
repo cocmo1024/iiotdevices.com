@@ -1,0 +1,79 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { buildSeo } from '../../utils/seo.mjs';
+import { siteMeta } from '../../utils/site-meta.mjs';
+import { hubStrings, HUB_LOCALES, hubAlternates } from '../../i18n/hubs.mjs';
+
+export async function getStaticPaths() {
+	return HUB_LOCALES.map((lang) => ({ params: { lang }, props: { lang } }));
+}
+
+const { lang } = Astro.props as any;
+const s: any = (hubStrings as any)[lang];
+const docs = await getCollection('docs');
+const routed = docs.filter(
+	(entry) => entry.id !== 'index' && entry.id !== 'vendors/index' && !entry.id.startsWith('product-families'),
+);
+const deviceCount = (await getCollection('devices')).length;
+const count = (section: string) => routed.filter((e) => e.id.startsWith(`${section}/`)).length;
+const latest = [...routed]
+	.filter((e) => e.data.lastReviewed)
+	.sort((a, b) => (b.data.lastReviewed as Date).getTime() - (a.data.lastReviewed as Date).getTime())
+	.slice(0, 6)
+	.map((e) => ({
+		title: e.data.title,
+		href: `/${e.id.endsWith('/index') ? e.id.slice(0, -'/index'.length) : e.id}/`,
+		when: (e.data.lastReviewed as Date).toISOString().slice(0, 10),
+	}));
+const lastReview = latest.length ? latest[0].when : '—';
+const objects = [
+	{ label: s.nav.devices, href: `/${lang}/devices/`, note: s.devicesLede, meta: `${deviceCount} ${s.stats.devices}` },
+	{ label: s.nav.protocols, href: `/${lang}/protocols/`, note: s.protocolsLede, meta: `${count('protocols')} ${s.pagesWord}` },
+	{ label: s.nav.tools, href: `/${lang}/tools/`, note: s.toolsLede, meta: '' },
+	{ label: s.nav.applications, href: '/applications/', note: '', meta: `${count('applications')} ${s.pagesWord} · EN` },
+	{ label: s.nav.deviceTypes, href: '/device-types/', note: '', meta: `${count('device-types')} ${s.pagesWord} · EN` },
+	{ label: s.nav.compare, href: '/comparisons/', note: '', meta: `${count('comparisons')} ${s.pagesWord} · EN` },
+	{ label: s.nav.vendors, href: '/vendors/', note: '', meta: 'EN' },
+];
+const seo: any = buildSeo(
+	{ id: 'index', entry: { data: { title: s.homeTitle, description: siteMeta.description } } },
+	Astro.url,
+);
+---
+
+<Base seo={seo} lang={lang} alternates={hubAlternates('')}>
+	<div class="wrap">
+		<section class="dash-head">
+			<h1>{s.homeH1}</h1>
+			<p class="lede">{s.homeLede}</p>
+			<div class="stat-strip" role="group" aria-label="Coverage">
+				<div class="stat"><span class="stat__value num">{routed.length}</span><span class="stat__label">{s.stats.pages}</span></div>
+				<div class="stat"><span class="stat__value num">{deviceCount}</span><span class="stat__label">{s.stats.devices}</span></div>
+				<div class="stat"><span class="stat__value num">{count('protocols')}</span><span class="stat__label">{s.stats.protocols}</span></div>
+				<div class="stat"><span class="stat__value num">{count('applications')}</span><span class="stat__label">{s.stats.applications}</span></div>
+				<div class="stat"><span class="stat__value num">{lastReview}</span><span class="stat__label">{s.stats.latest}</span></div>
+			</div>
+		</section>
+		<section>
+			<h2 class="section-title">{s.sectionsTitle}</h2>
+			<div class="obj-grid">
+				{objects.map((o: any) => (
+					<a class="obj-card" href={o.href}>
+						<h3>{o.label}</h3>
+						{o.note && <p>{o.note}</p>}
+						{o.meta && <p style="margin-top:0.5rem"><span class="num">{o.meta}</span></p>}
+					</a>
+				))}
+			</div>
+		</section>
+		<section>
+			<h2 class="section-title">{s.recentTitle}</h2>
+			<ul class="plain-list">
+				{latest.map((item: any) => (
+					<li><a href={item.href}>{item.title}</a><span class="when">{s.reviewed} {item.when} · EN</span></li>
+				))}
+			</ul>
+		</section>
+	</div>
+</Base>

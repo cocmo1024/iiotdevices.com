@@ -2,6 +2,7 @@
 import { getCollection, render } from 'astro:content';
 import Article from '../layouts/Article.astro';
 import { buildSeo } from '../utils/seo.mjs';
+import { hubAlternates } from '../i18n/hubs.mjs';
 
 export async function getStaticPaths() {
 	const docs = await getCollection('docs');
@@ -29,6 +30,7 @@ export async function getStaticPaths() {
 }
 
 const { entry, related } = Astro.props;
+const alternates = entry.id === 'protocols/index' ? hubAlternates('protocols/') : [];
 const { Content, headings } = await render(entry);
 const seo = buildSeo(
 	{ id: entry.id, entry, lastUpdated: entry.data.lastReviewed },
@@ -36,6 +38,6 @@ const seo = buildSeo(
 );
 ---
 
-<Article seo={seo} entry={entry} headings={headings} related={related}>
+<Article seo={seo} entry={entry} headings={headings} related={related} alternates={alternates}>
 	<Content />
 </Article>
