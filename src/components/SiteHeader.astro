@@ -6,16 +6,25 @@ const { lang = 'en' } = Astro.props;
 const isLocal = HUB_LOCALES.includes(lang);
 const labels = isLocal ? (hubStrings as any)[lang].nav : null;
 const prefix = isLocal ? `/${lang}` : '';
-const nav = [
-	{ label: 'Industry', href: '/industry/' },
-	{ label: labels?.applications ?? 'Applications', href: '/applications/' },
-	{ label: labels?.vendors ?? 'Vendors', href: '/vendors/' },
-	{ label: labels?.devices ?? 'Devices', href: `${prefix}/devices/` },
-	{ label: labels?.protocols ?? 'Protocols', href: `${prefix}/protocols/` },
-	{ label: labels?.tools ?? 'Tools', href: `${prefix}/tools/` },
-	{ label: 'Events', href: '/events/' },
-	{ label: labels?.compare ?? 'Compare', href: '/comparisons/' },
-];
+const nav = isLocal
+	? [
+			{ label: 'Industry', href: '/industry/' },
+			{ label: labels?.applications ?? 'Applications', href: '/applications/' },
+			{ label: labels?.vendors ?? 'Vendors', href: '/vendors/' },
+			{ label: labels?.protocols ?? 'Protocols', href: `${prefix}/protocols/` },
+			{ label: 'Events', href: '/events/' },
+			{ label: labels?.devices ?? 'Devices', href: `${prefix}/devices/` },
+			{ label: labels?.tools ?? 'Tools', href: `${prefix}/tools/` },
+			{ label: 'Data Center', href: '/data-center/' },
+		]
+	: [
+			{ label: 'Industry', href: '/industry/' },
+			{ label: 'Applications', href: '/applications/' },
+			{ label: 'Vendors', href: '/vendors/' },
+			{ label: 'Protocols', href: '/protocols/' },
+			{ label: 'Events', href: '/events/' },
+			{ label: 'Data Center', href: '/data-center/' },
+		];
 const path = Astro.url.pathname;
 ---
 

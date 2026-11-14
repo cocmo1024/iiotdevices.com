@@ -23,6 +23,12 @@ const lead = routed.find((e) => e.id === 'protocols/sps-2026-gateway-lock-in-che
 const analysis = bySection('comparisons').filter((e) => e.id !== 'comparisons/index').slice(0, 4);
 const guides = bySection('applications').filter((e) => e.id !== 'applications/index').slice(0, 4);
 const briefs = industry.slice(0, 3);
+const trendIds = [
+	'protocols/opc-ua-vs-mqtt-for-machine-data-aggregation',
+	'protocols/opc-ua-fx-mqtt-and-sparkplug-boundaries-for-brownfield-lines',
+	'comparisons/gateway-vs-edge-computer-for-retrofit-data-projects',
+];
+const trends = trendIds.map((id) => routed.find((e) => e.id === id)).filter(Boolean);
 const seo: any = buildSeo(
 	{ id: 'index', entry: { data: { title: siteMeta.name, description: siteMeta.description } } },
 	Astro.url,
@@ -92,6 +98,32 @@ const seo: any = buildSeo(
 				</ul>
 			</div>
 		</section>
+		<section>
+			<h2 class="section-title">Trends &amp; analysis</h2>
+			<ul class="story-list">
+				{trends.map((e: any) => (
+					<li><span class="kicker">Analysis</span><h3><a href={hrefOf(e)}>{e.data.title}</a></h3><p>{e.data.description}</p></li>
+				))}
+			</ul>
+		</section>
+		<section>
+			<h2 class="section-title">Resources</h2>
+			<div class="obj-grid">
+				<a class="obj-card" href="/device-types/"><h3>Device-type guides</h3><p>How each hardware class works, and how to shortlist it</p></a>
+				<a class="obj-card" href="/comparisons/"><h3>Comparisons &amp; verdicts</h3><p>Side-by-side decisions with the reasoning shown</p></a>
+				<a class="obj-card" href="/editorial-policy/"><h3>Editorial standards</h3><p>How coverage is sourced, reviewed and kept separate from commercial work</p></a>
+			</div>
+		</section>
+		<div class="band" style="margin:0 -0rem">
+			<div style="padding:1.25rem 0">
+				<h2 class="section-title" style="margin-top:0">Work with IIoT Devices</h2>
+				<p style="max-width:68ch;margin-top:0">The platform side of the desk: vendor directory claims, product-release coverage, and sponsorship placements are handled separately from editorial judgment and always disclosed. The monthly industry briefing goes out by email.</p>
+				<p style="display:flex;gap:1rem;flex-wrap:wrap">
+					<a href="mailto:cqq365@gmail.com?subject=Directory%20claim%20or%20vendor%20partnership"><b>Claim a directory entry / vendor partnerships →</b></a>
+					<a href="mailto:cqq365@gmail.com?subject=Subscribe%20to%20the%20IIoT%20Devices%20briefing"><b>Subscribe to the monthly briefing →</b></a>
+				</p>
+			</div>
+		</div>
 		<section style="padding-bottom:3rem">
 			<h2 class="section-title">Data center & tools</h2>
 			<p style="max-width:68ch">The platform's working modules: a device database whose every specification carries a manufacturer source and a check date, device-class buying guides, protocol references, and calculators that show their formulas.</p>

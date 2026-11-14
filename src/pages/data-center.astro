@@ -1,0 +1,45 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import { buildSeo } from '../utils/seo.mjs';
+import { siteMeta } from '../utils/site-meta.mjs';
+
+const devices = (await getCollection('devices')).map((d) => d.data);
+const brands = new Set(devices.map((d) => d.brand)).size;
+const latestChecked = devices.length
+	? new Date(Math.max(...devices.map((d) => new Date(d.checked).getTime()))).toISOString().slice(0, 10)
+	: '—';
+const seo: any = buildSeo(
+	{
+		id: 'data-center',
+		entry: {
+			data: {
+				title: 'Data Center',
+				description: 'The platform working modules: the sourced device database, device-type guides, comparisons and engineering calculators — every specification tied to a manufacturer source and a check date.',
+			},
+		},
+	},
+	Astro.url,
+);
+---
+
+<Base seo={seo}>
+	<div class="wrap">
+		<nav class="crumbs" aria-label="Breadcrumb"><span><a href="/">Home</a></span><span> / Data Center</span></nav>
+		<header class="article-head">
+			<h1>Data center</h1>
+			<p class="lede">The working modules of IIoT Devices, kept to a data discipline the coverage relies on: one record per device model, specifications only from the manufacturer's own documentation, a check date on everything, and no sponsored influence on records or rankings.</p>
+			<div class="meta-row"><span>Device records <b>{devices.length}</b></span><span>Brands <b>{brands}</b></span><span>Latest check <b>{latestChecked}</b></span></div>
+		</header>
+		<div style="padding:1.5rem 0 3rem">
+			<div class="obj-grid">
+				<a class="obj-card" href="/devices/"><h3>Device database</h3><p>Gateways and protocol converters live; remote I/O, RTUs, routers and edge computers in build. Includes the protocol-mapping export field tracked per model.</p></a>
+				<a class="obj-card" href="/device-types/"><h3>Device-type guides</h3><p>How each hardware class works and how to shortlist it before the model-level data matters.</p></a>
+				<a class="obj-card" href="/comparisons/"><h3>Comparisons</h3><p>Architecture and selection decisions, argued from the same data the database keeps.</p></a>
+				<a class="obj-card" href="/tools/"><h3>Engineering tools</h3><p>Calculators that show their formulas: Modbus polling cycle and bandwidth estimation live, five more in build.</p></a>
+			</div>
+			<h2 class="section-title">Data policy</h2>
+			<p style="max-width:68ch">Records are published as a structured dataset (Dataset schema on the database pages) with field definitions and sources named per record. If a manufacturer does not state a specification, the record says so — the database never fills gaps with estimates. Corrections go to <a href={`mailto:${siteMeta.email}`}>{siteMeta.email}</a>.</p>
+		</div>
+	</div>
+</Base>
