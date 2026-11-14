@@ -32,7 +32,7 @@ lifecycle: evergreen
 refreshPriority: medium
 authorKey: editorial-desk
 editorKey: review-desk
-lastReviewed: 2026-05-09
+lastReviewed: 2026-11-14
 ---
 
 import { LinkCard } from '@astrojs/starlight/components';
@@ -46,6 +46,13 @@ It can be. But a bridge only moves the serial conversation across Ethernet. It d
 ## Quick answer
 
 Use serial-to-Ethernet bridging when the upstream system already understands the serial conversation and only needs network reach. Use a protocol converter when the downstream system needs a different protocol, cleaner register mapping, or polling ownership. Use a gateway or edge layer when several devices must be aggregated, buffered, normalized, or delivered to historians, MES, SCADA, or cloud systems.
+
+## Use / do not use, as conditions
+
+- **If** the serial device stays in service, its protocol is understood, and the only problem is physical reach or multi-drop access, **then** a serial-to-Ethernet bridge is the right, proportionate tool.
+- **If** the data must arrive with trustworthy timestamps, buffering through network outages, or modeled context for historians and analytics, **then** a bridge is not enough — step up to a gateway or edge device that owns those jobs.
+- **If** the endpoint would become reachable from networks it was never designed for, **then** do not bridge it until the exposure is segmented and authenticated; bridging moves the conversation, it does not protect it.
+- **If** the serial asset is already slated for replacement within the project's horizon, **then** bridging is a temporary spend to be weighed against accelerating the replacement.
 
 ## The four common patterns
 

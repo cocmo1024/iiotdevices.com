@@ -32,7 +32,7 @@ lifecycle: evergreen
 refreshPriority: high
 authorKey: editorial-desk
 editorKey: review-desk
-lastReviewed: 2026-05-09
+lastReviewed: 2026-11-14
 ---
 
 import { LinkCard } from '@astrojs/starlight/components';
@@ -55,6 +55,14 @@ Choose a compact PLC when the field location needs:
 - or machine behavior that maintenance will treat as a distinct control domain.
 
 If those needs are real, remote I/O may look cheaper only because the project has not admitted how much local behavior is about to accumulate.
+
+## Decision rules, as conditions
+
+- **If** the field point only needs to expose signals to a controller that already exists and stays responsible for logic, **then** remote I/O is the fit.
+- **If** the field point must keep making decisions when the network or the main controller is unavailable, **then** it needs a small PLC, not remote I/O.
+- **If** the signals are monitoring-only (temperatures, counts, states) and a scan delay is acceptable, **then** remote I/O over the plant network is usually the cheaper honest answer.
+- **If** local interlocks, sequencing or safety-adjacent reactions live at that point, **then** local control authority is required — a PLC with its own program.
+- **If** more points will be added at the same location over the next budget cycles, **then** price both options at the fully populated count, not at today's count.
 
 ## The hidden costs that decide the answer
 

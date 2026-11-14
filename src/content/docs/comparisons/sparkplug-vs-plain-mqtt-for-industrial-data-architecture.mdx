@@ -35,12 +35,22 @@ lifecycle: evergreen
 refreshPriority: high
 authorKey: editorial-desk
 editorKey: review-desk
-lastReviewed: 2026-05-09
+lastReviewed: 2026-11-14
 ---
 
 import { LinkCard } from '@astrojs/starlight/components';
 
 # Sparkplug vs plain MQTT for industrial data architecture
+
+## Verdict
+
+**Sparkplug B, in one sentence:** Sparkplug is an Eclipse Foundation specification layered on MQTT that fixes a topic namespace, a payload format (protobuf), and session state rules (birth/death certificates), so that any conforming publisher and consumer can understand each other's industrial data without a private convention.
+
+**Stay on plain MQTT when** one team owns both the publishers and the consumers, the tag set is small and stable, and a documented in-house topic and payload convention is actually being followed.
+
+**Move to Sparkplug when** multiple vendors or sites must interoperate on the same broker, consumers need to know whether a source is alive and what it publishes without out-of-band documentation, or the architecture is being standardized as a Unified Namespace.
+
+The readiness checks and failure modes are below. If MQTT itself is not yet the settled transport, decide that first: [OPC UA vs MQTT for machine data aggregation](/protocols/opc-ua-vs-mqtt-for-machine-data-aggregation/).
 
 Sparkplug is attracting more attention because industrial teams want reusable data structures, cleaner UNS discussions, and fewer custom topic conventions. That attention is justified, but the decision still needs discipline. Plain MQTT is often the healthier first step when the line is just beginning to publish useful data. Sparkplug becomes valuable when interoperability, state management, and shared industrial context are already real needs instead of roadmap language.
 

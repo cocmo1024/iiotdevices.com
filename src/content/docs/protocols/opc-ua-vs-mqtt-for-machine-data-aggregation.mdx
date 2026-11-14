@@ -35,12 +35,20 @@ lifecycle: evergreen
 refreshPriority: high
 authorKey: editorial-desk
 editorKey: review-desk
-lastReviewed: 2026-05-09
+lastReviewed: 2026-11-14
 ---
 
 import { LinkCard } from '@astrojs/starlight/components';
 
 # OPC UA vs MQTT for Machine Data Aggregation
+
+## Verdict
+
+**Use OPC UA when** the consumers are plant software — SCADA, MES, historians — that need structured, self-describing machine data with typed information models and the plant's security practices, and the aggregation point sits inside the plant network.
+
+**Use MQTT when** the consumers are distributed or cloud-side — brokers, stream processors, multi-site platforms — and the data should leave the plant as lightweight publish-subscribe messages through one controlled outbound connection.
+
+**Do not frame it as a replacement.** In most brownfield lines the working pattern is both: OPC UA (or the native field protocol) at and below the aggregation point, MQTT above it. The full reasoning, cost shape and failure modes are below; the companion decision — [what Sparkplug adds on top of MQTT](/comparisons/sparkplug-vs-plain-mqtt-for-industrial-data-architecture/) — is the usual next question once MQTT is chosen.
 
 This comparison is most useful after the plant already knows how it will access the machine data. OPC UA and MQTT solve different parts of the problem. That is why many debates around them become noisy. Teams compare them as if they are interchangeable, then discover later that the real issue was translation at the machine boundary rather than transport upstream.
 
