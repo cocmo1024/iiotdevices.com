@@ -6,7 +6,7 @@ import { buildSeo } from '../utils/seo.mjs';
 export async function getStaticPaths() {
 	const docs = await getCollection('docs');
 	const routed = docs.filter(
-		(entry) => entry.id !== 'index' && !entry.id.startsWith('product-families'),
+		(entry) => entry.id !== 'index' && entry.id !== 'vendors/index' && !entry.id.startsWith('product-families'),
 	);
 	return routed.map((entry) => {
 		const slug = entry.id.endsWith('/index') ? entry.id.slice(0, -'/index'.length) : entry.id;

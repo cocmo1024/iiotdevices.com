@@ -1,0 +1,90 @@
+---
+import Base from '../../layouts/Base.astro';
+import { buildSeo } from '../../utils/seo.mjs';
+import { siteMeta } from '../../utils/site-meta.mjs';
+
+const seo: any = buildSeo(
+	{
+		id: 'tools/bandwidth-estimator',
+		entry: {
+			data: {
+				title: 'Machine-Data Bandwidth Estimator',
+				description: 'Estimate uplink bandwidth and monthly data volume for machine telemetry from tag count, update rate, batching and protocol overhead — assumptions shown.',
+			},
+		},
+	},
+	Astro.url,
+);
+seo.structuredData = [
+	...seo.structuredData,
+	{
+		'@context': 'https://schema.org',
+		'@type': 'SoftwareApplication',
+		name: 'Machine-Data Bandwidth Estimator',
+		applicationCategory: 'EngineeringApplication',
+		operatingSystem: 'Web browser',
+		url: `${siteMeta.siteUrl}/tools/bandwidth-estimator/`,
+		isAccessibleForFree: true,
+		offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+		publisher: { '@id': `${siteMeta.siteUrl}/#organization` },
+	},
+];
+---
+
+<Base seo={seo}>
+	<div class="wrap">
+		<nav class="crumbs" aria-label="Breadcrumb"><span><a href="/">Home</a></span><span> / <a href="/tools/">Tools</a></span><span> / Machine-Data Bandwidth Estimator</span></nav>
+		<header class="article-head">
+			<h1>Machine-data bandwidth estimator</h1>
+			<p class="lede">Quick answer: telemetry bandwidth is almost never the problem people fear — 1,000 tags updating once a second over MQTT is on the order of 0.2 Mbit/s. What actually bites is per-message overhead when every value travels alone, and cellular data volume over a month. Batch before you buy bandwidth.</p>
+		</header>
+		<div class="tool-grid">
+			<section class="tool-panel" aria-label="Inputs">
+				<h2>Inputs</h2>
+				<div class="field"><label for="tags">Tags (data points)</label><input id="tags" type="number" value="500" min="1" max="1000000" /></div>
+				<div class="field"><label for="rate">Average updates per tag per second</label><input id="rate" type="number" value="0.2" min="0.001" max="100" step="0.001" /><span class="hint">1.0 = every second; 0.2 = every 5 s; use report-by-exception averages where you have them.</span></div>
+				<div class="field"><label for="payload">Payload per value (bytes)</label><input id="payload" type="number" value="16" min="4" max="1024" /><span class="hint">Value + timestamp + quality in a compact encoding is roughly 12–20 bytes; verbose JSON can be 60+.</span></div>
+				<div class="field"><label for="batch">Values batched per message</label><input id="batch" type="number" value="10" min="1" max="10000" /></div>
+				<div class="field"><label for="proto">Protocol overhead per message</label>
+					<select id="proto"><option value="40">MQTT (topic + headers ≈ 40 B)</option><option value="120">OPC UA PubSub / binary (≈ 120 B)</option><option value="400">HTTP + JSON (≈ 400 B)</option></select></div>
+			</section>
+			<section class="tool-panel" aria-label="Results">
+				<h2>Result</h2>
+				<table class="result-table">
+					<tr><th>Messages per second</th><td class="v" id="r-msg">–</td></tr>
+					<tr><th>Average bandwidth</th><td class="v" id="r-bw">–</td></tr>
+					<tr><th>Data volume per day</th><td class="v" id="r-day">–</td></tr>
+					<tr><th>Data volume per month (30 d)</th><td class="v" id="r-month">–</td></tr>
+				</table>
+				<div class="verdict" id="r-verdict">–</div>
+				<h3>How it is calculated</h3>
+				<p>Messages/s = tags × update rate ÷ batch size. Bytes/s = messages/s × (batch × payload + protocol overhead). Volumes are bytes/s × 86,400 s (day) and × 30 (month), decimal GB. Excluded: TLS session setup and keep-alives, retransmissions, broker fan-out to multiple subscribers, and store-and-forward bursts after an outage — size the link for the burst, budget the volume with this average.</p>
+				<p>Related: <a href="/tools/modbus-polling-cycle/">Modbus polling cycle calculator</a> · <a href="/applications/remote-sites-and-telemetry-over-cellular-lorawan-and-satellite-links/">Remote-site telemetry over cellular, LoRaWAN and satellite</a></p>
+			</section>
+		</div>
+	</div>
+	<script is:inline>
+		const $ = (id) => document.getElementById(id);
+		function calc() {
+			const tags = Math.max(1, +$('tags').value || 1);
+			const rate = Math.max(0.001, +$('rate').value || 0.001);
+			const payload = Math.max(1, +$('payload').value || 1);
+			const batch = Math.max(1, +$('batch').value || 1);
+			const overhead = +$('proto').value;
+			const msgs = (tags * rate) / batch;
+			const bps = msgs * (batch * payload + overhead);
+			const kbps = (bps * 8) / 1000;
+			const dayGB = (bps * 86400) / 1e9;
+			$('r-msg').textContent = msgs.toFixed(2) + ' msg/s';
+			$('r-bw').textContent = kbps >= 1000 ? (kbps / 1000).toFixed(2) + ' Mbit/s' : kbps.toFixed(1) + ' kbit/s';
+			$('r-day').textContent = dayGB >= 1 ? dayGB.toFixed(2) + ' GB' : (dayGB * 1000).toFixed(0) + ' MB';
+			$('r-month').textContent = (dayGB * 30).toFixed(2) + ' GB';
+			$('r-verdict').textContent =
+				dayGB * 30 <= 1 ? 'Verdict: trivial volume — any industrial cellular plan absorbs this; spend effort on reliability, not bandwidth.' :
+				dayGB * 30 <= 10 ? 'Verdict: modest volume. Check the cellular plan tier and what a store-and-forward burst looks like after a weekend outage.' :
+				'Verdict: serious volume for metered links. Increase batching, switch chatty tags to report-by-exception, or move the firehose to a wired path.';
+		}
+		document.querySelectorAll('input, select').forEach((el) => el.addEventListener('input', calc));
+		calc();
+	</script>
+</Base>

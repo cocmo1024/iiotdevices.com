@@ -1,0 +1,49 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { buildSeo } from '../../utils/seo.mjs';
+import { groupByBrand } from '../../utils/vendors.mjs';
+import { deviceTitle } from '../../utils/devices.mjs';
+
+const devices = (await getCollection('devices')).map((d) => d.data);
+const brands = groupByBrand(devices);
+const seo: any = buildSeo(
+	{
+		id: 'vendors/index',
+		entry: {
+			data: {
+				title: 'Vendors',
+				description: 'Vendor coverage generated from the device database: which brands have sourced records, in which device classes, speaking which protocols.',
+			},
+		},
+	},
+	Astro.url,
+);
+---
+
+<Base seo={seo}>
+	<div class="wrap">
+		<nav class="crumbs" aria-label="Breadcrumb"><span><a href="/">Home</a></span><span> / Vendors</span></nav>
+		<header class="article-head">
+			<h1>Vendors</h1>
+			<p class="lede">This hub is generated from the device database, not written by hand: a brand appears here when it has records whose specifications were checked against the manufacturer's own documentation.</p>
+			<div class="meta-row"><span>Brands with records <b>{brands.length}</b></span><span>Device records <b>{devices.length}</b></span></div>
+		</header>
+		<div style="padding:1.5rem 0 3rem">
+			<table class="spec-table">
+				<thead><tr><th>Brand</th><th>Records</th><th>Classes</th><th>Protocols across records</th></tr></thead>
+				<tbody>
+					{brands.map((b) => (
+						<tr>
+							<td><a href={`/vendors/${b.slug}/`}><b>{b.brand}</b></a></td>
+							<td class="num">{b.records.length}</td>
+							<td>{b.categories.join(', ')}</td>
+							<td>{b.protocols.join(', ')}</td>
+						</tr>
+					))}
+				</tbody>
+			</table>
+			<p style="color:var(--ink-2);max-width:68ch">For narrative portfolio analysis, see <a href="/vendors/vendor-portfolio-analysis/">how vendor portfolios are compared</a>. Record counts grow with each database batch; absence here means "not yet checked", not "not relevant".</p>
+		</div>
+	</div>
+</Base>

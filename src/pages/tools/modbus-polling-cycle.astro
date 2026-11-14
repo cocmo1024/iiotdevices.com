@@ -1,0 +1,100 @@
+---
+import Base from '../../layouts/Base.astro';
+import { buildSeo } from '../../utils/seo.mjs';
+import { siteMeta } from '../../utils/site-meta.mjs';
+
+const seo: any = buildSeo(
+	{
+		id: 'tools/modbus-polling-cycle',
+		entry: {
+			data: {
+				title: 'Modbus Polling Cycle Calculator',
+				description: 'Estimate the real scan cycle of a Modbus RTU network from baud rate, register count, device count and slave response time — with the frame math shown.',
+			},
+		},
+	},
+	Astro.url,
+);
+seo.structuredData = [
+	...seo.structuredData,
+	{
+		'@context': 'https://schema.org',
+		'@type': 'SoftwareApplication',
+		name: 'Modbus Polling Cycle Calculator',
+		applicationCategory: 'EngineeringApplication',
+		operatingSystem: 'Web browser',
+		url: `${siteMeta.siteUrl}/tools/modbus-polling-cycle/`,
+		isAccessibleForFree: true,
+		offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+		publisher: { '@id': `${siteMeta.siteUrl}/#organization` },
+	},
+];
+---
+
+<Base seo={seo}>
+	<div class="wrap">
+		<nav class="crumbs" aria-label="Breadcrumb"><span><a href="/">Home</a></span><span> / <a href="/tools/">Tools</a></span><span> / Modbus Polling Cycle Calculator</span></nav>
+		<header class="article-head">
+			<h1>Modbus polling cycle calculator</h1>
+			<p class="lede">Quick answer: a Modbus RTU scan cycle is set by frame time, not by the PLC. At 9,600 baud, one 25-register read costs roughly 90–120 ms once slave latency and the inter-frame gap are counted — so ten devices land near a one-second cycle no matter how fast the master polls. Put your numbers in; the frame math is below the result.</p>
+		</header>
+		<div class="tool-grid">
+			<section class="tool-panel" aria-label="Inputs">
+				<h2>Inputs</h2>
+				<div class="field"><label for="baud">Baud rate</label>
+					<select id="baud"><option>1200</option><option>2400</option><option>4800</option><option selected>9600</option><option>19200</option><option>38400</option><option>57600</option><option>115200</option></select></div>
+				<div class="field"><label for="devices">Devices on the bus</label><input id="devices" type="number" value="8" min="1" max="247" /></div>
+				<div class="field"><label for="regs">Registers read per device (per scan)</label><input id="regs" type="number" value="25" min="1" max="2000" /><span class="hint">Requests are split at the Modbus limit of 125 registers per read.</span></div>
+				<div class="field"><label for="latency">Slave response latency (ms)</label><input id="latency" type="number" value="10" min="0" max="1000" /><span class="hint">Time from end of request to start of response. 5–20 ms is typical for modern slaves; old meters can be far slower.</span></div>
+				<div class="field"><label for="delay">Extra inter-scan delay (ms)</label><input id="delay" type="number" value="0" min="0" max="60000" /></div>
+			</section>
+			<section class="tool-panel" aria-label="Results">
+				<h2>Result</h2>
+				<table class="result-table">
+					<tr><th>Requests per device</th><td class="v" id="r-req">–</td></tr>
+					<tr><th>Time per request</th><td class="v" id="r-reqtime">–</td></tr>
+					<tr><th>Cycle per device</th><td class="v" id="r-dev">–</td></tr>
+					<tr><th>Full scan cycle (all devices)</th><td class="v" id="r-cycle">–</td></tr>
+					<tr><th>Achievable scan rate</th><td class="v" id="r-rate">–</td></tr>
+				</table>
+				<div class="verdict" id="r-verdict">–</div>
+				<h3>How it is calculated</h3>
+				<p>Each request/response pair costs: request frame (8 bytes) + response frame (5 + 2 × registers in that request bytes), sent at 11 bits per byte (1 start, 8 data, parity, 1 stop). Add the slave latency and the Modbus inter-frame gap of 3.5 character times (1.75 ms fixed above 19,200 baud). Retries, exception responses and write traffic are not counted — treat the result as the best case a healthy bus can reach.</p>
+				<p>Related: <a href="/protocols/polling-vs-publish-for-legacy-machine-data/">Polling vs publish for legacy machine data</a> · <a href="/devices/gateways/">Gateway records with Modbus RTU ports</a></p>
+			</section>
+		</div>
+	</div>
+	<script is:inline>
+		const $ = (id) => document.getElementById(id);
+		function calc() {
+			const baud = +$('baud').value;
+			const devices = Math.max(1, +$('devices').value || 1);
+			const regs = Math.max(1, +$('regs').value || 1);
+			const latency = Math.max(0, +$('latency').value || 0);
+			const delay = Math.max(0, +$('delay').value || 0);
+			const charTime = 11 / baud; // seconds per byte
+			const gap = Math.max(3.5 * charTime, baud > 19200 ? 0.00175 : 0);
+			const requests = Math.ceil(regs / 125);
+			let perRequest = 0;
+			for (let i = 0; i < requests; i++) {
+				const r = Math.min(125, regs - i * 125);
+				perRequest += (8 + 5 + 2 * r) * charTime + latency / 1000 + gap;
+			}
+			const perDevice = perRequest;
+			const cycle = perDevice * devices + delay / 1000;
+			const fmt = (s) => (s >= 1 ? s.toFixed(2) + ' s' : (s * 1000).toFixed(1) + ' ms');
+			$('r-req').textContent = String(requests);
+			$('r-reqtime').textContent = fmt(perRequest / requests);
+			$('r-dev').textContent = fmt(perDevice);
+			$('r-cycle').textContent = fmt(cycle);
+			$('r-rate').textContent = (1 / cycle).toFixed(2) + ' scans/s';
+			$('r-verdict').textContent =
+				cycle <= 0.25 ? 'Verdict: fast enough for interlock-adjacent monitoring and tight control feedback on most retrofit projects.' :
+				cycle <= 1 ? 'Verdict: a normal SCADA/HMI scan class. Fine for monitoring, alarms and OEE data; too slow for closed-loop control through the bus.' :
+				cycle <= 5 ? 'Verdict: slow scan. Acceptable for energy, utility and condition data. For anything faster, raise the baud rate, cut registers per device, or move the fast points to a second bus or a publish protocol.' :
+				'Verdict: very slow scan. This bus is a data-trickle, not a monitoring channel — split the bus, raise baud, or reconsider which points need this path at all.';
+		}
+		document.querySelectorAll('input, select').forEach((el) => el.addEventListener('input', calc));
+		calc();
+	</script>
+</Base>

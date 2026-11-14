@@ -2,9 +2,11 @@
 import Base from '../../layouts/Base.astro';
 import { buildSeo } from '../../utils/seo.mjs';
 
-const tools = [
-	{ name: 'Modbus polling cycle calculator', inputs: 'Register count, baud/transaction time, device count', output: 'Realistic poll cycle and scan-class fit' },
-	{ name: 'Machine-data bandwidth estimator', inputs: 'Tag count, change rate, payload size, protocol overhead', output: 'Uplink bandwidth and monthly data volume' },
+const liveTools = [
+	{ name: 'Modbus polling cycle calculator', href: '/tools/modbus-polling-cycle/', inputs: 'Baud rate, device count, registers per device, slave latency', output: 'Per-request time, full scan cycle, achievable scan rate with a verdict' },
+	{ name: 'Machine-data bandwidth estimator', href: '/tools/bandwidth-estimator/', inputs: 'Tag count, update rate, payload size, batching, protocol overhead', output: 'Bandwidth plus daily and monthly data volume with a verdict' },
+];
+const plannedTools = [
 	{ name: 'Edge buffer storage calculator', inputs: 'Tag rate, retention target, record size', output: 'Store-and-forward storage sizing' },
 	{ name: 'MQTT throughput & cost estimator', inputs: 'Message rate, payload, broker tier', output: 'Throughput headroom and running cost' },
 	{ name: 'LoRaWAN link budget checker', inputs: 'Distance, antenna heights, environment class', output: 'Link margin by spreading factor' },
@@ -31,13 +33,23 @@ const seo = buildSeo(
 		<header class="article-head">
 			<h1>Engineering tools</h1>
 			<p class="lede">Calculators that show their formulas. Each tool ships with its inputs, outputs and assumptions on the same page, so a result can be checked instead of trusted.</p>
-			<div class="meta-row"><span>Status <b>First two calculators in build</b></span></div>
+			<div class="meta-row"><span>Live <b>2 calculators</b></span><span>Planned <b>5 more</b></span></div>
 		</header>
 		<div style="padding:1.5rem 0 3rem">
+			<h2 class="section-title" style="margin-top:0">Live</h2>
 			<table class="spec-table">
 				<thead><tr><th>Tool</th><th>Inputs</th><th>Output</th></tr></thead>
 				<tbody>
-					{tools.map((t) => (
+					{liveTools.map((t) => (
+					<tr><td><a href={t.href}><b>{t.name}</b></a></td><td>{t.inputs}</td><td>{t.output}</td></tr>
+					))}
+				</tbody>
+			</table>
+			<h2 class="section-title">In build</h2>
+			<table class="spec-table">
+				<thead><tr><th>Tool</th><th>Inputs</th><th>Output</th></tr></thead>
+				<tbody>
+					{plannedTools.map((t) => (
 						<tr><td><b>{t.name}</b></td><td>{t.inputs}</td><td>{t.output}</td></tr>
 					))}
 				</tbody>

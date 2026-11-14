@@ -1,0 +1,56 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { buildSeo } from '../../utils/seo.mjs';
+import { groupByBrand } from '../../utils/vendors.mjs';
+import { deviceTitle, mappingLabel } from '../../utils/devices.mjs';
+
+export async function getStaticPaths() {
+	const devices = (await getCollection('devices')).map((d) => d.data);
+	return groupByBrand(devices).map((b) => ({ params: { brand: b.slug }, props: { brand: b } }));
+}
+
+const { brand } = Astro.props as any;
+const checkedFmt = (d: any) => new Date(d).toISOString().slice(0, 10);
+const seo: any = buildSeo(
+	{
+		id: `vendors/${brand.slug}`,
+		entry: {
+			data: {
+				title: `${brand.brand} — devices in the database`,
+				description: `${brand.records.length} sourced device record(s) for ${brand.brand}: models, protocol coverage and specification sources.`,
+			},
+		},
+	},
+	Astro.url,
+);
+---
+
+<Base seo={seo}>
+	<div class="wrap">
+		<nav class="crumbs" aria-label="Breadcrumb"><span><a href="/">Home</a></span><span> / <a href="/vendors/">Vendors</a></span><span> / {brand.brand}</span></nav>
+		<header class="article-head">
+			<h1>{brand.brand}</h1>
+			<p class="lede">{brand.records.length} record(s) in the device database, each checked against {brand.brand}'s own product documentation.</p>
+			<div class="meta-row"><span>Classes <b>{brand.categories.join(', ')}</b></span></div>
+		</header>
+		<div style="padding:1.5rem 0 3rem">
+			<table class="spec-table">
+				<thead><tr><th>Model</th><th>Southbound</th><th>Northbound</th><th>Mapping export</th><th>Checked</th></tr></thead>
+				<tbody>
+					{brand.records.map((r: any) => (
+						<tr>
+							<td><a href={`/devices/${r.slug}/`}><b>{deviceTitle(r)}</b></a></td>
+							<td>{r.southbound.join(', ')}</td>
+							<td>{r.northbound.join(', ')}</td>
+							<td>{mappingLabel(r.mappingExport)}</td>
+							<td class="num">{checkedFmt(r.checked)}</td>
+						</tr>
+					))}
+				</tbody>
+			</table>
+			<h2 class="section-title">Protocol coverage across records</h2>
+			<p>{brand.protocols.join(' · ')}</p>
+		</div>
+	</div>
+</Base>

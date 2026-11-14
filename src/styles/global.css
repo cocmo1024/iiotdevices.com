@@ -163,3 +163,17 @@ code, pre, .mono { font-family: var(--font-mono); }
 .spec-table th { background: var(--surface-2); }
 .tag { display: inline-block; font-family: var(--font-mono); font-size: var(--fs-0); border: 1px solid var(--line-strong); border-radius: 999px; padding: 0.1em 0.6em; color: var(--ink-2); background: var(--surface-2); }
 .tag--live { color: var(--ok); border-color: var(--ok); }
+
+/* Tools */
+.tool-grid { display: grid; gap: var(--sp-4); grid-template-columns: 1fr; padding: var(--sp-6) 0 var(--sp-8); }
+@media (min-width: 60rem) { .tool-grid { grid-template-columns: 22rem minmax(0, 1fr); } }
+.tool-panel { background: var(--surface); border: 1px solid var(--line-strong); border-radius: var(--r-2); padding: var(--sp-6); }
+.tool-panel h2 { margin-top: 0; font-size: var(--fs-3); }
+.field { margin-bottom: var(--sp-4); }
+.field label { display: block; font-size: var(--fs-1); font-weight: 500; margin-bottom: var(--sp-1); }
+.field .hint { font-size: var(--fs-0); color: var(--ink-2); }
+.field input, .field select { width: 100%; padding: var(--sp-2) var(--sp-3); border: 1px solid var(--line-strong); border-radius: var(--r-1); background: var(--surface); color: var(--ink); font-family: var(--font-mono); font-size: var(--fs-1); }
+.result-table { border-collapse: collapse; width: 100%; font-size: var(--fs-1); }
+.result-table th, .result-table td { border: 1px solid var(--line); padding: var(--sp-2) var(--sp-3); text-align: left; }
+.result-table td.v { font-family: var(--font-mono); text-align: right; white-space: nowrap; }
+.verdict { border-left: 3px solid var(--signal); background: var(--surface-2); padding: var(--sp-3) var(--sp-4); margin-top: var(--sp-4); }
