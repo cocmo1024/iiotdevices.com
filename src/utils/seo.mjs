@@ -233,10 +233,11 @@ function buildOrganizationNode() {
 		),
 		url: `${siteMeta.siteUrl}/`,
 		description: siteMeta.description,
+		slogan: siteMeta.tagline,
 		email: siteMeta.email,
 		...(sameAs.length ? { sameAs } : {}),
 		...(publishingPrinciples ? { publishingPrinciples } : {}),
-		knowsAbout: siteMeta.keywords,
+		knowsAbout: siteMeta.knowsAbout ?? siteMeta.keywords,
 		logo: {
 			'@type': 'ImageObject',
 			'@id': `${siteMeta.siteUrl}/#logo`,
